@@ -79,7 +79,7 @@ export default function RegisterPage() {
                         navigate("/setup");
                     } else {
                         toast({
-                            title: "Registration usuccessful",
+                            title: "Registration unsuccessful",
                             description: "Please try again later",
                             status: "error",
                             duration: 1000,
@@ -89,7 +89,7 @@ export default function RegisterPage() {
                 });
             } else {
                 toast({
-                    title: "Registration usuccessful",
+                    title: "Registration unsuccessful",
                     description: "Please try again later",
                     status: "error",
                     duration: 1000,

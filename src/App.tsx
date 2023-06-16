@@ -22,6 +22,7 @@ import {
 // ======================== authentication pages ========================
 import LoginPage from "./pages/authentication/LoginPage";
 import RegisterPage from "./pages/authentication/RegisterPage";
+import SetupPage from "./pages/authentication/SetupPage";
 
 // ============== main component ==============
 function App() {
@@ -40,7 +41,6 @@ function App() {
 
     useEffect(() => {
         checkLoggedUser(navigate, location.pathname);
-        console.log("path")
     }, [location.pathname]);
 
     // ============== helper functions if any ==============
@@ -56,6 +56,7 @@ function App() {
                 {/* authentication */}
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/setup/:userId" element={<SetupPage />} />
             </Routes>
         </>
     );

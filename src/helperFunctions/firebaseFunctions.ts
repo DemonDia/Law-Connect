@@ -6,19 +6,23 @@ import {
     createUserWithEmailAndPassword,
     onAuthStateChanged,
     signOut,
+    updateProfile,
 } from "firebase/auth";
 import {
     collection,
     addDoc,
     deleteDoc,
     doc,
+    setDoc,
     getDoc,
     getDocs,
     where,
     query,
+    updateDoc,
 } from "firebase/firestore";
 
 import { checkPathName } from "./authentication/checkPathName";
+import { getDatabase } from "firebase/database";
 
 // =======================the key functions=======================
 // ==========authentication-related==========
@@ -55,12 +59,10 @@ export const createUserRecord = async (userId: string) => {
 // check logged user & finished setup
 // [loggedUser, isSetUp]
 export const checkLoggedUser = async (navigate: any, pathname: string) => {
-    console.log("pathname", pathname);
     await onAuthStateChanged(auth, async (user) => {
         if (user) {
             const { uid } = user;
             const userRecord: any = await findUserById(uid);
-            console.log("userRecord", userRecord);
             if (userRecord) {
                 const { isSetUp } = userRecord;
                 if (isSetUp) {
@@ -68,7 +70,7 @@ export const checkLoggedUser = async (navigate: any, pathname: string) => {
                     navigate("/");
                 } else {
                     // console.log("B");
-                    navigate("/setup");
+                    navigate("/setup/" + uid);
                 }
             } else {
                 // console.log("checked", checked);
@@ -80,8 +82,6 @@ export const checkLoggedUser = async (navigate: any, pathname: string) => {
             }
             // ...
         } else {
-            const checked = checkPathName(pathname);
-            console.log("checked", checked);
             if (!checkPathName(pathname)) {
                 // console.log("E");
                 navigate("/login");
@@ -94,22 +94,66 @@ export const checkLoggedUser = async (navigate: any, pathname: string) => {
 // logout user
 
 // submit first time setup
-export const firstTimeSetup = async (userSetupData: Object) => {
-    try {
-        const user = auth.currentUser;
+export const firstTimeSetup = async (
+    userSetupData: any,
+    navigate: any,
+    toast: any
+) => {
+    const { userId, skills, userType, name } = userSetupData;
+    await onAuthStateChanged(auth, async (user) => {
+        if (user && auth.currentUser) {
+            const { uid } = user;
+            if (uid == userId) {
+                const userRecord: any = await findUserById(uid);
+                Promise.resolve(userRecord).then((user) => {
+                    if (user) {
+                        let allPromises = [];
+                        // change username in auth
+                        if (auth.currentUser) {
+                            // working
+                            allPromises.push(
+                                updateProfile(auth.currentUser, {
+                                    displayName: name,
+                                })
+                            );
+                        }
 
-        if (user) {
-            // set user name
-            // set user type (1=mentor, 2=mentee, 3=firm)
-            // set user skills
-            // set user isSetUp to true (after promise)
+                        // skills/userId
+                        // update skills
+                        const skillCollection: any = collection(db, "userSkills");
+                        allPromises.push(
+                            addDoc(skillCollection, {
+                                userId: skills,
+                            })
+                        );
+
+                        // update status and userType
+                        const userDocRef = doc(db, "users", userRecord.id);
+                        allPromises.push(
+                            updateDoc(userDocRef, {
+                                userType,
+                                isSetUp: true,
+                            })
+                        );
+                        Promise.allSettled(allPromises).then(() => {
+                            toast({
+                                title: "Setup successful",
+                                description: "Setup created, thank you!",
+                                status: "success",
+                                duration: 1000,
+                                isClosable: true,
+                            });
+                            navigate("/");
+                        });
+                    }
+                });
+            }
         }
-    } catch (e) {
-        return false;
-    }
+    });
 };
 
 interface Skill {
+    skillId: Skill;
     skillName: string;
     skillDesc: string;
 }
@@ -224,7 +268,21 @@ export const seedSkills = async () => {
 };
 seedSkills();
 
-// ==========find-functions==========
+// ==========find/retrieve functions==========
+// get all skills
+export const getAllSkills = async () => {
+    const querySnapshot: any = await getDocs(collection(db, "skills"));
+    // let skills: Array<any> = [];
+    let skills: Map<string, any> = new Map();
+    querySnapshot.forEach((doc: any) => {
+        const { skillName, skillDesc } = doc.data();
+        skills.set(doc.id, { skillName, skillDesc });
+        // const { id } = doc;
+        // const { skillName, skillDesc } = doc.data();
+        // skills.push({ id: { skillName, skillDesc } });
+    });
+    return skills;
+};
 
 // find user
 // returns user if any
@@ -240,6 +298,7 @@ export const findUserById = async (userId: string) => {
     docSnap.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
         foundUser = doc.data();
+        foundUser = { ...foundUser, id: doc.id };
     });
     return foundUser;
 };

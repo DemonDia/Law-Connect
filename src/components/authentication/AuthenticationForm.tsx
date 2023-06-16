@@ -1,6 +1,6 @@
 // ============== imports ==============
 // ======= react ==========
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 // ======= chakra UI ==========
 import { Card, Heading, Text } from "@chakra-ui/react";
