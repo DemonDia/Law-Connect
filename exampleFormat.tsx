@@ -14,16 +14,18 @@ import React from "react";
 // This is where you import all the components from chakra UI
 // ################################################################
 
-// ======= custom components ==========
+// ======= custom components (if any)==========
 // ################################################################
 // This is where you import all the components from the component folder
 // regardless of the the subfolder
 // ################################################################
 
-// ============== interfaces ==============
+// ============== interfaces (if any) ==============
 // ################################################################
 // This is where you define all the interfaces for the component
 // ################################################################
+
+// ============== external variables (if any) ==============
 
 // ============== main component ==============
 // ################################################################
@@ -34,9 +36,20 @@ export default function ExampleComponent(
         // any relevant props
     }
 ) {
+    // ============== constant variables if any ==============
+    
     // ============== states (if any) ==============
 
     // ============== useEffect statement(s) ==============
 
+    // ============== helper functions if any ==============
+
+    // ============== key functions if any ==============
+
     return <>This is where you put your contents</>;
 }
+
+// ============== sub component(s) if any ==============
+// ################################################################
+// This is where you define your other sub components
+// ################################################################

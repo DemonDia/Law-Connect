@@ -1,9 +1,21 @@
+// ============== imports: the dependencies ==============
+// ======= react ==========
+import { Link } from "react-router-dom";
+// ======= chakra UI ==========
+
+// ======= custom components (if any)==========
+
+// ============== interfaces (if any) ==============
 interface TextRouterLink {
     to: string;
     linkText: string;
 }
-import { Link } from "react-router-dom";
-// import { Text } from "@chakra-ui/react";
+// ============== external variables (if any) ==============
+
+// ============== main component ==============
+
+// ============== sub component(s) if any ==============
+
 export default function TextRouterLink({ to, linkText }: TextRouterLink) {
     return (
         <Link
@@ -13,9 +25,7 @@ export default function TextRouterLink({ to, linkText }: TextRouterLink) {
                 color: "#3609EA",
             }}
         >
-            {/* <Text color="#3609EA" textDecoration="underline"> */}
             {linkText}
-            {/* </Text> */}
         </Link>
     );
 }

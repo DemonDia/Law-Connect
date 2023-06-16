@@ -1,0 +1,37 @@
+This is to let the format of each component to be copy and pasted
+Please refer to exampleFormat.tsx for a clearer picture
+
+
+To copy and paste inside a component/page file (except the start and end): 
+/---------------------start---------------------
+// ============== imports: the dependencies ==============
+// ======= react ==========
+
+// ======= chakra UI ==========
+
+// ======= custom components (if any)==========
+
+// ============== interfaces (if any) ==============
+
+// ============== external variables (if any) ==============
+
+// ============== main component ==============
+
+// ============== sub component(s) if any ==============
+
+/---------------------end---------------------
+
+
+To copy and paste inside a component function (except the start and end):
+/---------------------start---------------------
+// ============== constant variables if any ==============
+
+// ============== states (if any) ==============
+
+// ============== useEffect statement(s) ==============
+
+// ============== helper functions if any ==============
+
+// ============== key functions if any ==============
+
+/---------------------end---------------------

@@ -1,3 +1,12 @@
+// ============== imports: the dependencies ==============
+// ======= react ==========
+
+// ======= chakra UI ==========
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+
+// ======= custom components (if any)==========
+
+// ============== interfaces (if any) ==============
 interface InputFieldProps {
     label: string;
     placeholder: string;
@@ -5,7 +14,12 @@ interface InputFieldProps {
     formType: string;
     changeHandler: any;
 }
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+
+// ============== external variables (if any) ==============
+
+// ============== main component ==============
+
+// ============== sub component(s) if any ==============
 export default function InputField({
     label,
     placeholder,

@@ -1,9 +1,14 @@
+// ============== imports: the dependencies ==============
+// ======= react ==========
+import { Link as DomLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+// ======= chakra UI ==========
 import {
     Box,
     Flex,
     Text,
     IconButton,
-    Button,
     Stack,
     Collapse,
     Popover,
@@ -13,16 +18,84 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { Link as DomLink } from "react-router-dom";
-import { useEffect, useState } from "react";
 
+// ======= custom components (if any)==========
+
+// ============== interfaces (if any) ==============
+interface NavItem {
+    label: string;
+    to?: string;
+}
+// ============== external variables (if any) ==============
+// the sub arrays
+// not logged in
+// logged in as mentee
+// logged in as mentor
+// logged in as company
+
+const notLoggedInItems: Array<NavItem> = [
+    {
+        label: "Register",
+        to: "/register",
+    },
+    {
+        label: "Login",
+        to: "/login",
+    },
+];
+
+// for mentees
+const menteeItems: Array<NavItem> = [
+    { label: "Home", to: "/" },
+    {
+        label: "Mentors",
+        to: "/mentors",
+    },
+    {
+        label: "Applications",
+        to: "/applications",
+    },
+    {
+        label: "Skills",
+        to: "/skills",
+    },
+];
+
+// for mentors
+const mentorItems: Array<NavItem> = [
+    { label: "Home", to: "/" },
+    {
+        label: "Mentees",
+        to: "/mentees",
+    },
+];
+
+// for firms
+const companyItems: Array<NavItem> = [
+    { label: "Home", to: "/" },
+    {
+        label: "lawyers",
+        to: "/mentees",
+    },
+];
+
+// ============== main component ==============
 export default function Navbar() {
+    // ============== constant variables if any ==============
+
+    // ============== states (if any) ==============
     const { isOpen, onToggle } = useDisclosure();
     const [navItems, setNavItems] = useState<Array<NavItem>>([]);
+
+    // ============== useEffect statement(s) ==============
     useEffect(() => {
         console.log("notloggedinitems", notLoggedInItems);
         setNavItems(notLoggedInItems);
     }, []);
+
+    // ============== helper functions if any ==============
+
+    // ============== key functions if any ==============
 
     return (
         <>
@@ -85,10 +158,18 @@ export default function Navbar() {
     );
 }
 
+// ============== sub component(s) if any ==============
 export const DesktopNav = ({ navItems }: Array<NavItem>) => {
+    // ============== constant variables if any ==============
     const linkColor = useColorModeValue("gray.600", "gray.200");
-    const linkHoverColor = useColorModeValue("gray.800", "white");
-    const popoverContentBgColor = useColorModeValue("white", "gray.800");
+
+    // ============== states (if any) ==============
+
+    // ============== useEffect statement(s) ==============
+
+    // ============== helper functions if any ==============
+
+    // ============== key functions if any ==============
 
     return (
         <Stack direction={"row"} spacing={4}>
@@ -117,7 +198,6 @@ export const DesktopNav = ({ navItems }: Array<NavItem>) => {
 };
 
 const MobileNav = ({ navItems }: Array<NavItem>) => {
-    console.log("navItems array", navItems);
     return (
         <Stack
             bg={useColorModeValue("white", "gray.800")}
@@ -132,14 +212,21 @@ const MobileNav = ({ navItems }: Array<NavItem>) => {
 };
 
 const MobileNavItem = ({ label, to }: NavItem) => {
+    // ============== constant variables if any ==============
+
+    // ============== states (if any) ==============
     const { isOpen, onToggle } = useDisclosure();
-    console.log("label,to ", { label, to });
+
+    // ============== useEffect statement(s) ==============
+
+    // ============== helper functions if any ==============
+
+    // ============== key functions if any ==============
 
     return (
         <Stack spacing={4} onClick={onToggle}>
             <Flex
                 py={2}
-                // as={Link}
                 justify={"space-between"}
                 align={"center"}
                 _hover={{
@@ -159,61 +246,3 @@ const MobileNavItem = ({ label, to }: NavItem) => {
         </Stack>
     );
 };
-
-//  nested class
-interface NavItem {
-    label: string;
-    to?: string;
-}
-
-// the sub arrays
-// not logged in
-// logged in as mentee
-// logged in as mentor
-// logged in as company
-
-const notLoggedInItems: Array<NavItem> = [
-    {
-        label: "Register",
-        to: "/register",
-    },
-    {
-        label: "Login",
-        to: "/login",
-    },
-];
-
-// for mentees
-const menteeItems: Array<NavItem> = [
-    { label: "Home", to: "/" },
-    {
-        label: "Mentors",
-        to: "/mentors",
-    },
-    {
-        label: "Applications",
-        to: "/applications",
-    },
-    {
-        label: "Skills",
-        to: "/skills",
-    },
-];
-
-// for mentors
-const mentorItems: Array<NavItem> = [
-    { label: "Home", to: "/" },
-    {
-        label: "Mentees",
-        to: "/mentees",
-    },
-];
-
-// for firms
-const companyItems: Array<NavItem> = [
-    { label: "Home", to: "/" },
-    {
-        label: "lawyers",
-        to: "/mentees",
-    },
-];

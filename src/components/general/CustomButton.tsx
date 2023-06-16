@@ -1,3 +1,12 @@
+// ============== imports: the dependencies ==============
+// ======= react ==========
+
+// ======= chakra UI ==========
+import { Button } from "@chakra-ui/react";
+
+// ======= custom components (if any)==========
+
+// ============== interfaces (if any) ==============
 interface ButtonSettings {
     buttonColor: string; // button color in hexadecimal
     textColor: string; // text color in hexadecimal
@@ -5,7 +14,13 @@ interface ButtonSettings {
     buttonOnClick: any; // function
     buttonWidth?: string; // width of button
 }
-import { Button } from "@chakra-ui/react";
+
+// ============== external variables (if any) ==============
+
+// ============== main component ==============
+
+// ============== sub component(s) if any ==============
+
 
 export default function CustomButton({
     buttonColor,

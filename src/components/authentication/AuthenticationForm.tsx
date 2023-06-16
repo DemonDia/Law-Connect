@@ -27,10 +27,19 @@ export default function AuthenticationForm({
     isLogin,
     submitMethod,
 }: AuthManager) {
+    // ============== constant variables if any ==============
+
+    // ============== states (if any) ==============
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
+
+    // ============== useEffect statement(s) ==============
     useEffect(() => {}, []);
+
+    // ============== helper functions if any ==============
+
+    // ============== key functions if any ==============
 
     const handleSubmit = () => {
         const submitItems: AuthObject = {
