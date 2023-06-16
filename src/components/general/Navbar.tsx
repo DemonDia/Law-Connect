@@ -89,7 +89,6 @@ export default function Navbar() {
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
-        console.log("notloggedinitems", notLoggedInItems);
         setNavItems(notLoggedInItems);
     }, []);
 

@@ -15,7 +15,7 @@ interface AuthManager {
     isLogin: boolean;
     submitMethod: any;
 }
-interface AuthObject {
+export interface AuthObject {
     email: string;
     password: string;
     confirmPassword?: string;
@@ -41,14 +41,16 @@ export default function AuthenticationForm({
 
     // ============== key functions if any ==============
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const submitItems: AuthObject = {
             email,
             password,
             confirmPassword,
         };
-        submitMethod(submitItems);
+        await submitMethod(submitItems);
     };
+
+    const googleAuth = async () => {};
     return (
         <Card w={"40vw"} m={"10px auto"} p={"10"}>
             <Heading textAlign={"center"}>
@@ -101,7 +103,7 @@ export default function AuthenticationForm({
                 buttonText={isLogin ? "Gmail Login" : "Register with Gmail"}
                 textColor={"Black"}
                 buttonWidth={"100%"}
-                buttonOnClick={handleSubmit}
+                buttonOnClick={googleAuth}
             />
             <br />
             <Text align={"center"} m={"5px auto"}>

@@ -11,7 +11,6 @@ import AuthenticationForm from "../../components/authentication/AuthenticationFo
 
 // ============== main component ==============
 
-// ============== sub component(s) if any ==============
 export default function LoginPage() {
     // ============== states (if any) ==============
 
@@ -29,3 +28,4 @@ export default function LoginPage() {
         </>
     );
 }
+// ============== sub component(s) if any ==============
