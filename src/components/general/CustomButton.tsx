@@ -1,0 +1,33 @@
+interface ButtonSettings {
+    buttonColor: string; // button color in hexadecimal
+    textColor: string; // text color in hexadecimal
+    buttonText: string; // text in button
+    buttonOnClick: any; // function
+    buttonWidth?: string; // width of button
+}
+import { Button } from "@chakra-ui/react";
+
+export default function CustomButton({
+    buttonColor,
+    textColor,
+    buttonText,
+    buttonOnClick,
+    buttonWidth,
+}: ButtonSettings) {
+    return (
+        <>
+            <Button
+                margin={"5px auto"}
+                color={textColor}
+                bg={buttonColor}
+                w={buttonWidth}
+                onClick={() => {
+                    buttonOnClick();
+                }}
+                boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.35)"}
+            >
+                {buttonText}
+            </Button>
+        </>
+    );
+}
