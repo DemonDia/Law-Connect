@@ -32,6 +32,10 @@ import LogoutPage from "./pages/authentication/LogoutPage";
 // ======================== mentee pages ========================
 import CompanyPage from "./pages/mentees/CompanyPage";
 
+// ======================== law firm pages ========================
+import LawyersPage from "./pages/lawfirms/LawyersPage";
+import LaywerApplicationPage from "./pages/lawfirms/LaywerApplicationPage";
+
 // ============== main component ==============
 function App() {
     // ============== constant variables if any ==============
@@ -51,27 +55,24 @@ function App() {
                 if (userRecord) {
                     const { isSetUp, userId, username, userType } = userRecord;
                     setCurrentUser({ userId, username, userType });
+
+                    // ====not setup yet====
                     if (!isSetUp) {
-                        // console.log("A");
                         navigate("/setup/" + uid);
                     }
                 } else {
+                    // ====user not found====
                     setCurrentUser(null);
-                    // console.log("checked", checked);
                     if (!checkPathName(location.pathname)) {
-                        // console.log("C");
                         navigate("/login");
                     }
-                    // console.log("D");
                 }
-                // ...
             } else {
+                // ====user not found====
                 setCurrentUser(null);
                 if (!checkPathName(location.pathname)) {
-                    // console.log("E");
                     navigate("/login");
                 }
-                // console.log("F");
             }
         });
     }, [location.pathname]);
@@ -85,7 +86,7 @@ function App() {
     return (
         <>
             <Navbar currentUser={currentUser} />
-            <Box p="5vw">
+            <Box p="10px">
                 <Routes>
                     {/* homepage */}
                     <Route path="/" element={<h1>Home</h1>} />
@@ -100,6 +101,18 @@ function App() {
                     <Route
                         path="/company"
                         element={<CompanyPage currentUser={currentUser} />}
+                    />
+
+                    {/* lawyer */}
+                    <Route
+                        path="/lawyers"
+                        element={<LawyersPage currentUser={currentUser} />}
+                    />
+                    <Route
+                        path="/lawyers/:applicationId"
+                        element={
+                            <LaywerApplicationPage currentUser={currentUser} />
+                        }
                     />
                 </Routes>
             </Box>

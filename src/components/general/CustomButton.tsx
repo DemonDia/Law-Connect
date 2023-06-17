@@ -13,6 +13,7 @@ interface ButtonSettings {
     buttonText: string; // text in button
     buttonOnClick: any; // function
     buttonWidth?: string; // width of button
+    disabled?: boolean;
 }
 
 // ============== external variables (if any) ==============
@@ -21,13 +22,13 @@ interface ButtonSettings {
 
 // ============== sub component(s) if any ==============
 
-
 export default function CustomButton({
     buttonColor,
     textColor,
     buttonText,
     buttonOnClick,
     buttonWidth,
+    disabled,
 }: ButtonSettings) {
     return (
         <>
@@ -40,6 +41,8 @@ export default function CustomButton({
                     buttonOnClick();
                 }}
                 boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.35)"}
+                isDisabled={disabled ? true : false}
+                isActive={!disabled}
             >
                 {buttonText}
             </Button>
