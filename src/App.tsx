@@ -55,27 +55,24 @@ function App() {
                 if (userRecord) {
                     const { isSetUp, userId, username, userType } = userRecord;
                     setCurrentUser({ userId, username, userType });
+
+                    // ====not setup yet====
                     if (!isSetUp) {
-                        // console.log("A");
                         navigate("/setup/" + uid);
                     }
                 } else {
+                    // ====user not found====
                     setCurrentUser(null);
-                    // console.log("checked", checked);
                     if (!checkPathName(location.pathname)) {
-                        // console.log("C");
                         navigate("/login");
                     }
-                    // console.log("D");
                 }
-                // ...
             } else {
+                // ====user not found====
                 setCurrentUser(null);
                 if (!checkPathName(location.pathname)) {
-                    // console.log("E");
                     navigate("/login");
                 }
-                // console.log("F");
             }
         });
     }, [location.pathname]);

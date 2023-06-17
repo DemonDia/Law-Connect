@@ -76,6 +76,7 @@ export default function LaywerApplicationPage({ currentUser }: any) {
                 secondButtonWords="Onboard Lawyer"
                 secondButtonAction={acceptApplication}
                 secondButtonColor="#1D00D0"
+                disabled={currentApplication.outcome != -1}
             />
             <Flex>
                 <Box

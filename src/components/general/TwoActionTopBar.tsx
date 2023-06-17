@@ -13,7 +13,7 @@ interface TwoActionTopBarProps {
     firstButtonWords: string;
     firstButtonColor: string;
     firstButtonAction: any;
-
+    disabled?: boolean;
     secondButtonWords: string;
     secondButtonColor: string;
     secondButtonAction: any;
@@ -27,6 +27,7 @@ export default function TwoActionTopBar({
     firstButtonWords,
     firstButtonColor,
     firstButtonAction,
+    disabled,
     secondButtonWords,
     secondButtonColor,
     secondButtonAction,
@@ -57,6 +58,7 @@ export default function TwoActionTopBar({
                         buttonText={firstButtonWords}
                         buttonOnClick={() => firstButtonOnClick()}
                         buttonWidth="100%"
+                        disabled={disabled}
                     />
                 </Box>
                 <Box m="5px">
@@ -66,6 +68,7 @@ export default function TwoActionTopBar({
                         buttonText={secondButtonWords}
                         buttonOnClick={() => secondButtonOnClick()}
                         buttonWidth="100%"
+                        disabled={disabled}
                     />
                 </Box>
             </Box>
