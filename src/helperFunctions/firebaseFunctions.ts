@@ -7,6 +7,7 @@ import {
     onAuthStateChanged,
     signOut,
     updateProfile,
+    User,
 } from "firebase/auth";
 import {
     collection,
@@ -28,6 +29,38 @@ import { getDatabase } from "firebase/database";
 // ==========authentication-related==========
 // this is for authentication
 // login user
+interface UserLoginData {
+    email: string;
+    password: string;
+}
+export const loginUserViaEmail = async (
+    { email, password }: UserLoginData,
+    navigate: any,
+    toast: any
+) => {
+    signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+            // Signed in
+            toast({
+                title: "Login successful",
+                description: "Redirecting ...",
+                status: "success",
+                duration: 1000,
+                isClosable: true,
+            });
+            navigate("/");
+        })
+        .catch((error) => {
+            const errorMessage = error.message;
+            toast({
+                title: "Login failed",
+                description: errorMessage,
+                status: "error",
+                duration: 1000,
+                isClosable: true,
+            });
+        });
+};
 
 // register user (email)
 // return user if successful, else return null
@@ -92,6 +125,31 @@ export const checkLoggedUser = async (navigate: any, pathname: string) => {
 };
 
 // logout user
+export const logoutUser = async (toast: any, navigate: any) => {
+    await signOut(auth)
+        .then(() => {
+            // Sign-out successful.
+            toast({
+                title: "Successfully ogged out",
+                description: "",
+                status: "success",
+                duration: 1000,
+                isClosable: true,
+            });
+            navigate("/login")
+        })
+        .catch((error) => {
+            console.log(error.message)
+            // An error happened.
+            toast({
+                title: "Logout failed",
+                description: "Something went wrong. Please try again later.",
+                status: "error",
+                duration: 1000,
+                isClosable: true,
+            });
+        });
+};
 
 // submit first time setup
 export const firstTimeSetup = async (
@@ -120,7 +178,10 @@ export const firstTimeSetup = async (
 
                         // skills/userId
                         // update skills
-                        const skillCollection: any = collection(db, "userSkills");
+                        const skillCollection: any = collection(
+                            db,
+                            "userSkills"
+                        );
                         allPromises.push(
                             addDoc(skillCollection, {
                                 userId: skills,

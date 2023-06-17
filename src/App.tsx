@@ -39,9 +39,12 @@ function App() {
         // getCurrUser();
     }, []);
 
+    // monitor path names
     useEffect(() => {
         checkLoggedUser(navigate, location.pathname);
     }, [location.pathname]);
+
+    // monitor logged User (needed especially for navbar and homepage)
 
     // ============== helper functions if any ==============
 

@@ -84,7 +84,6 @@ export const SkillSelector = ({
                                 handleDeleteSkillId={handleDeleteSkillId}
                             />
                         );
-                        // return <>{skillDict.get(skillId).skillName}</>;
                     })}
                 </>
             ) : (
