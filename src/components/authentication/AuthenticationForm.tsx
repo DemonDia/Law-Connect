@@ -52,7 +52,11 @@ export default function AuthenticationForm({
 
     const googleAuth = async () => {};
     return (
-        <Card w={"40vw"} m={"10px auto"} p={"10"}>
+        <Card
+            w={["90vw", "70vw", "60vw", "50vw", "30vw"]}
+            m={"10px auto"}
+            p={"10px"}
+        >
             <Heading textAlign={"center"}>
                 {isLogin ? "Sign In" : "Sign Up"}
             </Heading>

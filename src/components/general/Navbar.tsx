@@ -1,6 +1,6 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-import { Link as DomLink } from "react-router-dom";
+import { Link as DomLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 // ======= chakra UI ==========
@@ -16,6 +16,7 @@ import {
     useColorModeValue,
     useBreakpointValue,
     useDisclosure,
+    useToast,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 
@@ -59,6 +60,10 @@ const menteeItems: Array<NavItem> = [
         label: "Skills",
         to: "/skills",
     },
+    {
+        label: "Logout",
+        to: "/logout",
+    },
 ];
 
 // for mentors
@@ -68,29 +73,56 @@ const mentorItems: Array<NavItem> = [
         label: "Mentees",
         to: "/mentees",
     },
+    {
+        label: "Logout",
+        to: "/logout",
+    },
 ];
 
 // for firms
 const companyItems: Array<NavItem> = [
     { label: "Home", to: "/" },
     {
-        label: "lawyers",
+        label: "Lawyers",
         to: "/mentees",
+    },
+    {
+        label: "Logout",
+        to: "/logout",
     },
 ];
 
 // ============== main component ==============
-export default function Navbar() {
+export default function Navbar({ currentUser }: any) {
     // ============== constant variables if any ==============
 
     // ============== states (if any) ==============
     const { isOpen, onToggle } = useDisclosure();
     const [navItems, setNavItems] = useState<Array<NavItem>>([]);
+    // const [currentUser, setCurrentUser] = useState<currentUserProps>({})
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
-        setNavItems(notLoggedInItems);
-    }, []);
+        if (currentUser) {
+            const { userType } = currentUser;
+            switch (userType) {
+                case "0":
+                    setNavItems(menteeItems);
+                    break;
+                case "1":
+                    setNavItems(mentorItems);
+                    break;
+                case "2":
+                    setNavItems(companyItems);
+                    break;
+                default:
+                    setNavItems(notLoggedInItems);
+                    break;
+            }
+        } else {
+            setNavItems(notLoggedInItems);
+        }
+    }, [currentUser]);
 
     // ============== helper functions if any ==============
 

@@ -64,10 +64,9 @@ export default function RegisterPage() {
             });
         } else {
             const newUser = await registerUserViaEmail(email, password);
-            console.log("newUser", newUser);
             if (newUser) {
                 const { uid: userId } = newUser;
-                await createUserRecord(userId).then((res) => {
+                await createUserRecord(userId, email).then((res) => {
                     if (res) {
                         toast({
                             title: "Registration successful",
@@ -76,7 +75,7 @@ export default function RegisterPage() {
                             duration: 1000,
                             isClosable: true,
                         });
-                        navigate("/setup");
+                        navigate("/setup/" + userId);
                     } else {
                         toast({
                             title: "Registration unsuccessful",

@@ -74,10 +74,11 @@ export const registerUserViaEmail = async (email: string, password: string) => {
 };
 
 // create user in firestore
-export const createUserRecord = async (userId: string) => {
+export const createUserRecord = async (userId: string,email:string) => {
     try {
         const userRecord = await addDoc(collection(db, "users"), {
             userId,
+            email,
             userType: -1,
             isSetUp: false,
         });
@@ -130,16 +131,16 @@ export const logoutUser = async (toast: any, navigate: any) => {
         .then(() => {
             // Sign-out successful.
             toast({
-                title: "Successfully ogged out",
+                title: "Successfully logged out",
                 description: "",
                 status: "success",
                 duration: 1000,
                 isClosable: true,
             });
-            navigate("/login")
+            navigate("/login");
         })
         .catch((error) => {
-            console.log(error.message)
+            console.log(error.message);
             // An error happened.
             toast({
                 title: "Logout failed",
@@ -192,6 +193,7 @@ export const firstTimeSetup = async (
                         const userDocRef = doc(db, "users", userRecord.id);
                         allPromises.push(
                             updateDoc(userDocRef, {
+                                username: name,
                                 userType,
                                 isSetUp: true,
                             })

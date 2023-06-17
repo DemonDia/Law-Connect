@@ -14,6 +14,12 @@ import React from "react";
 // This is where you import all the components from chakra UI
 // ################################################################
 
+// ======= external functions  ==========
+// ################################################################
+// This is where you import any external helper functions
+// ################################################################
+
+
 // ======= custom components (if any)==========
 // ################################################################
 // This is where you import all the components from the component folder

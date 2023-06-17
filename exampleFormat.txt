@@ -9,6 +9,8 @@ To copy and paste inside a component/page file (except the start and end):
 
 // ======= chakra UI ==========
 
+// ======= external functions  ==========
+
 // ======= custom components (if any)==========
 
 // ============== interfaces (if any) ==============
