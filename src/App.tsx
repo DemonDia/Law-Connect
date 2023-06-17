@@ -3,9 +3,10 @@ import "./App.css";
 
 // ======= react ==========
 import { useEffect, useState } from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 
 // ======= chakra UI ==========
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Box } from "@chakra-ui/react";
 
 // ======= external functions  ==========
 import { auth } from "./config";
@@ -28,6 +29,9 @@ import RegisterPage from "./pages/authentication/RegisterPage";
 import SetupPage from "./pages/authentication/SetupPage";
 import LogoutPage from "./pages/authentication/LogoutPage";
 
+// ======================== mentee pages ========================
+import CompanyPage from "./pages/mentees/CompanyPage";
+
 // ============== main component ==============
 function App() {
     // ============== constant variables if any ==============
@@ -47,11 +51,8 @@ function App() {
                 if (userRecord) {
                     const { isSetUp, userId, username, userType } = userRecord;
                     setCurrentUser({ userId, username, userType });
-                    if (isSetUp) {
+                    if (!isSetUp) {
                         // console.log("A");
-                        navigate("/");
-                    } else {
-                        // console.log("B");
                         navigate("/setup/" + uid);
                     }
                 } else {
@@ -84,15 +85,24 @@ function App() {
     return (
         <>
             <Navbar currentUser={currentUser} />
-            <Routes>
-                <Route path="/" element={<h1>Home</h1>} />
+            <Box p="5vw">
+                <Routes>
+                    {/* homepage */}
+                    <Route path="/" element={<h1>Home</h1>} />
 
-                {/* authentication */}
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/setup/:userId" element={<SetupPage />} />
-                <Route path="/logout" element={<LogoutPage />} />
-            </Routes>
+                    {/* authentication */}
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/setup/:userId" element={<SetupPage />} />
+                    <Route path="/logout" element={<LogoutPage />} />
+
+                    {/* mentee */}
+                    <Route
+                        path="/company"
+                        element={<CompanyPage currentUser={currentUser} />}
+                    />
+                </Routes>
+            </Box>
         </>
     );
 }
