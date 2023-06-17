@@ -1,81 +1,81 @@
 // ============== imports: the dependencies ==============
-import "./App.css";
+import "./App.css"
 
 // ======= react ==========
-import { useEffect, useState } from "react";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom"
 
 // ======= chakra UI ==========
-import { Box } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react"
 
 // ======= external functions  ==========
-import { auth } from "./config";
-import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./config"
+import { onAuthStateChanged } from "firebase/auth"
 
 // ======= custom components (if any)==========
-import Navbar from "./components/general/Navbar";
+import Navbar from "./components/general/Navbar"
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
-import { checkPathName } from "./helperFunctions/authentication/checkPathName";
-import { findUserById } from "./helperFunctions/firebase/userFirestore";
+import { checkPathName } from "./helperFunctions/authentication/checkPathName"
+import { findUserById } from "./helperFunctions/firebase/userFirestore"
 
 // ============== firebase functions ==============
-import { seedSkills } from "./helperFunctions/firebase/skillsFunctions";
+import { seedSkills } from "./helperFunctions/firebase/skillsFunctions"
 
 // ======================== authentication pages ========================
-import LoginPage from "./pages/authentication/LoginPage";
-import RegisterPage from "./pages/authentication/RegisterPage";
-import SetupPage from "./pages/authentication/SetupPage";
-import LogoutPage from "./pages/authentication/LogoutPage";
+import LoginPage from "./pages/authentication/LoginPage"
+import RegisterPage from "./pages/authentication/RegisterPage"
+import SetupPage from "./pages/authentication/SetupPage"
+import LogoutPage from "./pages/authentication/LogoutPage"
 
 // ======================== mentee pages ========================
-import CompanyPage from "./pages/mentees/CompanyPage";
+import CompanyPage from "./pages/mentees/CompanyPage"
 
 // ======================== law firm pages ========================
-import LawyersPage from "./pages/lawfirms/LawyersPage";
-import LaywerApplicationPage from "./pages/lawfirms/LaywerApplicationPage";
+import LawyersPage from "./pages/lawfirms/LawyersPage"
+import LaywerApplicationPage from "./pages/lawfirms/LaywerApplicationPage"
 
 // ============== main component ==============
 function App() {
     // ============== constant variables if any ==============
-    const navigate = useNavigate();
-    const location = useLocation();
+    const navigate = useNavigate()
+    const location = useLocation()
 
     // ============== states (if any) ==============
-    const [currentUser, setCurrentUser] = useState<any>(null);
+    const [currentUser, setCurrentUser] = useState<any>(null)
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
-        seedSkills();
-        onAuthStateChanged(auth, async (user) => {
+        seedSkills()
+        onAuthStateChanged(auth, async user => {
             if (user) {
-                const { uid } = user;
-                const userRecord: any = await findUserById(uid);
+                const { uid } = user
+                const userRecord: any = await findUserById(uid)
                 if (userRecord) {
-                    const { isSetUp, userId, username, userType } = userRecord;
-                    setCurrentUser({ userId, username, userType });
+                    const { isSetUp, userId, username, userType } = userRecord
+                    setCurrentUser({ userId, username, userType })
 
                     // ====not setup yet====
                     if (!isSetUp) {
-                        navigate("/setup/" + uid);
+                        navigate("/setup/" + uid)
                     }
                 } else {
                     // ====user not found====
-                    setCurrentUser(null);
+                    setCurrentUser(null)
                     if (!checkPathName(location.pathname)) {
-                        navigate("/login");
+                        navigate("/login")
                     }
                 }
             } else {
                 // ====user not found====
-                setCurrentUser(null);
+                setCurrentUser(null)
                 if (!checkPathName(location.pathname)) {
-                    navigate("/login");
+                    navigate("/login")
                 }
             }
-        });
-    }, [location.pathname]);
+        })
+    }, [location.pathname])
 
     // monitor logged User (needed especially for navbar and homepage)
 
@@ -117,7 +117,7 @@ function App() {
                 </Routes>
             </Box>
         </>
-    );
+    )
 }
 
-export default App;
+export default App

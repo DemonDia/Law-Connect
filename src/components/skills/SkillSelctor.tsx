@@ -1,20 +1,20 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
 // ======= chakra UI ==========
-import { Select } from "@chakra-ui/react";
+import { Select } from "@chakra-ui/react"
 // ======= custom components (if any)==========
-import { SkillBadge } from "./SkillBadge";
+import { SkillBadge } from "./SkillBadge"
 
 // ============== interfaces (if any) ==============
 interface SkillSelectorProps {
-    handleDeleteSkillId?: any;
-    selectedSkillId: string;
-    handleChangeSelectedSkillId?: any;
-    chosenSkills: Array<string>;
+    handleDeleteSkillId?: any
+    selectedSkillId: string
+    handleChangeSelectedSkillId?: any
+    chosenSkills: Array<string>
 }
 // ============== external variables (if any) ==============
-import { getAllSkills } from "../../helperFunctions/firebase/skillsFunctions";
+import { getAllSkills } from "../../helperFunctions/firebase/skillsFunctions"
 
 // ============== main component ==============
 
@@ -26,21 +26,21 @@ export const SkillSelector = ({
 }: SkillSelectorProps) => {
     // ============== constant variables if any ==============
     // ============== states (if any) ==============
-    const [availableSkills, setAvailableSkills] = useState<any>([]);
-    const [skillDict, setSkillDict] = useState<any>(null);
+    const [availableSkills, setAvailableSkills] = useState<any>([])
+    const [skillDict, setSkillDict] = useState<any>(null)
     // ============== useEffect statement(s) ==============
     useEffect(() => {
-        const allSkills = getAllSkills();
-        Promise.resolve(allSkills).then((res) => {
-            setSkillDict(res);
-            let skills = [];
+        const allSkills = getAllSkills()
+        Promise.resolve(allSkills).then(res => {
+            setSkillDict(res)
+            let skills = []
             for (const [id, skill] of res) {
-                const { skillName } = skill;
-                skills.push({ skillId: id, skillName });
+                const { skillName } = skill
+                skills.push({ skillId: id, skillName })
             }
-            setAvailableSkills(skills);
-        });
-    }, []);
+            setAvailableSkills(skills)
+        })
+    }, [])
     // ============== helper functions if any ==============
 
     // ============== key functions if any ==============
@@ -50,19 +50,18 @@ export const SkillSelector = ({
                 placeholder="Add Skill Name"
                 m={"10px auto"}
                 value={selectedSkillId}
-                onChange={handleChangeSelectedSkillId}
-            >
+                onChange={handleChangeSelectedSkillId}>
                 {availableSkills ? (
                     <>
                         {availableSkills.map(
                             (availableSkill: any, index: number) => {
-                                const { skillId, skillName } = availableSkill;
+                                const { skillId, skillName } = availableSkill
                                 return (
                                     <option key={index} value={skillId}>
                                         {skillName}
                                     </option>
-                                );
-                            }
+                                )
+                            },
                         )}
                     </>
                 ) : null}
@@ -82,12 +81,12 @@ export const SkillSelector = ({
                                 skillId={skillId}
                                 handleDeleteSkillId={handleDeleteSkillId}
                             />
-                        );
+                        )
                     })}
                 </>
             ) : (
                 <></>
             )}
         </>
-    );
-};
+    )
+}

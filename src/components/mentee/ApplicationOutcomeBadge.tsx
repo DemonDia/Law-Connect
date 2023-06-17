@@ -2,15 +2,15 @@
 // ======= react ==========
 
 // ======= chakra UI ==========
-import { Badge } from "@chakra-ui/react";
+import { Badge } from "@chakra-ui/react"
 // ======= external functions  ==========
 
 // ======= custom components (if any)==========
 
 // ============== interfaces (if any) ==============
 interface ApplicationOutcomeBadgeProps {
-    text: string;
-    color: string;
+    text: string
+    color: string
 }
 // ============== external variables (if any) ==============
 
@@ -33,9 +33,8 @@ export default function ApplicationOutcomeBadge({ text, color }: any) {
             margin={"5px"}
             padding={"5px"}
             borderRadius={"5px"}
-            color="white"
-        >
+            color="white">
             {text}
         </Badge>
-    );
+    )
 }

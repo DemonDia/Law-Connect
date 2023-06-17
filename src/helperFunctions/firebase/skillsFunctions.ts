@@ -1,10 +1,10 @@
-import { db } from "../../config";
+import { db } from "../../config"
 
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore"
 
 interface Skill {
-    skillName: string;
-    skillDesc: string;
+    skillName: string
+    skillDesc: string
 }
 export const seedSkills = async () => {
     const skills: Array<Skill> = [
@@ -93,38 +93,38 @@ export const seedSkills = async () => {
             skillDesc:
                 "The legal field is constantly evolving, and lawyers should be adaptable, open to new challenges, and able to quickly grasp changes in laws or legal precedents.",
         },
-    ];
-    let count: number = 0;
-    const querySnapshot: any = await getDocs(collection(db, "skills"));
+    ]
+    let count: number = 0
+    const querySnapshot: any = await getDocs(collection(db, "skills"))
     querySnapshot.forEach((doc: any) => {
-        count += 1;
-    });
+        count += 1
+    })
     if (count == 0) {
         skills.forEach(async (skill: Skill) => {
-            const { skillName, skillDesc } = skill;
+            const { skillName, skillDesc } = skill
             await addDoc(collection(db, "skills"), {
                 skillName,
                 skillDesc,
             })
                 .then((res: any) => {
-                    console.log("added");
+                    console.log("added")
                 })
                 .catch((err: any) => {
-                    console.log(err);
-                });
-        });
+                    console.log(err)
+                })
+        })
     }
-};
-seedSkills();
+}
+seedSkills()
 
 // ==========find/retrieve functions==========
 // get all skills
 export const getAllSkills = async () => {
-    const querySnapshot: any = await getDocs(collection(db, "skills"));
-    let skills: Map<string, any> = new Map();
+    const querySnapshot: any = await getDocs(collection(db, "skills"))
+    let skills: Map<string, any> = new Map()
     querySnapshot.forEach((doc: any) => {
-        const { skillName, skillDesc } = doc.data();
-        skills.set(doc.id, { skillName, skillDesc });
-    });
-    return skills;
-};
+        const { skillName, skillDesc } = doc.data()
+        skills.set(doc.id, { skillName, skillDesc })
+    })
+    return skills
+}

@@ -2,21 +2,21 @@
 // ======= react ==========
 
 // ======= chakra UI ==========
-import { Card, Box } from "@chakra-ui/react";
+import { Card, Box } from "@chakra-ui/react"
 
 // ======= external functions  ==========
 
 // ======= custom components (if any)==========
-import CustomButton from "./CustomButton";
+import CustomButton from "./CustomButton"
 // ============== interfaces (if any) ==============
 interface TwoActionTopBarProps {
-    firstButtonWords: string;
-    firstButtonColor: string;
-    firstButtonAction: any;
-    disabled?: boolean;
-    secondButtonWords: string;
-    secondButtonColor: string;
-    secondButtonAction: any;
+    firstButtonWords: string
+    firstButtonColor: string
+    firstButtonAction: any
+    disabled?: boolean
+    secondButtonWords: string
+    secondButtonColor: string
+    secondButtonAction: any
 }
 
 // ============== external variables (if any) ==============
@@ -40,11 +40,11 @@ export default function TwoActionTopBar({
 
     // ============== helper functions if any ==============
     const firstButtonOnClick = async () => {
-        await firstButtonAction();
-    };
+        await firstButtonAction()
+    }
     const secondButtonOnClick = async () => {
-        await secondButtonAction();
-    };
+        await secondButtonAction()
+    }
 
     // ============== key functions if any ==============
 
@@ -73,7 +73,7 @@ export default function TwoActionTopBar({
                 </Box>
             </Box>
         </Card>
-    );
+    )
 }
 
 // ============== sub component(s) if any ==============

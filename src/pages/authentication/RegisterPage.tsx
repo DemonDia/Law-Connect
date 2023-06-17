@@ -1,24 +1,24 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 // ======= chakra UI ==========
-import { useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react"
 
 // ======= firebase ==========
 
 import {
     registerUserViaEmail,
     createUserRecord,
-} from "../../helperFunctions/firebase/userAuthFunctions";
+} from "../../helperFunctions/firebase/userAuthFunctions"
 
 // ======= custom components (if any)==========
-import AuthenticationForm from "../../components/authentication/AuthenticationForm";
+import AuthenticationForm from "../../components/authentication/AuthenticationForm"
 
 // ============== interfaces (if any) ==============
-import { AuthObject } from "../../components/authentication/AuthenticationForm";
+import { AuthObject } from "../../components/authentication/AuthenticationForm"
 
 // ============== helper functions if any ==============
-import { validateEmail } from "../../helperFunctions/authentication/validateEmail";
+import { validateEmail } from "../../helperFunctions/authentication/validateEmail"
 
 // ============== external variables (if any) ==============
 
@@ -26,8 +26,8 @@ import { validateEmail } from "../../helperFunctions/authentication/validateEmai
 
 export default function RegisterPage() {
     // ============== constant variables if any ==============
-    const toast = useToast();
-    const navigate = useNavigate();
+    const toast = useToast()
+    const navigate = useNavigate()
 
     // ============== states (if any) ==============
 
@@ -37,19 +37,19 @@ export default function RegisterPage() {
 
     // ============== key functions if any ==============
     const registerFunction = async (items: AuthObject) => {
-        let errors: Array<String> = [];
-        const { email, password, confirmPassword } = items;
+        let errors: Array<String> = []
+        const { email, password, confirmPassword } = items
         if (!validateEmail(email)) {
-            errors.push("Invalid email");
+            errors.push("Invalid email")
         }
         if (password === "") {
-            errors.push("Password cannot be empty");
+            errors.push("Password cannot be empty")
         }
         if (password.length < 8) {
-            errors.push("Password cannot be less than 8 characters");
+            errors.push("Password cannot be less than 8 characters")
         }
         if (password !== confirmPassword) {
-            errors.push("Password and confirm password must be the same");
+            errors.push("Password and confirm password must be the same")
         }
         if (errors.length > 0) {
             toast({
@@ -58,12 +58,12 @@ export default function RegisterPage() {
                 status: "error",
                 duration: 1000,
                 isClosable: true,
-            });
+            })
         } else {
-            const newUser = await registerUserViaEmail(email, password);
+            const newUser = await registerUserViaEmail(email, password)
             if (newUser) {
-                const { uid: userId } = newUser;
-                await createUserRecord(userId, email).then((res) => {
+                const { uid: userId } = newUser
+                await createUserRecord(userId, email).then(res => {
                     if (res) {
                         toast({
                             title: "Registration successful",
@@ -71,8 +71,8 @@ export default function RegisterPage() {
                             status: "success",
                             duration: 1000,
                             isClosable: true,
-                        });
-                        navigate("/setup/" + userId);
+                        })
+                        navigate("/setup/" + userId)
                     } else {
                         toast({
                             title: "Registration unsuccessful",
@@ -80,9 +80,9 @@ export default function RegisterPage() {
                             status: "error",
                             duration: 1000,
                             isClosable: true,
-                        });
+                        })
                     }
-                });
+                })
             } else {
                 toast({
                     title: "Registration unsuccessful",
@@ -90,10 +90,10 @@ export default function RegisterPage() {
                     status: "error",
                     duration: 1000,
                     isClosable: true,
-                });
+                })
             }
         }
-    };
+    }
 
     return (
         <>
@@ -102,7 +102,7 @@ export default function RegisterPage() {
                 submitMethod={registerFunction}
             />
         </>
-    );
+    )
 }
 
 // ============== sub component(s) if any ==============

@@ -2,20 +2,20 @@
 // ======= react ==========
 
 // ======= chakra UI ==========
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react"
 
 // ======= external functions  ==========
-import CustomButton from "../general/CustomButton";
+import CustomButton from "../general/CustomButton"
 
 // ======= custom components (if any)==========
 
 // ============== interfaces (if any) ==============
 interface CompanyContainerProps {
-    companyId: string;
-    companyName: string;
-    applyFunction?: any;
-    applied?: boolean; //user have applied to this company?
-    disabled?: boolean;
+    companyId: string
+    companyName: string
+    applyFunction?: any
+    applied?: boolean //user have applied to this company?
+    disabled?: boolean
 }
 // ============== external variables (if any) ==============
 
@@ -34,17 +34,16 @@ export default function CompanyContainer({
     // ============== key functions if any ==============
     const clicked = () => {
         if (applyFunction) {
-            applyFunction(companyId);
+            applyFunction(companyId)
         }
-    };
+    }
 
     return (
         <Box
             background={"white"}
             p="10px"
             borderRadius={"10px"}
-            boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}
-        >
+            boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}>
             <Heading as="h6" size="lg">
                 {companyName}
             </Heading>
@@ -67,5 +66,5 @@ export default function CompanyContainer({
                 </>
             )}
         </Box>
-    );
+    )
 }

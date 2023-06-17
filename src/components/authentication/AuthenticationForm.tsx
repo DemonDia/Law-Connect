@@ -1,24 +1,24 @@
 // ============== imports ==============
 // ======= react ==========
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
 
 // ======= chakra UI ==========
-import { Card, Heading, Text } from "@chakra-ui/react";
+import { Card, Heading, Text } from "@chakra-ui/react"
 
 // ======= custom components ==========
-import InputField from "../general/InputField";
-import CustomButton from "../general/CustomButton";
-import TextRouterLink from "../general/TextRouterLink";
+import InputField from "../general/InputField"
+import CustomButton from "../general/CustomButton"
+import TextRouterLink from "../general/TextRouterLink"
 
 // ============== interfaces ==============
 interface AuthManager {
-    isLogin: boolean;
-    submitMethod: any;
+    isLogin: boolean
+    submitMethod: any
 }
 export interface AuthObject {
-    email: string;
-    password: string;
-    confirmPassword?: string;
+    email: string
+    password: string
+    confirmPassword?: string
 }
 
 // ============== main component ==============
@@ -30,12 +30,12 @@ export default function AuthenticationForm({
     // ============== constant variables if any ==============
 
     // ============== states (if any) ==============
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [confirmPassword, setConfirmPassword] = useState<string>("");
+    const [email, setEmail] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
+    const [confirmPassword, setConfirmPassword] = useState<string>("")
 
     // ============== useEffect statement(s) ==============
-    useEffect(() => {}, []);
+    useEffect(() => {}, [])
 
     // ============== helper functions if any ==============
 
@@ -46,17 +46,16 @@ export default function AuthenticationForm({
             email,
             password,
             confirmPassword,
-        };
-        await submitMethod(submitItems);
-    };
+        }
+        await submitMethod(submitItems)
+    }
 
-    const googleAuth = async () => {};
+    const googleAuth = async () => {}
     return (
         <Card
             w={["90vw", "70vw", "60vw", "50vw", "30vw"]}
             m={"10px auto"}
-            p={"10px"}
-        >
+            p={"10px"}>
             <Heading textAlign={"center"}>
                 {isLogin ? "Sign In" : "Sign Up"}
             </Heading>
@@ -124,5 +123,5 @@ export default function AuthenticationForm({
                 )}
             </Text>
         </Card>
-    );
+    )
 }

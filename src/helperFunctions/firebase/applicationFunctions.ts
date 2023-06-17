@@ -1,4 +1,4 @@
-import { db } from "../../config";
+import { db } from "../../config"
 import {
     collection,
     getDocs,
@@ -8,23 +8,23 @@ import {
     doc,
     getDoc,
     updateDoc,
-} from "firebase/firestore";
-import { findUserById } from "./userFirestore";
-import { findUsersByUserTypes } from "./userFirestore";
+} from "firebase/firestore"
+import { findUserById } from "./userFirestore"
+import { findUsersByUserTypes } from "./userFirestore"
 // =========create application=========
 export const createApplication = async (
     applicantId: string,
     companyId: string,
-    toast: any
+    toast: any,
 ) => {
-    let validateUsersPromises: Array<any> = [];
+    let validateUsersPromises: Array<any> = []
     // applicant cannot be company
-    const validApplicant = await findUserById(applicantId);
-    validateUsersPromises.push(validApplicant);
+    const validApplicant = await findUserById(applicantId)
+    validateUsersPromises.push(validApplicant)
 
     // company only
-    const validCompany = await findUserById(companyId);
-    validateUsersPromises.push(validCompany);
+    const validCompany = await findUserById(companyId)
+    validateUsersPromises.push(validCompany)
 
     if (
         validApplicant &&
@@ -49,19 +49,19 @@ export const createApplication = async (
                     status: "success",
                     duration: 1000,
                     isClosable: true,
-                });
+                })
             })
             .catch((err: any) => {
-                console.log(err.message);
+                console.log(err.message)
                 toast({
                     title: "Error",
                     description: "Invalid application",
                     status: "error",
                     duration: 1000,
                     isClosable: true,
-                });
-            });
-        return;
+                })
+            })
+        return
     } else {
         toast({
             title: "Error",
@@ -69,91 +69,91 @@ export const createApplication = async (
             status: "error",
             duration: 1000,
             isClosable: true,
-        });
-        return;
+        })
+        return
     }
-};
+}
 
 // =========get user applications=========
 export const getUserApplications = async (userId: string) => {
-    const companies = await findUsersByUserTypes("2");
-    let companyDict: any = {};
+    const companies = await findUsersByUserTypes("2")
+    let companyDict: any = {}
     companies.forEach((company: any) => {
-        const { userId, username } = company;
-        companyDict[userId] = username;
-    });
+        const { userId, username } = company
+        companyDict[userId] = username
+    })
 
     const findQuery = query(
         collection(db, "application"),
-        where("applicantId", "==", userId)
-    );
-    const docSnap = await getDocs(findQuery);
-    let applications: Array<any> = [];
-    docSnap.forEach((doc) => {
-        let applicationToPush = doc.data();
-        const { companyId } = applicationToPush;
+        where("applicantId", "==", userId),
+    )
+    const docSnap = await getDocs(findQuery)
+    let applications: Array<any> = []
+    docSnap.forEach(doc => {
+        let applicationToPush = doc.data()
+        const { companyId } = applicationToPush
         applicationToPush = {
             ...applicationToPush,
             id: doc.id,
             companyName: companyDict[companyId],
-        };
-        applications.push(applicationToPush);
-    });
-    return applications;
-};
+        }
+        applications.push(applicationToPush)
+    })
+    return applications
+}
 
 // =========get company applications=========
 // mentors & mentees
 export const getCompanyApplications = async (companyId: string) => {
-    const mentees = await findUsersByUserTypes("0");
-    const mentors = await findUsersByUserTypes("1");
-    const allLaywers = [...mentees, ...mentors];
+    const mentees = await findUsersByUserTypes("0")
+    const mentors = await findUsersByUserTypes("1")
+    const allLaywers = [...mentees, ...mentors]
 
-    let lawyerDict: any = {};
+    let lawyerDict: any = {}
     allLaywers.forEach((lawyer: any) => {
-        const { userId, username } = lawyer;
-        lawyerDict[userId] = username;
-    });
+        const { userId, username } = lawyer
+        lawyerDict[userId] = username
+    })
 
     const findQuery = query(
         collection(db, "application"),
-        where("companyId", "==", companyId)
-    );
-    const docSnap = await getDocs(findQuery);
-    let applications: Array<any> = [];
-    docSnap.forEach((doc) => {
-        let applicationToPush = doc.data();
-        const { applicantId } = applicationToPush;
+        where("companyId", "==", companyId),
+    )
+    const docSnap = await getDocs(findQuery)
+    let applications: Array<any> = []
+    docSnap.forEach(doc => {
+        let applicationToPush = doc.data()
+        const { applicantId } = applicationToPush
         applicationToPush = {
             ...applicationToPush,
             id: doc.id,
             applicantName: lawyerDict[applicantId],
-        };
-        applications.push(applicationToPush);
-    });
-    return applications;
-};
+        }
+        applications.push(applicationToPush)
+    })
+    return applications
+}
 
 // =========get applicant info=========
 export const getApplicationInfo = async (applicationId: string) => {
     // get
-    const docSnap = await getDoc(doc(db, "application", applicationId));
+    const docSnap = await getDoc(doc(db, "application", applicationId))
 
     if (docSnap.exists()) {
         const { applicantId, companyId, applicationDate, outcome } =
-            docSnap.data();
+            docSnap.data()
 
-        const applicant = await findUserById(applicantId);
+        const applicant = await findUserById(applicantId)
         if (applicant) {
-            const { username } = applicant;
-            return { username, applicationDate, outcome, companyId };
+            const { username } = applicant
+            return { username, applicationDate, outcome, companyId }
         } else {
-            return null;
+            return null
         }
     } else {
-        return null;
+        return null
     }
-};
+}
 
 // =========update application=========
 // accept/reject
@@ -163,28 +163,28 @@ export const updateApplication = async (
     applicationId: string,
     isAccept: boolean,
     toast: any,
-    navigate: any
+    navigate: any,
 ) => {
     // get application by ID
-    const applicationRef = doc(db, "application", applicationId);
-    const docSnap = await getDoc(applicationRef);
+    const applicationRef = doc(db, "application", applicationId)
+    const docSnap = await getDoc(applicationRef)
 
     if (docSnap.exists()) {
-        const { applicantId, companyId } = docSnap.data();
-        let updateApplicationPromise: Array<any> = [];
+        const { applicantId, companyId } = docSnap.data()
+        let updateApplicationPromise: Array<any> = []
         updateApplicationPromise.push(
             updateDoc(applicationRef, {
                 outcome: isAccept ? 1 : 0,
-            })
-        );
+            }),
+        )
         // update data
         if (isAccept) {
-            updateApplicationPromise.push();
+            updateApplicationPromise.push()
             addDoc(collection(db, "membership"), {
                 joinDate: new Date(),
                 memberId: applicantId,
                 companyId,
-            });
+            })
         }
         Promise.all(updateApplicationPromise)
             .then(() => {
@@ -195,20 +195,20 @@ export const updateApplication = async (
                     status: "success",
                     duration: 1000,
                     isClosable: true,
-                });
-                navigate("/lawyers");
+                })
+                navigate("/lawyers")
             })
             .catch((err: any) => {
-                console.log(err.message);
+                console.log(err.message)
                 toast({
                     title: "Something went wrong",
                     description: "Please try again later",
                     status: "error",
                     duration: 1000,
                     isClosable: true,
-                });
-                navigate("/lawyers");
-            });
+                })
+                navigate("/lawyers")
+            })
     } else {
         toast({
             title: "Error",
@@ -216,7 +216,7 @@ export const updateApplication = async (
             status: "error",
             duration: 1000,
             isClosable: true,
-        });
-        navigate("/lawyers");
+        })
+        navigate("/lawyers")
     }
-};
+}

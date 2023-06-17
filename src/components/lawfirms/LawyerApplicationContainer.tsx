@@ -1,22 +1,22 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 // ======= chakra UI ==========
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box, Heading, Text } from "@chakra-ui/react"
 // ======= external functions  ==========
-import { formatDate } from "../../helperFunctions/general/dateformatter";
+import { formatDate } from "../../helperFunctions/general/dateformatter"
 // ======= custom components (if any)==========
-import ApplicationOutcomeBadge from "../mentee/ApplicationOutcomeBadge";
+import ApplicationOutcomeBadge from "../mentee/ApplicationOutcomeBadge"
 
 // ============== interfaces (if any) ==============
 interface LawyerContainerProps {
-    applicationId: string;
-    applicantName: string;
-    applicationDate?: any;
-    applicationOutcome: number;
+    applicationId: string
+    applicantName: string
+    applicationDate?: any
+    applicationOutcome: number
 }
 // ============== external variables (if any) ==============
-import { applicationOutcomes } from "../../externalVariables/applicationOutcome";
+import { applicationOutcomes } from "../../externalVariables/applicationOutcome"
 // ============== main component ==============
 export default function LawyerApplicationContainer({
     applicationId,
@@ -39,8 +39,7 @@ export default function LawyerApplicationContainer({
             background={"white"}
             p="10px"
             borderRadius={"10px"}
-            boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}
-        >
+            boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}>
             <Heading as="h6" size="lg">
                 {applicantName}
             </Heading>
@@ -56,7 +55,7 @@ export default function LawyerApplicationContainer({
                 <Text>More Info</Text>
             </Link>
         </Box>
-    );
+    )
 }
 
 // ============== sub component(s) if any ==============

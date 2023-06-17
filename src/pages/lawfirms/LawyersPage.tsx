@@ -1,16 +1,16 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 // ======= chakra UI ==========
-import { SimpleGrid } from "@chakra-ui/react";
+import { SimpleGrid } from "@chakra-ui/react"
 // ======= external functions  ==========
-import { getCompanyApplications } from "../../helperFunctions/firebase/applicationFunctions";
-import { getCompanyMembers } from "../../helperFunctions/firebase/membershipFunctions";
+import { getCompanyApplications } from "../../helperFunctions/firebase/applicationFunctions"
+import { getCompanyMembers } from "../../helperFunctions/firebase/membershipFunctions"
 // ======= custom components (if any)==========
-import TabTopbar from "../../components/general/TabTopbar";
-import LawyerApplicationContainer from "../../components/lawfirms/LawyerApplicationContainer";
-import { LawyerContainer } from "../../components/lawfirms/LawyerContainer";
+import TabTopbar from "../../components/general/TabTopbar"
+import LawyerApplicationContainer from "../../components/lawfirms/LawyerApplicationContainer"
+import { LawyerContainer } from "../../components/lawfirms/LawyerContainer"
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
@@ -19,53 +19,53 @@ import { LawyerContainer } from "../../components/lawfirms/LawyerContainer";
 
 export default function LawyersPage({ currentUser }: any) {
     // ============== constant variables if any ==============
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     // ============== states (if any) ==============
-    const [applications, setApplications] = useState<any>([]);
-    const [lawyers, setLawyers] = useState<any>([]);
-    const [selectedTab, setSelectedTab] = useState<number>(-1);
+    const [applications, setApplications] = useState<any>([])
+    const [lawyers, setLawyers] = useState<any>([])
+    const [selectedTab, setSelectedTab] = useState<number>(-1)
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
         if (currentUser && currentUser.userId && currentUser.userType == 2) {
-            getApplications();
-            getLaywers();
+            getApplications()
+            getLaywers()
         } else {
-            navigate("/");
+            navigate("/")
         }
-    }, []);
+    }, [])
 
     useEffect(() => {
         if (selectedTab == 0) {
-            getApplications();
+            getApplications()
         } else if (selectedTab == 1) {
-            getLaywers();
+            getLaywers()
         }
-    }, [selectedTab]);
+    }, [selectedTab])
 
     // ============== helper functions if any ==============
     const getApplications = async () => {
         if (currentUser && currentUser.userId && currentUser.userType == 2) {
             const applications = await getCompanyApplications(
-                currentUser.userId
-            );
-            setApplications(applications);
+                currentUser.userId,
+            )
+            setApplications(applications)
         }
-    };
+    }
 
     const getLaywers = async () => {
-        const memberLawyers = await getCompanyMembers(currentUser.userId);
-        setLawyers(memberLawyers);
-    };
+        const memberLawyers = await getCompanyMembers(currentUser.userId)
+        setLawyers(memberLawyers)
+    }
 
     const selectTab = (tabNumber: number) => {
         if (tabNumber === selectedTab) {
-            setSelectedTab(-1);
+            setSelectedTab(-1)
         } else {
-            setSelectedTab(tabNumber);
+            setSelectedTab(tabNumber)
         }
-    };
+    }
 
     // ============== key functions if any ==============
     return (
@@ -87,14 +87,14 @@ export default function LawyersPage({ currentUser }: any) {
                                         {applications.map(
                                             (
                                                 application: any,
-                                                index: number
+                                                index: number,
                                             ) => {
                                                 const {
                                                     applicantName,
                                                     outcome,
                                                     id,
                                                     applicationDate,
-                                                } = application;
+                                                } = application
                                                 return (
                                                     <LawyerApplicationContainer
                                                         key={index}
@@ -109,8 +109,8 @@ export default function LawyersPage({ currentUser }: any) {
                                                             outcome
                                                         }
                                                     />
-                                                );
-                                            }
+                                                )
+                                            },
                                         )}
                                     </>
                                 ) : (
@@ -118,15 +118,15 @@ export default function LawyersPage({ currentUser }: any) {
                                         {lawyers.map(
                                             (lawyer: any, index: number) => {
                                                 const { memberName, joinDate } =
-                                                    lawyer;
+                                                    lawyer
                                                 return (
                                                     <LawyerContainer
                                                         key={index}
                                                         lawyerName={memberName}
                                                         joinedDate={joinDate}
                                                     />
-                                                );
-                                            }
+                                                )
+                                            },
                                         )}
                                     </>
                                 )}
@@ -138,7 +138,7 @@ export default function LawyersPage({ currentUser }: any) {
                 <></>
             )}
         </>
-    );
+    )
 }
 
 // ============== sub component(s) if any ==============

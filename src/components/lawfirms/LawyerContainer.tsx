@@ -2,15 +2,15 @@
 // ======= react ==========
 
 // ======= chakra UI ==========
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box, Heading, Text } from "@chakra-ui/react"
 // ======= external functions  ==========
-import { formatDate } from "../../helperFunctions/general/dateformatter";
+import { formatDate } from "../../helperFunctions/general/dateformatter"
 // ======= custom components (if any)==========
 
 // ============== interfaces (if any) ==============
 interface LawyerContainerProps {
-    lawyerName: string;
-    joinedDate: any;
+    lawyerName: string
+    joinedDate: any
 }
 // ============== external variables (if any) ==============
 
@@ -32,17 +32,14 @@ export function LawyerContainer({
             background={"white"}
             p="10px"
             borderRadius={"10px"}
-            boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}
-        >
+            boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}>
             <Heading as="h6" size="lg">
                 {lawyerName}
             </Heading>
             {/* <br /> */}
-            <Text>
-                Joined at:{formatDate(Date(joinedDate))}
-            </Text>
+            <Text>Joined at:{formatDate(Date(joinedDate))}</Text>
             <br />
             <Text>More Info</Text>
         </Box>
-    );
+    )
 }

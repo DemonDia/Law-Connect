@@ -1,7 +1,7 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-import { Link as DomLink, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link as DomLink, useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
 
 // ======= chakra UI ==========
 import {
@@ -17,15 +17,15 @@ import {
     useBreakpointValue,
     useDisclosure,
     useToast,
-} from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+} from "@chakra-ui/react"
+import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons"
 
 // ======= custom components (if any)==========
 
 // ============== interfaces (if any) ==============
 interface NavItem {
-    label: string;
-    to?: string;
+    label: string
+    to?: string
 }
 // ============== external variables (if any) ==============
 // the sub arrays
@@ -43,7 +43,7 @@ const notLoggedInItems: Array<NavItem> = [
         label: "Login",
         to: "/login",
     },
-];
+]
 
 // for mentees
 const menteeItems: Array<NavItem> = [
@@ -64,7 +64,7 @@ const menteeItems: Array<NavItem> = [
         label: "Logout",
         to: "/logout",
     },
-];
+]
 
 // for mentors
 const mentorItems: Array<NavItem> = [
@@ -81,7 +81,7 @@ const mentorItems: Array<NavItem> = [
         label: "Logout",
         to: "/logout",
     },
-];
+]
 
 // for firms
 const companyItems: Array<NavItem> = [
@@ -94,39 +94,39 @@ const companyItems: Array<NavItem> = [
         label: "Logout",
         to: "/logout",
     },
-];
+]
 
 // ============== main component ==============
 export default function Navbar({ currentUser }: any) {
     // ============== constant variables if any ==============
 
     // ============== states (if any) ==============
-    const { isOpen, onToggle } = useDisclosure();
-    const [navItems, setNavItems] = useState<Array<NavItem>>([]);
+    const { isOpen, onToggle } = useDisclosure()
+    const [navItems, setNavItems] = useState<Array<NavItem>>([])
     // const [currentUser, setCurrentUser] = useState<currentUserProps>({})
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
         if (currentUser) {
-            const { userType } = currentUser;
+            const { userType } = currentUser
             switch (userType) {
                 case "0":
-                    setNavItems(menteeItems);
-                    break;
+                    setNavItems(menteeItems)
+                    break
                 case "1":
-                    setNavItems(mentorItems);
-                    break;
+                    setNavItems(mentorItems)
+                    break
                 case "2":
-                    setNavItems(companyItems);
-                    break;
+                    setNavItems(companyItems)
+                    break
                 default:
-                    setNavItems(notLoggedInItems);
-                    break;
+                    setNavItems(notLoggedInItems)
+                    break
             }
         } else {
-            setNavItems(notLoggedInItems);
+            setNavItems(notLoggedInItems)
         }
-    }, [currentUser]);
+    }, [currentUser])
 
     // ============== helper functions if any ==============
 
@@ -144,13 +144,11 @@ export default function Navbar({ currentUser }: any) {
                     borderBottom={1}
                     borderStyle={"solid"}
                     borderColor={useColorModeValue("gray.200", "gray.900")}
-                    align={"center"}
-                >
+                    align={"center"}>
                     <Flex
                         flex={{ base: 1, md: "auto" }}
                         ml={{ base: -2 }}
-                        display={{ base: "flex", md: "none" }}
-                    >
+                        display={{ base: "flex", md: "none" }}>
                         <IconButton
                             onClick={onToggle}
                             icon={
@@ -166,16 +164,14 @@ export default function Navbar({ currentUser }: any) {
                     </Flex>
                     <Flex
                         flex={{ base: 1 }}
-                        justify={{ base: "center", md: "start" }}
-                    >
+                        justify={{ base: "center", md: "start" }}>
                         <Text
                             textAlign={useBreakpointValue({
                                 base: "center",
                                 md: "left",
                             })}
                             fontFamily={"heading"}
-                            color={useColorModeValue("gray.800", "white")}
-                        >
+                            color={useColorModeValue("gray.800", "white")}>
                             Logo
                         </Text>
 
@@ -190,13 +186,13 @@ export default function Navbar({ currentUser }: any) {
                 </Collapse>
             </Box>
         </>
-    );
+    )
 }
 
 // ============== sub component(s) if any ==============
 export const DesktopNav = ({ navItems }: Array<NavItem>) => {
     // ============== constant variables if any ==============
-    const linkColor = useColorModeValue("gray.600", "gray.200");
+    const linkColor = useColorModeValue("gray.600", "gray.200")
 
     // ============== states (if any) ==============
 
@@ -214,8 +210,7 @@ export const DesktopNav = ({ navItems }: Array<NavItem>) => {
                         <Box key={navItem.label}>
                             <Popover
                                 trigger={"hover"}
-                                placement={"bottom-start"}
-                            >
+                                placement={"bottom-start"}>
                                 <PopoverTrigger>
                                     <DomLink to={navItem.to} color={linkColor}>
                                         {navItem.label}
@@ -229,28 +224,27 @@ export const DesktopNav = ({ navItems }: Array<NavItem>) => {
                 <></>
             )}
         </Stack>
-    );
-};
+    )
+}
 
 const MobileNav = ({ navItems }: Array<NavItem>) => {
     return (
         <Stack
             bg={useColorModeValue("white", "gray.800")}
             p={4}
-            display={{ md: "none" }}
-        >
+            display={{ md: "none" }}>
             {navItems.map((navItem: NavItem, index: number) => {
-                return <MobileNavItem key={index} {...navItem} />;
+                return <MobileNavItem key={index} {...navItem} />
             })}
         </Stack>
-    );
-};
+    )
+}
 
 const MobileNavItem = ({ label, to }: NavItem) => {
     // ============== constant variables if any ==============
 
     // ============== states (if any) ==============
-    const { isOpen, onToggle } = useDisclosure();
+    const { isOpen, onToggle } = useDisclosure()
 
     // ============== useEffect statement(s) ==============
 
@@ -266,18 +260,16 @@ const MobileNavItem = ({ label, to }: NavItem) => {
                 align={"center"}
                 _hover={{
                     textDecoration: "none",
-                }}
-            >
+                }}>
                 <DomLink to={to}>
                     {" "}
                     <Text
                         fontWeight={600}
-                        color={useColorModeValue("gray.600", "gray.200")}
-                    >
+                        color={useColorModeValue("gray.600", "gray.200")}>
                         {label}
                     </Text>
                 </DomLink>
             </Flex>
         </Stack>
-    );
-};
+    )
+}

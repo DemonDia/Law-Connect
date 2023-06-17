@@ -1,16 +1,16 @@
 // ======= react ==========
 
 // ======= chakra UI ==========
-import { Badge, IconButton } from "@chakra-ui/react";
-import { CloseIcon } from "@chakra-ui/icons";
+import { Badge, IconButton } from "@chakra-ui/react"
+import { CloseIcon } from "@chakra-ui/icons"
 
 // ======= custom components (if any)==========
 
 // ============== interfaces (if any) ==============
 interface SkillBadgeProps {
-    skillId: string;
-    skillName: string;
-    handleDeleteSkillId?: any;
+    skillId: string
+    skillName: string
+    handleDeleteSkillId?: any
 }
 
 // ============== external variables (if any) ==============
@@ -35,17 +35,16 @@ export const SkillBadge = ({
             padding={"5px"}
             w={"fit-content"}
             margin={"5px"}
-            borderRadius={"5px"}
-        >
+            borderRadius={"5px"}>
             {skillName}
             <IconButton
                 onClick={() => {
-                    handleDeleteSkillId(skillId);
+                    handleDeleteSkillId(skillId)
                 }}
                 aria-label="Remove skill"
                 icon={<CloseIcon />}
             />
             {/* <CloseIcon /> */}
         </Badge>
-    );
-};
+    )
+}

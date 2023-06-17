@@ -1,7 +1,7 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react"
+import { useParams, useNavigate } from "react-router-dom"
 // ======= chakra UI ==========
 import {
     Card,
@@ -13,17 +13,17 @@ import {
     Radio,
     Box,
     useToast,
-} from "@chakra-ui/react";
+} from "@chakra-ui/react"
 
 // ======= custom components (if any)==========
-import InputField from "../../components/general/InputField";
-import CustomButton from "../../components/general/CustomButton";
-import { SkillSelector } from "../../components/skills/SkillSelctor";
+import InputField from "../../components/general/InputField"
+import CustomButton from "../../components/general/CustomButton"
+import { SkillSelector } from "../../components/skills/SkillSelctor"
 
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
-import { firstTimeSetup } from "../../helperFunctions/firebase/userAuthFunctions";
+import { firstTimeSetup } from "../../helperFunctions/firebase/userAuthFunctions"
 
 // ============== main component ==============
 export default function SetupPage() {
@@ -33,70 +33,70 @@ export default function SetupPage() {
         { value: "0", label: "Mentee" },
         { value: "1", label: "Mentor" },
         { value: "2", label: "Law Firm" },
-    ];
-    const { userId } = useParams();
-    const navigate = useNavigate();
-    const toast = useToast();
+    ]
+    const { userId } = useParams()
+    const navigate = useNavigate()
+    const toast = useToast()
 
     // ============== states (if any) ==============
     // 3 steps
-    const [step, setStep] = useState<number>(1);
+    const [step, setStep] = useState<number>(1)
 
     // 1: mentor, 2: mentee, 3: law firm
-    const [userType, setUserType] = useState<string>("0");
+    const [userType, setUserType] = useState<string>("0")
 
     // name
-    const [name, setName] = useState<string>("");
+    const [name, setName] = useState<string>("")
 
     // skill
-    const [skills, setSkills] = useState<Array<string>>([]);
-    const [selectedSkillId, setSelectedSkillId] = useState<string>("");
+    const [skills, setSkills] = useState<Array<string>>([])
+    const [selectedSkillId, setSelectedSkillId] = useState<string>("")
 
     // ============== useEffect statement(s) ==============
 
     // ============== helper functions if any ==============
     const previousStep = () => {
         if (step > 1) {
-            setStep(step - 1);
+            setStep(step - 1)
         }
-    };
+    }
     const nextStep = () => {
         if (step < 3) {
-            setStep(step + 1);
+            setStep(step + 1)
         } else {
             // submit
-            finishSetup();
+            finishSetup()
         }
-    };
+    }
 
     const skillSelector = (e: any) => {
-        const newId: string = e.target.value;
-        setSelectedSkillId(newId);
+        const newId: string = e.target.value
+        setSelectedSkillId(newId)
         if (newId) {
             const skillExists: boolean =
-                skills.filter((skill) => {
-                    return skill == newId;
-                }).length > 0;
+                skills.filter(skill => {
+                    return skill == newId
+                }).length > 0
             if (!skillExists) {
-                setSkills([...skills, newId]);
+                setSkills([...skills, newId])
             }
         }
-    };
+    }
 
     const deleteSkill = (skillId: string) => {
-        const remainingSkills = skills.filter((skill) => {
-            return skill !== skillId;
-        });
-        setSkills(remainingSkills);
-    };
+        const remainingSkills = skills.filter(skill => {
+            return skill !== skillId
+        })
+        setSkills(remainingSkills)
+    }
 
     const finishSetup = async () => {
-        let errors: Array<string> = [];
+        let errors: Array<string> = []
         if (name == "") {
-            errors.push("Name cannot be empty");
+            errors.push("Name cannot be empty")
         }
         if (skills.length == 0) {
-            errors.push("Please select at least one skill");
+            errors.push("Please select at least one skill")
         }
         if (errors.length > 0) {
             toast({
@@ -105,15 +105,15 @@ export default function SetupPage() {
                 status: "error",
                 duration: 1000,
                 isClosable: true,
-            });
+            })
         } else {
             await firstTimeSetup(
                 { userId, name, skills, userType },
                 navigate,
-                toast
-            );
+                toast,
+            )
         }
-    };
+    }
 
     // ============== key functions if any ==============
     // console.log("userId param", userId);
@@ -122,8 +122,7 @@ export default function SetupPage() {
         <Card
             w={["90vw", "70vw", "60vw", "50vw", "30vw"]}
             m={"10px auto"}
-            p={"10px"}
-        >
+            p={"10px"}>
             <Heading textAlign={"center"}>One-time Setup</Heading>
             {
                 // step 1
@@ -133,12 +132,12 @@ export default function SetupPage() {
                         <RadioGroup onChange={setUserType} value={userType}>
                             <Stack direction="column">
                                 {userTypes.map((userType, index) => {
-                                    const { value, label } = userType;
+                                    const { value, label } = userType
                                     return (
                                         <Radio key={index} value={value}>
                                             {label}
                                         </Radio>
-                                    );
+                                    )
                                 })}
                             </Stack>
                         </RadioGroup>
@@ -153,7 +152,7 @@ export default function SetupPage() {
                                     value={name}
                                     formType="text"
                                     changeHandler={(e: any) => {
-                                        setName(e.target.value);
+                                        setName(e.target.value)
                                     }}
                                 />
                             </>
@@ -190,5 +189,5 @@ export default function SetupPage() {
                 />
             </Flex>
         </Card>
-    );
+    )
 }

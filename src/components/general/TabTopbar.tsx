@@ -1,16 +1,16 @@
 // ======= react ==========
 // ======= chakra UI ==========
-import { Card, Box } from "@chakra-ui/react";
+import { Card, Box } from "@chakra-ui/react"
 // ======= external functions  ==========
 
 // ======= custom components (if any)==========
-import CustomButton from "./CustomButton";
+import CustomButton from "./CustomButton"
 // ============== interfaces (if any) ==============
 interface TabTopbarProps {
-    firstTabWords: string;
-    secondTabWords: string;
-    tab: any;
-    changeTab: any;
+    firstTabWords: string
+    secondTabWords: string
+    tab: any
+    changeTab: any
 }
 // ============== external variables (if any) ==============
 
@@ -32,8 +32,8 @@ export default function TabTopbar({
 
     // ============== key functions if any ==============
     const selectTab = (newTabIndex: number) => {
-        changeTab(newTabIndex);
-    };
+        changeTab(newTabIndex)
+    }
     return (
         <Card>
             <Box padding="10px" display={"flex"}>
@@ -57,5 +57,5 @@ export default function TabTopbar({
                 </Box>
             </Box>
         </Card>
-    );
+    )
 }

@@ -2,35 +2,34 @@
 // ======= react ==========
 
 // ======= chakra UI ==========
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react"
 
 // ======= external functions  ==========
-import ApplicationOutcomeBadge from "./ApplicationOutcomeBadge";
+import ApplicationOutcomeBadge from "./ApplicationOutcomeBadge"
 
-import { formatDate } from "../../helperFunctions/general/dateformatter";
+import { formatDate } from "../../helperFunctions/general/dateformatter"
 
 // ======= custom components (if any)==========
 
 // ============== interfaces (if any) ==============
 interface CompanyContainerProps {
-    companyId: string;
-    companyName: string;
-    applyFunction?: any;
+    companyId: string
+    companyName: string
+    applyFunction?: any
     // appliedTo?: boolean; //user have applied to this company?
-    disabled?: boolean;
-    applicationDate?: any;
-    applicationOutcome: number;
+    disabled?: boolean
+    applicationDate?: any
+    applicationOutcome: number
 }
 // ============== external variables (if any) ==============
-import { applicationOutcomes } from "../../externalVariables/applicationOutcome";
+import { applicationOutcomes } from "../../externalVariables/applicationOutcome"
 // ============== main component ==============
 
 export default function ApplicationContainer({
     companyName,
     applicationDate,
     applicationOutcome,
-}: 
-CompanyContainerProps) {
+}: CompanyContainerProps) {
     // ============== constant variables if any ==============
     // ============== states (if any) ==============
     // ============== useEffect statement(s) ==============
@@ -42,8 +41,7 @@ CompanyContainerProps) {
             background={"white"}
             p="10px"
             borderRadius={"10px"}
-            boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}
-        >
+            boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}>
             <Heading as="h6" size="lg">
                 {companyName}
             </Heading>
@@ -57,5 +55,5 @@ CompanyContainerProps) {
                 color={applicationOutcomes[applicationOutcome].color}
             />
         </Box>
-    );
+    )
 }

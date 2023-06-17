@@ -1,13 +1,13 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 // ======= chakra UI ==========
-import { useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react"
 
 // ======= external functions  ==========
-import { logoutUser } from "../../helperFunctions/firebase/userAuthFunctions";
+import { logoutUser } from "../../helperFunctions/firebase/userAuthFunctions"
 
 // ======= custom components (if any)==========
 
@@ -21,15 +21,15 @@ import { logoutUser } from "../../helperFunctions/firebase/userAuthFunctions";
 
 export default function LogoutPage() {
     // ============== constant variables if any ==============
-    const toast = useToast();
-    const navigate = useNavigate();
+    const toast = useToast()
+    const navigate = useNavigate()
     // ============== states (if any) ==============
     // ============== useEffect statement(s) ==============
     useEffect(() => {
-        logoutUser(toast, navigate);
-    }, []);
+        logoutUser(toast, navigate)
+    }, [])
     // ============== helper functions if any ==============
     // ============== key functions if any ==============
 
-    return <>Logging out...</>;
+    return <>Logging out...</>
 }
