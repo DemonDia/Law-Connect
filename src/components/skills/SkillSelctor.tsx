@@ -14,8 +14,7 @@ interface SkillSelectorProps {
     chosenSkills: Array<string>;
 }
 // ============== external variables (if any) ==============
-
-import { getAllSkills } from "../../helperFunctions/firebaseFunctions";
+import { getAllSkills } from "../../helperFunctions/firebase/skillsFunctions";
 
 // ============== main component ==============
 

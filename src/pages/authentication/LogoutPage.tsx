@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 
 // ======= external functions  ==========
-import { logoutUser } from "../../helperFunctions/firebaseFunctions";
+import { logoutUser } from "../../helperFunctions/firebase/userAuthFunctions";
 
 // ======= custom components (if any)==========
 

@@ -5,7 +5,6 @@
 import { Box, Heading } from "@chakra-ui/react";
 
 // ======= external functions  ==========
-import CustomButton from "../general/CustomButton";
 import ApplicationOutcomeBadge from "./ApplicationOutcomeBadge";
 
 import { formatDate } from "../../helperFunctions/general/dateformatter";
@@ -30,7 +29,7 @@ export default function ApplicationContainer({
     companyName,
     applicationDate,
     applicationOutcome,
-}: // appliedTo,
+}: 
 CompanyContainerProps) {
     // ============== constant variables if any ==============
     // ============== states (if any) ==============

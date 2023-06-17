@@ -1,18 +1,15 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // ======= chakra UI ==========
 import { useToast } from "@chakra-ui/react";
 
 // ======= firebase ==========
-import { auth } from "../../../src/config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+
 import {
     registerUserViaEmail,
     createUserRecord,
-    checkLoggedUser,
-} from "../../helperFunctions/firebaseFunctions";
+} from "../../helperFunctions/firebase/userAuthFunctions";
 
 // ======= custom components (if any)==========
 import AuthenticationForm from "../../components/authentication/AuthenticationForm";

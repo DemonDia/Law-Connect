@@ -18,10 +18,10 @@ import Navbar from "./components/general/Navbar";
 
 // ============== external variables (if any) ==============
 import { checkPathName } from "./helperFunctions/authentication/checkPathName";
-import { findUserById } from "./helperFunctions/firebaseFunctions";
+import { findUserById } from "./helperFunctions/firebase/userFirestore";
 
 // ============== firebase functions ==============
-import { seedSkills } from "./helperFunctions/firebaseFunctions";
+import { seedSkills } from "./helperFunctions/firebase/skillsFunctions";
 
 // ======================== authentication pages ========================
 import LoginPage from "./pages/authentication/LoginPage";

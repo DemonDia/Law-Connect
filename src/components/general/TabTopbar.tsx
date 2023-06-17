@@ -1,13 +1,12 @@
 // ======= react ==========
-import { useState } from "react";
 // ======= chakra UI ==========
-import { Card, Flex, Box } from "@chakra-ui/react";
+import { Card, Box } from "@chakra-ui/react";
 // ======= external functions  ==========
 
 // ======= custom components (if any)==========
 import CustomButton from "./CustomButton";
 // ============== interfaces (if any) ==============
-interface TopbarProps {
+interface TabTopbarProps {
     firstTabWords: string;
     secondTabWords: string;
     tab: any;
@@ -18,12 +17,12 @@ interface TopbarProps {
 // ============== main component ==============
 
 // ============== sub component(s) if any ==============
-export function Topbar({
+export function TabTopbar({
     firstTabWords,
     secondTabWords,
     tab,
     changeTab,
-}: TopbarProps) {
+}: TabTopbarProps) {
     // ============== constant variables if any ==============
     // ============== states (if any) ==============
 

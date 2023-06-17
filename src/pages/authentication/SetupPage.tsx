@@ -23,7 +23,7 @@ import { SkillSelector } from "../../components/skills/SkillSelctor";
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
-import { firstTimeSetup } from "../../helperFunctions/firebaseFunctions";
+import { firstTimeSetup } from "../../helperFunctions/firebase/userAuthFunctions";
 
 // ============== main component ==============
 export default function SetupPage() {
@@ -107,7 +107,11 @@ export default function SetupPage() {
                 isClosable: true,
             });
         } else {
-            await firstTimeSetup({ userId, name, skills, userType }, navigate,toast);
+            await firstTimeSetup(
+                { userId, name, skills, userType },
+                navigate,
+                toast
+            );
         }
     };
 

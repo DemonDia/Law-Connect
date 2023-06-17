@@ -1,6 +1,5 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 // ======= chakra UI ==========
 import { useToast } from "@chakra-ui/react";
@@ -9,7 +8,7 @@ import AuthenticationForm from "../../components/authentication/AuthenticationFo
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
-import { loginUserViaEmail } from "../../helperFunctions/firebaseFunctions";
+import { loginUserViaEmail } from "../../helperFunctions/firebase/userAuthFunctions";
 
 // ============== main component ==============
 

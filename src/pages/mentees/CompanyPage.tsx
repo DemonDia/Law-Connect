@@ -6,11 +6,11 @@ import { useNavigate } from "react-router-dom";
 // ======= chakra UI ==========
 import { SimpleGrid, useToast } from "@chakra-ui/react";
 // ======= external functions  ==========
+import { findUsersByUserTypes } from "../../helperFunctions/firebase/userFirestore";
 import {
-    findUsersByUserTypes,
     createApplication,
     getUserApplications,
-} from "../../helperFunctions/firebaseFunctions";
+} from "../../helperFunctions/firebase/applicationFunctions";
 // ======= custom components (if any)==========
 import { Topbar } from "../../components/general/Topbar";
 import CompanyContainer from "../../components/mentee/CompanyContainer";
@@ -58,11 +58,12 @@ export default function CompanyPage({ currentUser }: any) {
         }
     };
     // ============== key functions if any ==============
-    const applyToCompany = (companyId: string) => {
+    const applyToCompany = async (companyId: string) => {
         if (currentUser && currentUser.userId) {
             console.log("currentUser.userId", currentUser.userId);
             console.log("companyId", companyId);
             createApplication(currentUser.userId, companyId, toast);
+            await getCompanies();
         }
     };
 
