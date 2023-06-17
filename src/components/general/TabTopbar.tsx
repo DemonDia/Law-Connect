@@ -37,7 +37,6 @@ export default function TabTopbar({
     return (
         <Card>
             <Box padding="10px" display={"flex"}>
-                {/* <Flex align={"center"}> */}
                 <Box m="5px">
                     <CustomButton
                         buttonColor={tab == 0 ? "#3609EA" : "#E2E2E2"}
@@ -48,7 +47,6 @@ export default function TabTopbar({
                     />
                 </Box>
                 <Box m="5px">
-                    {" "}
                     <CustomButton
                         buttonColor={tab == 1 ? "#3609EA" : "#E2E2E2"}
                         textColor={tab == 1 ? "white" : "black"}
@@ -57,7 +55,6 @@ export default function TabTopbar({
                         buttonWidth="100%"
                     />
                 </Box>
-                {/* </Flex> */}
             </Box>
         </Card>
     );

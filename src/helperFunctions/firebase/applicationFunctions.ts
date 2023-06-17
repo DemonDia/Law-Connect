@@ -1,5 +1,14 @@
 import { db } from "../../config";
-import { collection, getDocs, where, query, addDoc } from "firebase/firestore";
+import {
+    collection,
+    getDocs,
+    where,
+    query,
+    addDoc,
+    doc,
+    getDoc,
+    updateDoc,
+} from "firebase/firestore";
 import { findUserById } from "./userFirestore";
 import { findUsersByUserTypes } from "./userFirestore";
 // =========create application=========
@@ -126,6 +135,84 @@ export const getCompanyApplications = async (companyId: string) => {
 };
 
 // =========get applicant info=========
+export const getApplicationInfo = async (applicationId: string) => {
+    // get
+    const docSnap = await getDoc(doc(db, "application", applicationId));
+
+    if (docSnap.exists()) {
+        const { applicantId, companyId, applicationDate, outcome } =
+            docSnap.data();
+
+        const applicant = await findUserById(applicantId);
+        if (applicant) {
+            const { username } = applicant;
+            return { username, applicationDate, outcome, companyId };
+        } else {
+            return null;
+        }
+    } else {
+        return null;
+    }
+};
 
 // =========update application=========
 // accept/reject
+// isAccept: true --> accept
+// isAccept: false --> reject
+export const updateApplication = async (
+    applicationId: string,
+    isAccept: boolean,
+    toast: any
+) => {
+    // get application by ID
+    const applicationRef = doc(db, "application", applicationId);
+    const docSnap = await getDoc(applicationRef);
+
+    if (docSnap.exists()) {
+        const { applicantId, companyId } = docSnap.data();
+        let updateApplicationPromise: Array<any> = [];
+        updateApplicationPromise.push(
+            updateDoc(applicationRef, {
+                outcome: isAccept ? 1 : 0,
+            })
+        );
+        // update data
+        if (isAccept) {
+            updateApplicationPromise.push();
+            addDoc(collection(db, "membership"), {
+                joinDate: new Date(),
+                memberId: applicantId,
+                companyId,
+            });
+        }
+        Promise.all(updateApplicationPromise)
+            .then(() => {
+                toast({
+                    title:
+                        "Application " + (isAccept ? "Accepted" : "Rejected"),
+                    description: "",
+                    status: "success",
+                    duration: 1000,
+                    isClosable: true,
+                });
+            })
+            .catch((err: any) => {
+                console.log(err.message);
+                toast({
+                    title: "Something went wrong",
+                    description: "Please try again later",
+                    status: "error",
+                    duration: 1000,
+                    isClosable: true,
+                });
+            });
+    } else {
+        toast({
+            title: "Error",
+            description: "Invalid application",
+            status: "error",
+            duration: 1000,
+            isClosable: true,
+        });
+    }
+};

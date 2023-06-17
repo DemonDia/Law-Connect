@@ -34,6 +34,7 @@ import CompanyPage from "./pages/mentees/CompanyPage";
 
 // ======================== law firm pages ========================
 import LawyersPage from "./pages/lawfirms/LawyersPage";
+import LaywerApplicationPage from "./pages/lawfirms/LaywerApplicationPage";
 
 // ============== main component ==============
 function App() {
@@ -88,7 +89,7 @@ function App() {
     return (
         <>
             <Navbar currentUser={currentUser} />
-            <Box p="5vw">
+            <Box p="10px">
                 <Routes>
                     {/* homepage */}
                     <Route path="/" element={<h1>Home</h1>} />
@@ -109,6 +110,12 @@ function App() {
                     <Route
                         path="/lawyers"
                         element={<LawyersPage currentUser={currentUser} />}
+                    />
+                    <Route
+                        path="/lawyers/:applicationId"
+                        element={
+                            <LaywerApplicationPage currentUser={currentUser} />
+                        }
                     />
                 </Routes>
             </Box>
