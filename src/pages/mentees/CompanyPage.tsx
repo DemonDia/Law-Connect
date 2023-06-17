@@ -12,7 +12,7 @@ import {
     getUserApplications,
 } from "../../helperFunctions/firebase/applicationFunctions";
 // ======= custom components (if any)==========
-import { Topbar } from "../../components/general/Topbar";
+import TabTopbar from "../../components/general/TabTopbar";
 import CompanyContainer from "../../components/mentee/CompanyContainer";
 import ApplicationContainer from "../../components/mentee/ApplicationContainer";
 // ============== interfaces (if any) ==============
@@ -31,7 +31,7 @@ export default function CompanyPage({ currentUser }: any) {
     const [applications, setApplications] = useState<any>([]);
     // ============== useEffect statement(s) ==============
     useEffect(() => {
-        if (currentUser && currentUser.userId && currentUser.userType != 3) {
+        if (currentUser && currentUser.userId && currentUser.userType != 2) {
             getApplications();
             getCompanies();
         } else {
@@ -60,8 +60,6 @@ export default function CompanyPage({ currentUser }: any) {
     // ============== key functions if any ==============
     const applyToCompany = async (companyId: string) => {
         if (currentUser && currentUser.userId) {
-            console.log("currentUser.userId", currentUser.userId);
-            console.log("companyId", companyId);
             createApplication(currentUser.userId, companyId, toast);
             await getCompanies();
         }
@@ -80,7 +78,7 @@ export default function CompanyPage({ currentUser }: any) {
                 <>Already in a company</>
             ) : (
                 <>
-                    <Topbar
+                    <TabTopbar
                         firstTabWords={"View Applications"}
                         secondTabWords={"View Companies"}
                         tab={selectedTab}

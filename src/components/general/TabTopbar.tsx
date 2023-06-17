@@ -17,7 +17,7 @@ interface TabTopbarProps {
 // ============== main component ==============
 
 // ============== sub component(s) if any ==============
-export function TabTopbar({
+export default function TabTopbar({
     firstTabWords,
     secondTabWords,
     tab,

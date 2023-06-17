@@ -32,6 +32,9 @@ import LogoutPage from "./pages/authentication/LogoutPage";
 // ======================== mentee pages ========================
 import CompanyPage from "./pages/mentees/CompanyPage";
 
+// ======================== law firm pages ========================
+import LawyersPage from "./pages/lawfirms/LawyersPage";
+
 // ============== main component ==============
 function App() {
     // ============== constant variables if any ==============
@@ -100,6 +103,12 @@ function App() {
                     <Route
                         path="/company"
                         element={<CompanyPage currentUser={currentUser} />}
+                    />
+
+                    {/* lawyer */}
+                    <Route
+                        path="/lawyers"
+                        element={<LawyersPage currentUser={currentUser} />}
                     />
                 </Routes>
             </Box>

@@ -24,7 +24,6 @@ export const createApplication = async (
         validCompany.userType == "2"
     ) {
         // apply
-
         await addDoc(collection(db, "application"), {
             applicantId,
             companyId,
@@ -83,7 +82,6 @@ export const getUserApplications = async (userId: string) => {
     let applications: Array<any> = [];
     docSnap.forEach((doc) => {
         let applicationToPush = doc.data();
-        // console.log("applicationToPush",applicationToPush)
         const { companyId } = applicationToPush;
         applicationToPush = {
             ...applicationToPush,
@@ -92,6 +90,42 @@ export const getUserApplications = async (userId: string) => {
         };
         applications.push(applicationToPush);
     });
-    console.log("res", applications);
     return applications;
 };
+
+// =========get company applications=========
+// mentors & mentees
+export const getCompanyApplications = async (companyId: string) => {
+    const mentees = await findUsersByUserTypes("0");
+    const mentors = await findUsersByUserTypes("1");
+    const allLaywers = [...mentees, ...mentors];
+
+    let lawyerDict: any = {};
+    allLaywers.forEach((lawyer: any) => {
+        const { userId, username } = lawyer;
+        lawyerDict[userId] = username;
+    });
+
+    const findQuery = query(
+        collection(db, "application"),
+        where("companyId", "==", companyId)
+    );
+    const docSnap = await getDocs(findQuery);
+    let applications: Array<any> = [];
+    docSnap.forEach((doc) => {
+        let applicationToPush = doc.data();
+        const { applicantId } = applicationToPush;
+        applicationToPush = {
+            ...applicationToPush,
+            id: doc.id,
+            applicantName: lawyerDict[applicantId],
+        };
+        applications.push(applicationToPush);
+    });
+    return applications;
+};
+
+// =========get applicant info=========
+
+// =========update application=========
+// accept/reject
