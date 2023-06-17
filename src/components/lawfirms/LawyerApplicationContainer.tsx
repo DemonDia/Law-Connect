@@ -45,9 +45,7 @@ export default function LawyerApplicationContainer({
                 {applicantName}
             </Heading>
             {/* <br /> */}
-            <Heading as="h6" size="sm">
-                Applied at:{formatDate(Date(applicationDate))}
-            </Heading>
+            <Text>Applied at:{formatDate(Date(applicationDate))}</Text>
             {/* <br /> */}
             <ApplicationOutcomeBadge
                 text={applicationOutcomes[applicationOutcome].text}

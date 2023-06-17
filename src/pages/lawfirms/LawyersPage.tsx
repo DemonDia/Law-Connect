@@ -6,10 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { SimpleGrid } from "@chakra-ui/react";
 // ======= external functions  ==========
 import { getCompanyApplications } from "../../helperFunctions/firebase/applicationFunctions";
-
+import { getCompanyMembers } from "../../helperFunctions/firebase/membershipFunctions";
 // ======= custom components (if any)==========
 import TabTopbar from "../../components/general/TabTopbar";
 import LawyerApplicationContainer from "../../components/lawfirms/LawyerApplicationContainer";
+import { LawyerContainer } from "../../components/lawfirms/LawyerContainer";
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
@@ -29,6 +30,7 @@ export default function LawyersPage({ currentUser }: any) {
     useEffect(() => {
         if (currentUser && currentUser.userId && currentUser.userType == 2) {
             getApplications();
+            getLaywers();
         } else {
             navigate("/");
         }
@@ -52,7 +54,10 @@ export default function LawyersPage({ currentUser }: any) {
         }
     };
 
-    const getLaywers = async () => {};
+    const getLaywers = async () => {
+        const memberLawyers = await getCompanyMembers(currentUser.userId);
+        setLawyers(memberLawyers);
+    };
 
     const selectTab = (tabNumber: number) => {
         if (tabNumber === selectedTab) {
@@ -80,7 +85,10 @@ export default function LawyersPage({ currentUser }: any) {
                                     <>
                                         {" "}
                                         {applications.map(
-                                            (application: any) => {
+                                            (
+                                                application: any,
+                                                index: number
+                                            ) => {
                                                 const {
                                                     applicantName,
                                                     outcome,
@@ -88,26 +96,39 @@ export default function LawyersPage({ currentUser }: any) {
                                                     applicationDate,
                                                 } = application;
                                                 return (
-                                                    <>
-                                                        <LawyerApplicationContainer
-                                                            applicationId={id}
-                                                            applicantName={
-                                                                applicantName
-                                                            }
-                                                            applicationDate={
-                                                                applicationDate
-                                                            }
-                                                            applicationOutcome={
-                                                                outcome
-                                                            }
-                                                        />
-                                                    </>
+                                                    <LawyerApplicationContainer
+                                                        key={index}
+                                                        applicationId={id}
+                                                        applicantName={
+                                                            applicantName
+                                                        }
+                                                        applicationDate={
+                                                            applicationDate
+                                                        }
+                                                        applicationOutcome={
+                                                            outcome
+                                                        }
+                                                    />
                                                 );
                                             }
                                         )}
                                     </>
                                 ) : (
-                                    <></>
+                                    <>
+                                        {lawyers.map(
+                                            (lawyer: any, index: number) => {
+                                                const { memberName, joinDate } =
+                                                    lawyer;
+                                                return (
+                                                    <LawyerContainer
+                                                        key={index}
+                                                        lawyerName={memberName}
+                                                        joinedDate={joinDate}
+                                                    />
+                                                );
+                                            }
+                                        )}
+                                    </>
                                 )}
                             </>
                         )}

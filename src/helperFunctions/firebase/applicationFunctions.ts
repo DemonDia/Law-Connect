@@ -162,7 +162,8 @@ export const getApplicationInfo = async (applicationId: string) => {
 export const updateApplication = async (
     applicationId: string,
     isAccept: boolean,
-    toast: any
+    toast: any,
+    navigate: any
 ) => {
     // get application by ID
     const applicationRef = doc(db, "application", applicationId);
@@ -195,6 +196,7 @@ export const updateApplication = async (
                     duration: 1000,
                     isClosable: true,
                 });
+                navigate("/lawyers");
             })
             .catch((err: any) => {
                 console.log(err.message);
@@ -205,6 +207,7 @@ export const updateApplication = async (
                     duration: 1000,
                     isClosable: true,
                 });
+                navigate("/lawyers");
             });
     } else {
         toast({
@@ -214,5 +217,6 @@ export const updateApplication = async (
             duration: 1000,
             isClosable: true,
         });
+        navigate("/lawyers");
     }
 };
