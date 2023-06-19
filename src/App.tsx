@@ -24,12 +24,14 @@ import Navbar from "./components/general/Navbar"
 
 // ============== sub component(s) if any ==============
 
-
 // ======================== authentication pages ========================
 import LoginPage from "./pages/authentication/LoginPage"
 import RegisterPage from "./pages/authentication/RegisterPage"
 import SetupPage from "./pages/authentication/SetupPage"
 import LogoutPage from "./pages/authentication/LogoutPage"
+
+// ======================== home page ========================
+import HomePage from "./pages/home/HomePage"
 
 // ======================== mentee pages ========================
 import CompanyPage from "./pages/mentees/CompanyPage"
@@ -49,6 +51,7 @@ function App() {
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
+        
         seedSkills()
     }, [])
     useEffect(() => {
@@ -69,7 +72,7 @@ function App() {
             <Box p="10px">
                 <Routes>
                     {/* homepage */}
-                    <Route path="/" element={<h1>Home</h1>} />
+                    <Route path="/" element={<HomePage />} />
 
                     {/* authentication */}
                     <Route path="/register" element={<RegisterPage />} />
