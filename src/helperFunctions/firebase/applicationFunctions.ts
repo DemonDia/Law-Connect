@@ -18,13 +18,15 @@ export const createApplication = async (
     toast: any,
 ) => {
     let validateUsersPromises: Array<any> = []
+    console.log({ applicantId, companyId })
     // applicant cannot be company
     const validApplicant = await findUserById(applicantId)
-    validateUsersPromises.push(validApplicant)
 
     // company only
     const validCompany = await findUserById(companyId)
-    validateUsersPromises.push(validCompany)
+
+    console.log("validApplicant", validApplicant)
+    console.log("validCompany", validCompany)
 
     if (
         validApplicant &&
@@ -63,6 +65,7 @@ export const createApplication = async (
             })
         return
     } else {
+        console.log("omg")
         toast({
             title: "Error",
             description: "Invalid application",
@@ -145,8 +148,8 @@ export const getApplicationInfo = async (applicationId: string) => {
 
         const applicant = await findUserById(applicantId)
         if (applicant) {
-            const { username,email } = applicant
-            return { username, applicationDate, outcome, companyId,email }
+            const { username, email } = applicant
+            return { username, applicationDate, outcome, companyId, email }
         } else {
             return null
         }

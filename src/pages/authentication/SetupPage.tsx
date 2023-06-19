@@ -139,18 +139,6 @@ export default function SetupPage() {
                                     )
                                 }
 
-                                // skills/userId
-                                // update skills
-                                const skillCollection: any = collection(
-                                    db,
-                                    "userSkills",
-                                )
-                                allPromises.push(
-                                    addDoc(skillCollection, {
-                                        userId: skills,
-                                    }),
-                                )
-
                                 // update status and userType
                                 const userDocRef = doc(
                                     db,
@@ -162,10 +150,11 @@ export default function SetupPage() {
                                         username: name,
                                         userType,
                                         isSetUp: true,
+                                        skills,
                                     }),
                                 )
                                 addUser({
-                                    userId: userRecord.id,
+                                    userId: userRecord.userId,
                                     username: name,
                                     userType,
                                 })

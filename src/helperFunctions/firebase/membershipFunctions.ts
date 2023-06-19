@@ -34,6 +34,7 @@ export const getCompanyMembers = async (companyId: string) => {
         let memberToPush = doc.data()
         const { memberId, joinDate } = memberToPush
         memberToPush = {
+            memberId,
             memberName: lawyerDict[memberId],
             joinDate,
         }
