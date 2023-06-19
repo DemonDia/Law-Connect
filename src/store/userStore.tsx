@@ -5,6 +5,7 @@ interface User {
     username: string
     userId: string
     userType: string
+    companyId?: string
 }
 
 export const useUser = create(
