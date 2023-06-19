@@ -2,24 +2,34 @@
 // ======= react ==========
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+
 // ======= chakra UI ==========
 import { SimpleGrid } from "@chakra-ui/react"
-// ======= external functions  ==========
+
+// ======= firebase ==========
 import { getCompanyApplications } from "../../helperFunctions/firebase/applicationFunctions"
 import { getCompanyMembers } from "../../helperFunctions/firebase/membershipFunctions"
+
+// ======= zustand/state ==========
+import useUser from "../../store/userStore"
+
 // ======= custom components (if any)==========
 import TabTopbar from "../../components/general/TabTopbar"
 import LawyerApplicationContainer from "../../components/lawfirms/LawyerApplicationContainer"
 import { LawyerContainer } from "../../components/lawfirms/LawyerContainer"
+
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
 
+// ======= external functions  ==========
+
 // ============== main component ==============
 
-export default function LawyersPage({ currentUser }: any) {
+export default function LawyersPage() {
     // ============== constant variables if any ==============
     const navigate = useNavigate()
+    const { user } = useUser()
 
     // ============== states (if any) ==============
     const [applications, setApplications] = useState<any>([])
@@ -28,7 +38,7 @@ export default function LawyersPage({ currentUser }: any) {
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
-        if (currentUser && currentUser.userId && currentUser.userType == 2) {
+        if (user && user.userId && user.userType == 2) {
             getApplications()
             getLaywers()
         } else {
@@ -46,16 +56,14 @@ export default function LawyersPage({ currentUser }: any) {
 
     // ============== helper functions if any ==============
     const getApplications = async () => {
-        if (currentUser && currentUser.userId && currentUser.userType == 2) {
-            const applications = await getCompanyApplications(
-                currentUser.userId,
-            )
+        if (user && user.userId && user.userType == 2) {
+            const applications = await getCompanyApplications(user.userId)
             setApplications(applications)
         }
     }
 
     const getLaywers = async () => {
-        const memberLawyers = await getCompanyMembers(currentUser.userId)
+        const memberLawyers = await getCompanyMembers(user.userId)
         setLawyers(memberLawyers)
     }
 

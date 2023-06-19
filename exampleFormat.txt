@@ -9,13 +9,17 @@ To copy and paste inside a component/page file (except the start and end):
 
 // ======= chakra UI ==========
 
-// ======= external functions  ==========
+// ======= firebase ==========
+
+// ======= zustand/state ==========
 
 // ======= custom components (if any)==========
 
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
+
+// ======= external functions  ==========
 
 // ============== main component ==============
 

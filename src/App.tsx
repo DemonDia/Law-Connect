@@ -1,27 +1,29 @@
 // ============== imports: the dependencies ==============
-import "./App.css"
-
 // ======= react ==========
 import { useEffect, useState } from "react"
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom"
 
 // ======= chakra UI ==========
 import { Box } from "@chakra-ui/react"
+// ======= firebase ==========
+import { seedSkills } from "./helperFunctions/firebase/skillsFunctions"
 
-// ======= external functions  ==========
-import { auth } from "./config"
-import { onAuthStateChanged } from "firebase/auth"
+// ======= zustand/state ==========
+import useUser from "./store/userStore"
 
 // ======= custom components (if any)==========
 import Navbar from "./components/general/Navbar"
+
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
-import { checkPathName } from "./helperFunctions/authentication/checkPathName"
-import { findUserById } from "./helperFunctions/firebase/userFirestore"
 
-// ============== firebase functions ==============
-import { seedSkills } from "./helperFunctions/firebase/skillsFunctions"
+// ======= external functions  ==========
+
+// ============== main component ==============
+
+// ============== sub component(s) if any ==============
+
 
 // ======================== authentication pages ========================
 import LoginPage from "./pages/authentication/LoginPage"
@@ -39,42 +41,20 @@ import LaywerApplicationPage from "./pages/lawfirms/LaywerApplicationPage"
 // ============== main component ==============
 function App() {
     // ============== constant variables if any ==============
-    const navigate = useNavigate()
     const location = useLocation()
+    const navigate = useNavigate()
+    const { user } = useUser()
 
     // ============== states (if any) ==============
-    const [currentUser, setCurrentUser] = useState<any>(null)
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
         seedSkills()
-        onAuthStateChanged(auth, async user => {
-            if (user) {
-                const { uid } = user
-                const userRecord: any = await findUserById(uid)
-                if (userRecord) {
-                    const { isSetUp, userId, username, userType } = userRecord
-                    setCurrentUser({ userId, username, userType })
-
-                    // ====not setup yet====
-                    if (!isSetUp) {
-                        navigate("/setup/" + uid)
-                    }
-                } else {
-                    // ====user not found====
-                    setCurrentUser(null)
-                    if (!checkPathName(location.pathname)) {
-                        navigate("/login")
-                    }
-                }
-            } else {
-                // ====user not found====
-                setCurrentUser(null)
-                if (!checkPathName(location.pathname)) {
-                    navigate("/login")
-                }
-            }
-        })
+    }, [])
+    useEffect(() => {
+        if (user && user.userType == "-1") {
+            navigate("/setup/" + user.userId)
+        }
     }, [location.pathname])
 
     // monitor logged User (needed especially for navbar and homepage)
@@ -85,7 +65,7 @@ function App() {
 
     return (
         <>
-            <Navbar currentUser={currentUser} />
+            <Navbar />
             <Box p="10px">
                 <Routes>
                     {/* homepage */}
@@ -98,21 +78,13 @@ function App() {
                     <Route path="/logout" element={<LogoutPage />} />
 
                     {/* mentee */}
-                    <Route
-                        path="/company"
-                        element={<CompanyPage currentUser={currentUser} />}
-                    />
+                    <Route path="/company" element={<CompanyPage />} />
 
                     {/* lawyer */}
-                    <Route
-                        path="/lawyers"
-                        element={<LawyersPage currentUser={currentUser} />}
-                    />
+                    <Route path="/lawyers" element={<LawyersPage />} />
                     <Route
                         path="/lawyers/:applicationId"
-                        element={
-                            <LaywerApplicationPage currentUser={currentUser} />
-                        }
+                        element={<LaywerApplicationPage />}
                     />
                 </Routes>
             </Box>

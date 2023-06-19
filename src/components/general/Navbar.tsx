@@ -1,6 +1,6 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-import { Link as DomLink, useNavigate } from "react-router-dom"
+import { Link as DomLink } from "react-router-dom"
 import { useEffect, useState } from "react"
 
 // ======= chakra UI ==========
@@ -16,9 +16,10 @@ import {
     useColorModeValue,
     useBreakpointValue,
     useDisclosure,
-    useToast,
 } from "@chakra-ui/react"
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons"
+
+import useUser from "../../store/userStore"
 
 // ======= custom components (if any)==========
 
@@ -97,8 +98,9 @@ const companyItems: Array<NavItem> = [
 ]
 
 // ============== main component ==============
-export default function Navbar({ currentUser }: any) {
+export default function Navbar() {
     // ============== constant variables if any ==============
+    const { user } = useUser(state => state)
 
     // ============== states (if any) ==============
     const { isOpen, onToggle } = useDisclosure()
@@ -107,8 +109,8 @@ export default function Navbar({ currentUser }: any) {
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
-        if (currentUser) {
-            const { userType } = currentUser
+        if (user) {
+            const { userType } = user
             switch (userType) {
                 case "0":
                     setNavItems(menteeItems)
@@ -126,7 +128,7 @@ export default function Navbar({ currentUser }: any) {
         } else {
             setNavItems(notLoggedInItems)
         }
-    }, [currentUser])
+    }, [user])
 
     // ============== helper functions if any ==============
 

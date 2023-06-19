@@ -2,6 +2,7 @@
 // ======= react ==========
 import { useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
+
 // ======= chakra UI ==========
 import {
     Card,
@@ -15,6 +16,13 @@ import {
     useToast,
 } from "@chakra-ui/react"
 
+// ======= firebase ==========
+import { auth, db } from "../../config"
+import { collection, doc, addDoc, updateDoc } from "firebase/firestore"
+import { updateProfile, onAuthStateChanged } from "firebase/auth"
+// ======= zustand/state ==========
+import useUser from "../../store/userStore"
+
 // ======= custom components (if any)==========
 import InputField from "../../components/general/InputField"
 import CustomButton from "../../components/general/CustomButton"
@@ -23,10 +31,15 @@ import { SkillSelector } from "../../components/skills/SkillSelctor"
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
-import { firstTimeSetup } from "../../helperFunctions/firebase/userAuthFunctions"
+import { findUserById } from "../../helperFunctions/firebase/userFirestore"
+
+// ======= external functions  ==========
+
+// ============== main component ==============
 
 // ============== main component ==============
 export default function SetupPage() {
+    const { addUser, user } = useUser()
     // ============== constant variables if any ==============
     // const userTypes = ["Mentor", "Mentee", "Law Firm"];
     const userTypes = [
@@ -107,11 +120,71 @@ export default function SetupPage() {
                 isClosable: true,
             })
         } else {
-            await firstTimeSetup(
-                { userId, name, skills, userType },
-                navigate,
-                toast,
-            )
+            // const { userId, skills, userType, name } = userSetupData
+            await onAuthStateChanged(auth, async user => {
+                if (user && auth.currentUser) {
+                    const { uid } = user
+                    if (uid == userId) {
+                        const userRecord: any = await findUserById(uid)
+                        Promise.resolve(userRecord).then(user => {
+                            if (user) {
+                                let allPromises = []
+                                // change username in auth
+                                if (auth.currentUser) {
+                                    // working
+                                    allPromises.push(
+                                        updateProfile(auth.currentUser, {
+                                            displayName: name,
+                                        }),
+                                    )
+                                }
+
+                                // skills/userId
+                                // update skills
+                                const skillCollection: any = collection(
+                                    db,
+                                    "userSkills",
+                                )
+                                allPromises.push(
+                                    addDoc(skillCollection, {
+                                        userId: skills,
+                                    }),
+                                )
+
+                                // update status and userType
+                                const userDocRef = doc(
+                                    db,
+                                    "users",
+                                    userRecord.id,
+                                )
+                                allPromises.push(
+                                    updateDoc(userDocRef, {
+                                        username: name,
+                                        userType,
+                                        isSetUp: true,
+                                    }),
+                                )
+                                addUser({
+                                    userId: userRecord.id,
+                                    username: name,
+                                    userType,
+                                })
+                                Promise.allSettled(allPromises).then(() => {
+                                    toast({
+                                        title: "Setup successful",
+                                        description:
+                                            "Setup created, thank you!",
+                                        status: "success",
+                                        duration: 1000,
+                                        isClosable: true,
+                                    })
+                                    navigate("/")
+                                })
+                            }
+                        })
+                    }
+                }
+            })
         }
     }
 
@@ -191,3 +264,5 @@ export default function SetupPage() {
         </Card>
     )
 }
+
+// ============== sub component(s) if any ==============

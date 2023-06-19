@@ -14,9 +14,14 @@ import React from "react";
 // This is where you import all the components from chakra UI
 // ################################################################
 
-// ======= external functions  ==========
+// ======= firebase  ==========
 // ################################################################
-// This is where you import any external helper functions
+// This is where you import any firebase-related content
+// ################################################################
+
+// ======= zustand/state  ==========
+// ################################################################
+// This is where you import any zustand/state management content
 // ################################################################
 
 
@@ -29,6 +34,11 @@ import React from "react";
 // ============== interfaces (if any) ==============
 // ################################################################
 // This is where you define all the interfaces for the component
+// ################################################################
+
+// ======= external functions  ==========
+// ################################################################
+// This is where you import any external helper functions
 // ################################################################
 
 // ============== external variables (if any) ==============
