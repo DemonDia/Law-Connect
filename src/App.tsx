@@ -36,6 +36,7 @@ import HomePage from "./pages/home/HomePage"
 // ======================== mentee pages ========================
 import CompanyPage from "./pages/mentees/CompanyPage"
 import MentorPage from "./pages/mentees/MentorPage"
+import ViewIndividualMentorship from "./components/mentee/ViewIndividualMentorship"
 
 // ======================== mentorPages ========================
 import MenteePage from "./pages/mentors/MenteePage"
@@ -88,6 +89,10 @@ function App() {
                     {/* mentee */}
                     <Route path="/company" element={<CompanyPage />} />
                     <Route path="/mentors" element={<MentorPage />} />
+                    <Route
+                        path="/mentee/m/:mentorshipId"
+                        element={<ViewIndividualMentorship />}
+                    />
 
                     {/* mentor */}
                     <Route path="/mentees" element={<MenteePage />} />

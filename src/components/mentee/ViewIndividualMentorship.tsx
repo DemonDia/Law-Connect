@@ -2,12 +2,17 @@
 // ======= react ==========
 import { useState, useEffect } from "react"
 import { Link, useParams, useNavigate } from "react-router-dom"
+
 // ======= chakra UI ==========
 import { SimpleGrid, useToast, Heading } from "@chakra-ui/react"
 
 // ======= firebase ==========
-import { getMentorshipById } from "../../helperFunctions/firebase/mentorshipFunctions"
+import {
+    getMentorshipById,
+    checkMentorshipByMentorAndMentee,
+} from "../../helperFunctions/firebase/mentorshipFunctions"
 import { getAllSkills } from "../../helperFunctions/firebase/skillsFunctions"
+
 // ======= zustand/state ==========
 import useUser from "../../store/userStore"
 
@@ -21,7 +26,8 @@ import SkillProgressContainer from "../../components/mentorship/SkillProgressCon
 // ======= external functions  ==========
 
 // ============== main component ==============
-export default function IndividualMentorshipPage() {
+
+export default function ViewIndividualMentorship() {
     // ============== constant variables if any ==============
     const { mentorshipId } = useParams()
     const navigate = useNavigate()
@@ -35,18 +41,24 @@ export default function IndividualMentorshipPage() {
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
-        if (user && user.userId && user.userType == 1) {
+        if (user && user.userId && user.userType == 0) {
             getAllSkillInfo()
             getMentorship()
         } else {
             navigate("/")
         }
     }, [])
+
     // ============== helper functions if any ==============
     // ============== key functions if any ==============
     const getMentorship = async () => {
         const mentorship = await getMentorshipById(mentorshipId)
-        if (mentorship && mentorship.mentorId != user.userId) {
+        const isPresent = await checkMentorshipByMentorAndMentee(
+            mentorship.mentorId,
+            user.userId,
+        )
+        console.log("isPresent", isPresent)
+        if (!isPresent) {
             navigate("/")
         }
         setCurrentMentorship(mentorship)
@@ -65,7 +77,6 @@ export default function IndividualMentorshipPage() {
             setSkillDict(currentSkillDict)
         })
     }
-
     return (
         <>
             <Heading as="h6" textAlign={"center"} size="md">

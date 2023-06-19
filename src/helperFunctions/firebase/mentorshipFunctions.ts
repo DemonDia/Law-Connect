@@ -55,3 +55,22 @@ export const getMentorshipById = async (mentorshipId: string) => {
         return null
     }
 }
+
+// returns mentorshipId
+export const checkMentorshipByMentorAndMentee = async (
+    mentorId: string,
+    menteeId: string,
+) => {
+    const findQuery = query(
+        collection(db, "mentorship"),
+        where("mentorId", "==", mentorId),
+        where("menteeId", "==", menteeId),
+    )
+    let mentorshipId: string = ""
+    const docSnap = await getDocs(findQuery)
+
+    docSnap.forEach(doc => {
+        mentorshipId = doc.id
+    })
+    return mentorshipId
+}
