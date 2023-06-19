@@ -145,8 +145,8 @@ export const getApplicationInfo = async (applicationId: string) => {
 
         const applicant = await findUserById(applicantId)
         if (applicant) {
-            const { username } = applicant
-            return { username, applicationDate, outcome, companyId }
+            const { username,email } = applicant
+            return { username, applicationDate, outcome, companyId,email }
         } else {
             return null
         }

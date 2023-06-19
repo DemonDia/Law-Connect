@@ -125,7 +125,7 @@ export default function LaywerApplicationPage() {
                         <Heading as="h4" size="lg">
                             {currentApplication.username}
                         </Heading>
-                        <Text>example@email.com</Text>
+                        <Text>{currentApplication.email}</Text>
                         <Text>
                             Requested at:
                             {formatDate(
