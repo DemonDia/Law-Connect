@@ -17,16 +17,12 @@ export const createApplication = async (
     companyId: string,
     toast: any,
 ) => {
-    let validateUsersPromises: Array<any> = []
     console.log({ applicantId, companyId })
     // applicant cannot be company
     const validApplicant = await findUserById(applicantId)
 
     // company only
     const validCompany = await findUserById(companyId)
-
-    console.log("validApplicant", validApplicant)
-    console.log("validCompany", validCompany)
 
     if (
         validApplicant &&

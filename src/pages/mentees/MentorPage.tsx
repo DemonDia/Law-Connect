@@ -17,12 +17,16 @@ import {
     Heading,
     Text,
     useDisclosure,
-    Button,
+    useToast,
     Image,
 } from "@chakra-ui/react"
 
 // ======= firebase ==========
 import { findCompanyMentors } from "../../helperFunctions/firebase/userFirestore"
+import {
+    createMentorshipApplication,
+    getUserMentorShipApplications,
+} from "../../helperFunctions/firebase/mentorshipApplication"
 import { getAllSkills } from "../../helperFunctions/firebase/skillsFunctions"
 // ======= zustand/state ==========
 import useUser from "../../store/userStore"
@@ -30,6 +34,7 @@ import useUser from "../../store/userStore"
 import TabTopbar from "../../components/general/TabTopbar"
 import { SkillBadge } from "../../components/skills/SkillBadge"
 import CustomButton from "../../components/general/CustomButton"
+import ApplicationContainer from "../../components/mentee/ApplicationContainer"
 
 // ============== interfaces (if any) ==============
 interface Mentor {
@@ -48,12 +53,16 @@ import ProfilePic from "../../assets/defaultProfilePic.png"
 export default function MentorPage() {
     // ============== constant variables if any ==============
     const navigate = useNavigate()
+    const toast = useToast()
     const { user } = useUser()
     // for modal
     const { isOpen, onOpen, onClose } = useDisclosure()
     // ============== states (if any) ==============
     const [selectedTab, setSelectedTab] = useState<number>(-1)
     const [companyMentors, setCompanyMentors] = useState<Mentor[]>([])
+    const [mentorshipApplications, setMentorshipApplications] = useState<any>(
+        [],
+    )
     const [selectedMentor, setSelectedMentor] = useState<Mentor | null>(null)
     const [skillDict, setSkillDict] = useState<unknown>({})
 
@@ -77,6 +86,11 @@ export default function MentorPage() {
     // ============== helper functions if any ==============
     // ============== key functions if any ==============
     const getMentorApplications = async () => {
+        const mentorApplications = await getUserMentorShipApplications(
+            user.userId,
+        )
+        setMentorshipApplications(mentorApplications)
+
         // get all the mentor applications mentee has applied to
     }
     const getSkills = async () => {
@@ -107,6 +121,16 @@ export default function MentorPage() {
             onOpen()
         }
     }
+    const applyMentorship = async () => {
+        if (selectedMentor) {
+            await createMentorshipApplication(
+                user.userId,
+                selectedMentor.userId,
+                toast,
+            )
+            onClose()
+        }
+    }
     const closeMentor = () => {
         setSelectedMentor(null)
         onClose()
@@ -135,14 +159,58 @@ export default function MentorPage() {
                         {selectedTab == -1 ? null : (
                             <>
                                 {selectedTab == 0 ? (
-                                    <> </>
+                                    <>
+                                        {mentorshipApplications.map(
+                                            (
+                                                mentorshipApplication: unknown,
+                                                index: number,
+                                            ) => {
+                                                const {
+                                                    mentorName,
+                                                    applicationDate,
+                                                    outcome,
+                                                } = mentorshipApplication
+                                                console.log(
+                                                    "mentor",
+                                                    mentorshipApplication,
+                                                )
+                                                return (
+                                                    <ApplicationContainer
+                                                        key={index}
+                                                        companyName={mentorName}
+                                                        applicationDate={
+                                                            applicationDate
+                                                        }
+                                                        applicationOutcome={
+                                                            outcome
+                                                        }
+                                                    />
+                                                )
+                                            },
+                                        )}
+                                    </>
                                 ) : (
                                     <>
                                         {companyMentors.map(
                                             (mentor: Mentor, index: number) => {
-                                                console.log("mentor", mentor)
+                                                const found: any =
+                                                    mentorshipApplications.find(
+                                                        (
+                                                            mentorshipApplication: any,
+                                                        ) => {
+                                                            return (
+                                                                mentorshipApplication.mentorId ===
+                                                                mentor.userId
+                                                            )
+                                                        },
+                                                    )
+                                                const isFound = found != null
+
                                                 return (
                                                     <CompanyMentorContainer
+                                                        handleApplyMentorship={
+                                                            applyMentorship
+                                                        }
                                                         handleToggleOpen={
                                                             displayMentor
                                                         }
@@ -155,6 +223,7 @@ export default function MentorPage() {
                                                         }
                                                         skillDict={skillDict}
                                                         currentMentor={mentor}
+                                                        isApplied={isFound}
                                                     />
                                                 )
                                             },
@@ -174,6 +243,8 @@ interface MentorContainerProps {
     selectedMentor: Mentor | null
     currentMentor: Mentor | null
     skillDict: unknown
+    isApplied: boolean
+    handleApplyMentorship: (mentorId: string) => void
     handleToggleOpen?: () => void | null
     handleToggleClose?: () => void | null
 }
@@ -183,6 +254,8 @@ const CompanyMentorContainer = ({
     currentMentor,
     selectedMentor,
     skillDict,
+    isApplied,
+    handleApplyMentorship,
     handleToggleOpen,
     handleToggleClose,
 }: MentorContainerProps) => {
@@ -239,7 +312,9 @@ const CompanyMentorContainer = ({
                 currentMentor={currentMentor}
                 selectedMentor={selectedMentor}
                 skillDict={skillDict}
+                handleApplyMentorship={handleApplyMentorship}
                 handleToggleClose={handleToggleClose}
+                isApplied={isApplied}
             />
         </Box>
     )
@@ -248,7 +323,8 @@ const CompanyMentorContainer = ({
 const MentorModalContainer = ({
     selectedMentor,
     skillDict,
-    handleToggleOpen,
+    isApplied,
+    handleApplyMentorship,
     handleToggleClose,
 }: MentorContainerProps) => {
     console.log("selectedMentor", selectedMentor)
@@ -305,19 +381,28 @@ const MentorModalContainer = ({
                 </ModalBody>
 
                 <ModalFooter>
-                    <CustomButton
-                        buttonColor="#6D6D6D"
-                        textColor="white"
-                        buttonText="Cancel"
-                        buttonOnClick={handleToggleClose}
-                    />
-
-                    <CustomButton
-                        buttonColor="#2A07B7"
-                        textColor="white"
-                        buttonText="Request Mentorship"
-                        buttonOnClick={handleToggleClose}
-                    />
+                    {isApplied ? (
+                        <Text>
+                            You have applied to be a mentee. Please wait for the
+                            outcome.
+                        </Text>
+                    ) : (
+                        <>
+                            {" "}
+                            <CustomButton
+                                buttonColor="#6D6D6D"
+                                textColor="white"
+                                buttonText="Cancel"
+                                buttonOnClick={handleToggleClose}
+                            />
+                            <CustomButton
+                                buttonColor="#2A07B7"
+                                textColor="white"
+                                buttonText="Request Mentorship"
+                                buttonOnClick={handleApplyMentorship}
+                            />
+                        </>
+                    )}
                 </ModalFooter>
             </ModalContent>
         </Modal>
