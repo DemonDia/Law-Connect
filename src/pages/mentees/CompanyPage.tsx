@@ -38,7 +38,6 @@ export default function CompanyPage() {
     const [selectedTab, setSelectedTab] = useState<number>(-1)
     const [companies, setCompanies] = useState<any>([])
     const [applications, setApplications] = useState<any>([])
-    const [companyBelonging, setCompanyBelonging] = useState<any>(null)
     // ============== useEffect statement(s) ==============
     useEffect(() => {
         if (user && user.userId && user.userType != 2 && !user.companyId) {

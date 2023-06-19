@@ -17,7 +17,6 @@ export const createApplication = async (
     companyId: string,
     toast: any,
 ) => {
-    console.log({ applicantId, companyId })
     // applicant cannot be company
     const validApplicant = await findUserById(applicantId)
 

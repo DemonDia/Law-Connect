@@ -16,9 +16,8 @@ import { findUsersByUserTypes } from "./userFirestore"
 export const createMentorshipApplication = async (
     menteeId: string,
     mentorId: string,
-    toast: unknown,
+    toast: any,
 ) => {
-    console.log({ menteeId, mentorId })
     // mentor only
     const validMentee = await findUserById(menteeId)
 
@@ -73,7 +72,7 @@ export const createMentorshipApplication = async (
     }
 }
 
-// =========get user applications=========
+// =========get user mentorship applications=========
 export const getUserMentorShipApplications = async (userId: string) => {
     const mentors = await findUsersByUserTypes("1")
     let mentorDict: any = {}
@@ -82,7 +81,6 @@ export const getUserMentorShipApplications = async (userId: string) => {
         mentorDict[userId] = username
     })
 
-    console.log(mentorDict)
     const findQuery = query(
         collection(db, "mentorshipApplication"),
         where("menteeId", "==", userId),
@@ -99,6 +97,128 @@ export const getUserMentorShipApplications = async (userId: string) => {
         }
         applications.push(applicationToPush)
     })
-    console.log("mentorshipAPplications", applications)
     return applications
+}
+
+// =========get mentor's applications=========
+// mentors & mentees
+export const getMentorApplications = async (mentorId: string) => {
+    const mentees = await findUsersByUserTypes("0")
+
+    let menteeDict: any = {}
+    mentees.forEach((mentee: any) => {
+        const { userId, username } = mentee
+        menteeDict[userId] = username
+    })
+
+    const findQuery = query(
+        collection(db, "mentorshipApplication"),
+        where("mentorId", "==", mentorId),
+    )
+    const docSnap = await getDocs(findQuery)
+
+    let applications: Array<any> = []
+    docSnap.forEach(doc => {
+        let applicationToPush = doc.data()
+        const { menteeId } = applicationToPush
+        applicationToPush = {
+            ...applicationToPush,
+            id: doc.id,
+            menteeName: menteeDict[menteeId],
+        }
+        applications.push(applicationToPush)
+    })
+    return applications
+}
+
+// =========get mentorship applicant info=========
+export const getMentorshipApplicationInfo = async (applicationId: string) => {
+    // get
+    const docSnap = await getDoc(
+        doc(db, "mentorshipApplication", applicationId),
+    )
+
+    if (docSnap.exists()) {
+        const { menteeId, mentorId, applicationDate, outcome } = docSnap.data()
+
+        const applicant = await findUserById(menteeId)
+        if (applicant) {
+            const { username, email } = applicant
+            return { username, applicationDate, outcome, mentorId, email }
+        } else {
+            return null
+        }
+    } else {
+        return null
+    }
+}
+
+// =========update application=========
+// accept/reject
+// isAccept: true --> accept
+// isAccept: false --> reject
+export const updateMentorshipApplication = async (
+    mentorshipApplicationId: string,
+    isAccept: boolean,
+    toast: any,
+    navigate: any,
+) => {
+    // get application by ID
+    const applicationRef = doc(
+        db,
+        "mentorshipApplication",
+        mentorshipApplicationId,
+    )
+    const docSnap = await getDoc(applicationRef)
+
+    if (docSnap.exists()) {
+        const { menteeId, mentorId } = docSnap.data()
+        let updateApplicationPromise: Array<any> = []
+        updateApplicationPromise.push(
+            updateDoc(applicationRef, {
+                outcome: isAccept ? 1 : 0,
+            }),
+        )
+        // update data
+        if (isAccept) {
+            updateApplicationPromise.push()
+            addDoc(collection(db, "mentorship"), {
+                joinDate: new Date(),
+                menteeId,
+                mentorId,
+            })
+        }
+        Promise.all(updateApplicationPromise)
+            .then(() => {
+                toast({
+                    title:
+                        "Application " + (isAccept ? "Accepted" : "Rejected"),
+                    description: "",
+                    status: "success",
+                    duration: 1000,
+                    isClosable: true,
+                })
+                navigate("/mentees")
+            })
+            .catch((err: any) => {
+                console.log(err.message)
+                toast({
+                    title: "Something went wrong",
+                    description: "Please try again later",
+                    status: "error",
+                    duration: 1000,
+                    isClosable: true,
+                })
+                navigate("/mentees")
+            })
+    } else {
+        toast({
+            title: "Error",
+            description: "Invalid application",
+            status: "error",
+            duration: 1000,
+            isClosable: true,
+        })
+        navigate("/mentees")
+    }
 }
