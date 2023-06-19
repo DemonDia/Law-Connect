@@ -9,7 +9,7 @@ import {
     getDoc,
     updateDoc,
 } from "firebase/firestore"
-import { findUsersByUserTypes } from "./userFirestore"
+import { findUsersByUserTypes, findUserById } from "./userFirestore"
 
 // get all mentees of a mentor
 export const getMentorMentees = async (mentorId: string) => {
@@ -32,11 +32,26 @@ export const getMentorMentees = async (mentorId: string) => {
         let menteeToPush = doc.data()
         const { menteeId, joinDate } = menteeToPush
         menteeToPush = {
-            menteeId,
+            mentorshipId: doc.id,
             menteeName: menteeDict[menteeId],
             joinDate,
         }
         mentees.push(menteeToPush)
     })
     return mentees
+}
+
+export const getMentorshipById = async (mentorshipId: string) => {
+    const docRef = doc(db, "mentorship", mentorshipId)
+    const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists()) {
+        const { menteeId, mentorId, joinDate, skills } = docSnap.data()
+        const mentee = await findUserById(menteeId)
+        const { username: menteeName } = mentee
+        return { menteeId, menteeName, mentorId, joinDate, skills }
+    } else {
+        // docSnap.data() will be undefined in this case
+        return null
+    }
 }

@@ -99,13 +99,13 @@ export default function MenteePage() {
                                     <>
                                         {mentees.map((mentee: any) => {
                                             const {
-                                                menteeId,
+                                                mentorshipId,
                                                 menteeName,
                                                 joinedDate,
                                             } = mentee
                                             return (
                                                 <MenteeContainer
-                                                    menteeId={menteeId}
+                                                    mentorshipId={mentorshipId}
                                                     menteeName={menteeName}
                                                     joinedDate={joinedDate}
                                                 />

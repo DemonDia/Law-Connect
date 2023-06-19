@@ -1,9 +1,8 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-import { Link } from "react-router-dom"
-// ======= chakra UI ==========
-import { Box, Heading, Text } from "@chakra-ui/react"
 
+// ======= chakra UI ==========
+import { Text, Box, Progress } from "@chakra-ui/react"
 // ======= firebase ==========
 
 // ======= zustand/state ==========
@@ -11,23 +10,21 @@ import { Box, Heading, Text } from "@chakra-ui/react"
 // ======= custom components (if any)==========
 
 // ============== interfaces (if any) ==============
-interface MenteeContainerProps {
-    mentorshipId: string
-    menteeName: string
-    joinedDate: any
+interface SkillProgressContainerProps {
+    skillLevel: number
+    skillName: string
 }
+
 // ============== external variables (if any) ==============
 
 // ======= external functions  ==========
-import { formatDate } from "../../helperFunctions/general/dateformatter"
 
 // ============== main component ==============
 
-export default function MenteeContainer({
-    mentorshipId,
-    menteeName,
-    joinedDate,
-}: MenteeContainerProps) {
+export default function SkillProgressContainer({
+    skillLevel,
+    skillName,
+}: SkillProgressContainerProps) {
     // ============== constant variables if any ==============
     // ============== states (if any) ==============
     // ============== useEffect statement(s) ==============
@@ -38,17 +35,19 @@ export default function MenteeContainer({
         <Box
             background={"white"}
             p="10px"
+            m="5px"
             borderRadius={"10px"}
             boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}>
-            <Heading as="h6" size="lg">
-                {menteeName}
-            </Heading>
-            {/* <br /> */}
-            <Text>Joined at:{formatDate(Date(joinedDate))}</Text>
-            <br />
-            <Link to={`/mentorship/${mentorshipId}`}>
-                <Text>More Info</Text>
-            </Link>
+            <Text fontSize={"2xl"}>{skillName}</Text>
+            <Text>Progress: {skillLevel}%</Text>
+            <Progress
+                min={0}
+                max={100}
+                value={skillLevel}
+                borderRadius={"5px"}
+                colorScheme="green"
+                m="10px auto"
+            />
         </Box>
     )
 }

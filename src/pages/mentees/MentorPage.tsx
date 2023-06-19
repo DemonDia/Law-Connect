@@ -327,7 +327,6 @@ const MentorModalContainer = ({
     handleApplyMentorship,
     handleToggleClose,
 }: MentorContainerProps) => {
-    console.log("selectedMentor", selectedMentor)
     return (
         <Modal isOpen={selectedMentor != null} onClose={handleToggleClose}>
             <ModalOverlay />

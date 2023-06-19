@@ -40,6 +40,7 @@ import MentorPage from "./pages/mentees/MentorPage"
 // ======================== mentorPages ========================
 import MenteePage from "./pages/mentors/MenteePage"
 import MentorshipApplicationPage from "./pages/mentors/MentorshipApplicationPage"
+import IndividualMentorshipPage from "./pages/mentors/IndividualMentorshipPage"
 
 // ======================== law firm pages ========================
 import LawyersPage from "./pages/lawfirms/LawyersPage"
@@ -93,6 +94,10 @@ function App() {
                     <Route
                         path="/mentees/application/:mentorshipApplicationId"
                         element={<MentorshipApplicationPage />}
+                    />
+                    <Route
+                        path="/mentorship/:mentorshipId"
+                        element={<IndividualMentorshipPage />}
                     />
 
                     {/* lawyer */}
