@@ -1,6 +1,6 @@
 import { db } from "../../config"
 import { collection, getDocs, where, query } from "firebase/firestore"
-
+import { getCompanyMembers } from "./membershipFunctions"
 // find user
 // returns user if any
 // else return null
@@ -36,4 +36,23 @@ export const findUsersByUserTypes = async (userType: string) => {
         targetUsers.push(doc.data())
     })
     return targetUsers
+}
+
+// ========== find mentors by company ==========
+export const findCompanyMentors = async (companyId: string) => {
+    const mentorList = await findUsersByUserTypes("1")
+    let mentorHashMap = {}
+    mentorList.forEach((mentor: unknown) => {
+        const { username, email, userId, skills } = mentor
+        mentorHashMap[mentor.userId] = { username, email, userId, skills }
+    })
+    let res = []
+    const companyMemberShips = await getCompanyMembers(companyId)
+    companyMemberShips.forEach((memberShip: any) => {
+        const { memberId } = memberShip
+        if (mentorHashMap[memberId]) {
+            res.push(mentorHashMap[memberId])
+        }
+    })
+    return res
 }

@@ -37,13 +37,16 @@ export const SkillBadge = ({
             margin={"5px"}
             borderRadius={"5px"}>
             {skillName}
-            <IconButton
-                onClick={() => {
-                    handleDeleteSkillId(skillId)
-                }}
-                aria-label="Remove skill"
-                icon={<CloseIcon />}
-            />
+            {handleDeleteSkillId ? (
+                <IconButton
+                    onClick={() => {
+                        handleDeleteSkillId(skillId)
+                    }}
+                    aria-label="Remove skill"
+                    icon={<CloseIcon />}
+                />
+            ) : null}
+
             {/* <CloseIcon /> */}
         </Badge>
     )

@@ -32,6 +32,7 @@ const menteeMenu: MenuItem[] = [
 
 const mentorMenu: MenuItem[] = [
     { label: "Manage Mentees", to: "/mentees", icon: BsPersonRolodex },
+    { label: "Manage Applications", to: "/company", icon: IoIosDocument },
     { label: "Logout", to: "/logout", icon: BiLogOut },
 ]
 

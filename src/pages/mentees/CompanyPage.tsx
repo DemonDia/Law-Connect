@@ -40,7 +40,7 @@ export default function CompanyPage() {
     const [applications, setApplications] = useState<any>([])
     // ============== useEffect statement(s) ==============
     useEffect(() => {
-        if (user && user.userId && user.userType != 2) {
+        if (user && user.userId && user.userType != 2 && !user.companyId) {
             getApplications()
             getCompanies()
         } else {

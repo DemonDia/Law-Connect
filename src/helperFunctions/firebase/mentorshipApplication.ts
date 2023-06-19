@@ -11,28 +11,29 @@ import {
 } from "firebase/firestore"
 import { findUserById } from "./userFirestore"
 import { findUsersByUserTypes } from "./userFirestore"
+
 // =========create application=========
-export const createApplication = async (
-    applicantId: string,
-    companyId: string,
+export const createMentorshipApplication = async (
+    menteeId: string,
+    mentorId: string,
     toast: any,
 ) => {
-    // applicant cannot be company
-    const validApplicant = await findUserById(applicantId)
+    // mentor only
+    const validMentee = await findUserById(menteeId)
 
-    // company only
-    const validCompany = await findUserById(companyId)
+    // mentee only
+    const validMentor = await findUserById(mentorId)
 
     if (
-        validApplicant &&
-        validCompany &&
-        validApplicant.userType != "2" &&
-        validCompany.userType == "2"
+        validMentee &&
+        validMentor &&
+        validMentee.userType == "0" &&
+        validMentor.userType == "1"
     ) {
         // apply
-        await addDoc(collection(db, "application"), {
-            applicantId,
-            companyId,
+        await addDoc(collection(db, "mentorshipApplication"), {
+            menteeId,
+            mentorId,
             applicationDate: new Date(),
             outcome: -1,
             // -1 means processing
@@ -60,7 +61,6 @@ export const createApplication = async (
             })
         return
     } else {
-        console.log("omg")
         toast({
             title: "Error",
             description: "Invalid application",
@@ -72,79 +72,79 @@ export const createApplication = async (
     }
 }
 
-// =========get user applications=========
-export const getUserApplications = async (userId: string) => {
-    const companies = await findUsersByUserTypes("2")
-    let companyDict: any = {}
-    companies.forEach((company: any) => {
-        const { userId, username } = company
-        companyDict[userId] = username
-    })
-
-    const findQuery = query(
-        collection(db, "application"),
-        where("applicantId", "==", userId),
-    )
-    const docSnap = await getDocs(findQuery)
-    let applications: Array<any> = []
-    docSnap.forEach(doc => {
-        let applicationToPush = doc.data()
-        const { companyId } = applicationToPush
-        applicationToPush = {
-            ...applicationToPush,
-            id: doc.id,
-            companyName: companyDict[companyId],
-        }
-        applications.push(applicationToPush)
-    })
-    return applications
-}
-
-// =========get company applications=========
-// mentors & mentees
-export const getCompanyApplications = async (companyId: string) => {
-    const mentees = await findUsersByUserTypes("0")
+// =========get user mentorship applications=========
+export const getUserMentorShipApplications = async (userId: string) => {
     const mentors = await findUsersByUserTypes("1")
-    const allLaywers = [...mentees, ...mentors]
-
-    let lawyerDict: any = {}
-    allLaywers.forEach((lawyer: any) => {
-        const { userId, username } = lawyer
-        lawyerDict[userId] = username
+    let mentorDict: any = {}
+    mentors.forEach((mentor: any) => {
+        const { userId, username } = mentor
+        mentorDict[userId] = username
     })
 
     const findQuery = query(
-        collection(db, "application"),
-        where("companyId", "==", companyId),
+        collection(db, "mentorshipApplication"),
+        where("menteeId", "==", userId),
     )
     const docSnap = await getDocs(findQuery)
     let applications: Array<any> = []
     docSnap.forEach(doc => {
         let applicationToPush = doc.data()
-        const { applicantId } = applicationToPush
+        const { mentorId } = applicationToPush
         applicationToPush = {
             ...applicationToPush,
             id: doc.id,
-            applicantName: lawyerDict[applicantId],
+            mentorName: mentorDict[mentorId],
         }
         applications.push(applicationToPush)
     })
     return applications
 }
 
-// =========get applicant info=========
-export const getApplicationInfo = async (applicationId: string) => {
+// =========get mentor's applications=========
+// mentors & mentees
+export const getMentorApplications = async (mentorId: string) => {
+    const mentees = await findUsersByUserTypes("0")
+
+    let menteeDict: any = {}
+    mentees.forEach((mentee: any) => {
+        const { userId, username } = mentee
+        menteeDict[userId] = username
+    })
+
+    const findQuery = query(
+        collection(db, "mentorshipApplication"),
+        where("mentorId", "==", mentorId),
+    )
+    const docSnap = await getDocs(findQuery)
+
+    let applications: Array<any> = []
+    docSnap.forEach(doc => {
+        let applicationToPush = doc.data()
+        const { menteeId } = applicationToPush
+        applicationToPush = {
+            ...applicationToPush,
+            id: doc.id,
+            menteeName: menteeDict[menteeId],
+        }
+        applications.push(applicationToPush)
+    })
+    return applications
+}
+
+// =========get mentorship applicant info=========
+export const getMentorshipApplicationInfo = async (applicationId: string) => {
     // get
-    const docSnap = await getDoc(doc(db, "application", applicationId))
+    const docSnap = await getDoc(
+        doc(db, "mentorshipApplication", applicationId),
+    )
 
     if (docSnap.exists()) {
-        const { applicantId, companyId, applicationDate, outcome } =
-            docSnap.data()
+        const { menteeId, mentorId, applicationDate, outcome } = docSnap.data()
 
-        const applicant = await findUserById(applicantId)
+        const applicant = await findUserById(menteeId)
         if (applicant) {
             const { username, email } = applicant
-            return { username, applicationDate, outcome, companyId, email }
+            return { username, applicationDate, outcome, mentorId, email }
         } else {
             return null
         }
@@ -157,18 +157,22 @@ export const getApplicationInfo = async (applicationId: string) => {
 // accept/reject
 // isAccept: true --> accept
 // isAccept: false --> reject
-export const updateApplication = async (
-    applicationId: string,
+export const updateMentorshipApplication = async (
+    mentorshipApplicationId: string,
     isAccept: boolean,
     toast: any,
     navigate: any,
 ) => {
     // get application by ID
-    const applicationRef = doc(db, "application", applicationId)
+    const applicationRef = doc(
+        db,
+        "mentorshipApplication",
+        mentorshipApplicationId,
+    )
     const docSnap = await getDoc(applicationRef)
 
     if (docSnap.exists()) {
-        const { applicantId, companyId } = docSnap.data()
+        const { menteeId, mentorId } = docSnap.data()
         let updateApplicationPromise: Array<any> = []
         updateApplicationPromise.push(
             updateDoc(applicationRef, {
@@ -178,10 +182,10 @@ export const updateApplication = async (
         // update data
         if (isAccept) {
             updateApplicationPromise.push()
-            addDoc(collection(db, "membership"), {
+            addDoc(collection(db, "mentorship"), {
                 joinDate: new Date(),
-                memberId: applicantId,
-                companyId,
+                menteeId,
+                mentorId,
             })
         }
         Promise.all(updateApplicationPromise)
@@ -194,7 +198,7 @@ export const updateApplication = async (
                     duration: 1000,
                     isClosable: true,
                 })
-                navigate("/lawyers")
+                navigate("/mentees")
             })
             .catch((err: any) => {
                 console.log(err.message)
@@ -205,7 +209,7 @@ export const updateApplication = async (
                     duration: 1000,
                     isClosable: true,
                 })
-                navigate("/lawyers")
+                navigate("/mentees")
             })
     } else {
         toast({
@@ -215,6 +219,6 @@ export const updateApplication = async (
             duration: 1000,
             isClosable: true,
         })
-        navigate("/lawyers")
+        navigate("/mentees")
     }
 }

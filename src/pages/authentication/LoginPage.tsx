@@ -10,6 +10,7 @@ import { useToast } from "@chakra-ui/react"
 import { auth } from "../../config"
 import { signInWithEmailAndPassword } from "@firebase/auth"
 import { findUserById } from "../../helperFunctions/firebase/userFirestore"
+import { getCompanyMembership } from "../../helperFunctions/firebase/membershipFunctions"
 
 // ======= zustand/state ==========
 import useUser from "../../store/userStore"
@@ -47,7 +48,13 @@ export default function LoginPage() {
                 const currentUser = await findUserById(userCredentials.user.uid)
                 if (currentUser) {
                     const { isSetUp, userId, username, userType } = currentUser
-                    addUser({ userId, username, userType })
+                    const companyBelonging = await getCompanyMembership(userId)
+                    addUser({
+                        userId,
+                        username,
+                        userType,
+                        companyId: companyBelonging,
+                    })
                     toast({
                         title: "Login successful",
                         description: "Redirecting ...",

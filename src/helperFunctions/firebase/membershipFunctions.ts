@@ -34,10 +34,28 @@ export const getCompanyMembers = async (companyId: string) => {
         let memberToPush = doc.data()
         const { memberId, joinDate } = memberToPush
         memberToPush = {
+            memberId,
             memberName: lawyerDict[memberId],
             joinDate,
         }
         members.push(memberToPush)
     })
     return members
+}
+
+// return the company the member is from
+export const getCompanyMembership = async (companyId: string) => {
+    const findQuery = query(
+        collection(db, "membership"),
+        where("memberId", "==", companyId),
+    )
+    const docSnap = await getDocs(findQuery)
+    let targetMember: unknown = null
+
+    docSnap.forEach(doc => {
+        // doc.data() --> {memberId,companyId,joinDate}
+        const { companyId } = doc.data()
+        targetMember = companyId
+    })
+    return targetMember
 }
