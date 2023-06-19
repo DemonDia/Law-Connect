@@ -41,7 +41,7 @@ export default function CompanyPage() {
     const [companyBelonging, setCompanyBelonging] = useState<any>(null)
     // ============== useEffect statement(s) ==============
     useEffect(() => {
-        if (user && user.userId && user.userType != 2) {
+        if (user && user.userId && user.userType != 2 && !user.companyId) {
             getApplications()
             getCompanies()
         } else {

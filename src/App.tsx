@@ -35,6 +35,7 @@ import HomePage from "./pages/home/HomePage"
 
 // ======================== mentee pages ========================
 import CompanyPage from "./pages/mentees/CompanyPage"
+import MentorPage from "./pages/mentees/MentorPage"
 
 // ======================== law firm pages ========================
 import LawyersPage from "./pages/lawfirms/LawyersPage"
@@ -51,7 +52,6 @@ function App() {
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
-        
         seedSkills()
     }, [])
     useEffect(() => {
@@ -82,6 +82,7 @@ function App() {
 
                     {/* mentee */}
                     <Route path="/company" element={<CompanyPage />} />
+                    <Route path="/mentors" element={<MentorPage />} />
 
                     {/* lawyer */}
                     <Route path="/lawyers" element={<LawyersPage />} />
