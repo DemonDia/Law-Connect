@@ -1,15 +1,19 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
+import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+
 // ======= chakra UI ==========
 import { useToast } from "@chakra-ui/react"
 
 // ======= firebase ==========
-
 import {
     registerUserViaEmail,
     createUserRecord,
 } from "../../helperFunctions/firebase/userAuthFunctions"
+
+// ======= zustand/state ==========
+import useUser from "../../store/userStore"
 
 // ======= custom components (if any)==========
 import AuthenticationForm from "../../components/authentication/AuthenticationForm"
@@ -17,21 +21,26 @@ import AuthenticationForm from "../../components/authentication/AuthenticationFo
 // ============== interfaces (if any) ==============
 import { AuthObject } from "../../components/authentication/AuthenticationForm"
 
-// ============== helper functions if any ==============
-import { validateEmail } from "../../helperFunctions/authentication/validateEmail"
-
 // ============== external variables (if any) ==============
 
-// ============== main component ==============
+// ======= external functions  ==========
+import { validateEmail } from "../../helperFunctions/authentication/validateEmail"
 
+// ============== main component ==============
 export default function RegisterPage() {
     // ============== constant variables if any ==============
+    const { user } = useUser()
     const toast = useToast()
     const navigate = useNavigate()
 
     // ============== states (if any) ==============
 
     // ============== useEffect statement(s) ==============
+    useEffect(() => {
+        if (user && user.userId) {
+            navigate("/")
+        }
+    }, [])
 
     // ============== helper functions if any ==============
 

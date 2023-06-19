@@ -2,19 +2,36 @@
 // ======= react ==========
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
+
 // ======= chakra UI ==========
 import { Box, Flex, Heading, Link, Text, useToast } from "@chakra-ui/react"
-// ======= external functions  ==========
+
+// ======= firebase ==========
 import {
     getApplicationInfo,
     updateApplication,
 } from "../../helperFunctions/firebase/applicationFunctions"
-import { formatDate } from "../../helperFunctions/general/dateformatter"
+
+// ======= zustand/state ==========
+import useUser from "../../store/userStore"
+
 // ======= custom components (if any)==========
 import TwoActionTopBar from "../../components/general/TwoActionTopBar"
+
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
+
+// ======= external functions  ==========
+import { formatDate } from "../../helperFunctions/general/dateformatter"
+
+// ============== main component ==============
+
+// ============== sub component(s) if any ==============
+
+
+
+
 const pageNavigation = [
     {
         label: "Lawyer Info",
@@ -27,11 +44,12 @@ const pageNavigation = [
 ]
 
 // ============== main component ==============
-export default function LaywerApplicationPage({ currentUser }: any) {
+export default function LaywerApplicationPage() {
     // ============== constant variables if any ==============
     const { applicationId } = useParams()
     const navigate = useNavigate()
     const toast = useToast()
+    const { user } = useUser()
     // ============== states (if any) ==============
     const [currentApplication, setCurrentApplication] = useState<any>({})
 
@@ -42,16 +60,8 @@ export default function LaywerApplicationPage({ currentUser }: any) {
 
     // ============== helper functions if any ==============
     const fetchApplication = async () => {
-        console.log("currentUser", currentUser)
-        console.log("applicationId", applicationId)
         const application = await getApplicationInfo(applicationId)
-        console.log("targetApplication", application)
-
-        if (
-            currentUser &&
-            application &&
-            application.companyId == currentUser.userId
-        ) {
+        if (user && application && application.companyId == user.userId) {
             setCurrentApplication(application)
         } else {
             navigate("/lawyers")
