@@ -8,6 +8,7 @@ import {
     doc,
     getDoc,
     updateDoc,
+    setDoc,
 } from "firebase/firestore"
 import { findUsersByUserTypes, findUserById } from "./userFirestore"
 
@@ -44,9 +45,11 @@ export const getMentorMentees = async (mentorId: string) => {
 export const getMentorshipById = async (mentorshipId: string) => {
     const docRef = doc(db, "mentorship", mentorshipId)
     const docSnap = await getDoc(docRef)
+    console.log("docSnap", docSnap)
 
     if (docSnap.exists()) {
         const { menteeId, mentorId, joinDate, skills } = docSnap.data()
+        console.log(docSnap.data())
         const mentee = await findUserById(menteeId)
         const { username: menteeName } = mentee
         return { menteeId, menteeName, mentorId, joinDate, skills }
@@ -73,4 +76,34 @@ export const checkMentorshipByMentorAndMentee = async (
         mentorshipId = doc.id
     })
     return mentorshipId
+}
+export const updateMentorshipSkill = async (
+    mentorshipId: string,
+    skills: Array<any>,
+    toast: any,
+) => {
+    const skillToUpdateRef = doc(db, "mentorship", mentorshipId)
+    await updateDoc(skillToUpdateRef, {
+        skills,
+    })
+    .then(() => {
+        toast({
+            title: "Skill updated successfully",
+            description: "",
+            status: "success",
+            duration: 1000,
+            isClosable: true,
+        })
+    })
+    .catch(err => {
+        toast({
+            title: "Error updating skill",
+            description: "Please try again later",
+            status: "error",
+            duration: 1000,
+            isClosable: true,
+        })
+    })
+
+    // find mentorship via Id
 }

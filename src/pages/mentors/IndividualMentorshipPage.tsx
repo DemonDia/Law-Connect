@@ -6,7 +6,10 @@ import { Link, useParams, useNavigate } from "react-router-dom"
 import { SimpleGrid, useToast, Heading } from "@chakra-ui/react"
 
 // ======= firebase ==========
-import { getMentorshipById } from "../../helperFunctions/firebase/mentorshipFunctions"
+import {
+    getMentorshipById,
+    updateMentorshipSkill,
+} from "../../helperFunctions/firebase/mentorshipFunctions"
 import { getAllSkills } from "../../helperFunctions/firebase/skillsFunctions"
 // ======= zustand/state ==========
 import useUser from "../../store/userStore"
@@ -30,7 +33,6 @@ export default function IndividualMentorshipPage() {
 
     // ============== states (if any) ==============
     const [currentMentorship, setCurrentMentorship] = useState<unknown>(null)
-    const [allSkills, setAllSkills] = useState<any>([])
     const [skillDict, setSkillDict] = useState<any>({})
 
     // ============== useEffect statement(s) ==============
@@ -42,22 +44,35 @@ export default function IndividualMentorshipPage() {
             navigate("/")
         }
     }, [])
+
     // ============== helper functions if any ==============
     // ============== key functions if any ==============
-    const getMentorship = async () => {
-        const mentorship = await getMentorshipById(mentorshipId)
-        if (mentorship && mentorship.mentorId != user.userId) {
-            navigate("/")
-        }
-        setCurrentMentorship(mentorship)
+    const updateSkillProgress = async () => {
+        // if exceed 100, award a badge
+        await updateMentorshipSkill(
+            mentorshipId,
+            currentMentorship.skills,
+            toast,
+        )
     }
+
+    const getMentorship = async () => {
+        try {
+            const mentorship = await getMentorshipById(mentorshipId)
+            if (mentorship && mentorship.mentorId != user.userId) {
+                navigate("/")
+            }
+            setCurrentMentorship(mentorship)
+        } catch (err) {
+            console.log("err", err)
+        }
+    }
+
     const getAllSkillInfo = async () => {
         const skills = await getAllSkills()
-        setAllSkills(skills)
-
         Promise.resolve(skills).then(res => {
             setSkillDict(res)
-            let currentSkillDict = {}
+            const currentSkillDict = {}
             for (const [id, skill] of res) {
                 const { skillName } = skill
                 currentSkillDict[id] = skillName
@@ -79,18 +94,27 @@ export default function IndividualMentorshipPage() {
             <SimpleGrid columns={3} gap={0}>
                 {currentMentorship && currentMentorship.skills ? (
                     <>
-                        {currentMentorship.skills.map((skill: any) => {
-                            const { skillLevel, skillId } = skill
-                            return (
-                                <SkillProgressContainer
-                                    skillName={skillDict[skillId]}
-                                    skillLevel={skillLevel}
-                                />
-                            )
-                        })}
+                        {currentMentorship.skills.map(
+                            (skill: any, key: number) => {
+                                const { skillLevel, skillId } = skill
+                                return (
+                                    <SkillProgressContainer
+                                        key={key}
+                                        skills={currentMentorship.skills}
+                                        skillId={skillId}
+                                        skillNum={key}
+                                        skillLevel={skillLevel}
+                                        skillName={skillDict[skillId]}
+                                        handleUpdateSkillProgress={
+                                            updateSkillProgress
+                                        }
+                                    />
+                                )
+                            },
+                        )}
                     </>
                 ) : (
-                    <></>
+                    <>Nothing for you to see.</>
                 )}
             </SimpleGrid>
         </>

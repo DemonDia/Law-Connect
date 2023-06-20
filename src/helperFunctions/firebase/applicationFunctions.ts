@@ -60,7 +60,6 @@ export const createApplication = async (
             })
         return
     } else {
-        console.log("omg")
         toast({
             title: "Error",
             description: "Invalid application",
