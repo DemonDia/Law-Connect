@@ -18,7 +18,7 @@ import {
 
 // ======= firebase ==========
 import { auth, db } from "../../config"
-import { collection, doc, addDoc, updateDoc } from "firebase/firestore"
+import { doc, updateDoc } from "firebase/firestore"
 import { updateProfile, onAuthStateChanged } from "firebase/auth"
 // ======= zustand/state ==========
 import useUser from "../../store/userStore"

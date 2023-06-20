@@ -1,14 +1,17 @@
 // ============== imports ==============
 // ======= react ==========
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 // ======= chakra UI ==========
-import { Card, Heading, Text } from "@chakra-ui/react"
+import { Card, Heading, Text, useToast } from "@chakra-ui/react"
 
 // ======= custom components ==========
 import InputField from "../general/InputField"
 import CustomButton from "../general/CustomButton"
 import TextRouterLink from "../general/TextRouterLink"
+
+import { gmailAuth } from "../../helperFunctions/firebase/userAuthFunctions"
 
 // ============== interfaces ==============
 interface AuthManager {
@@ -21,6 +24,8 @@ export interface AuthObject {
     confirmPassword?: string
 }
 
+import useUser from "../../store/userStore"
+
 // ============== main component ==============
 
 export default function AuthenticationForm({
@@ -28,6 +33,9 @@ export default function AuthenticationForm({
     submitMethod,
 }: AuthManager) {
     // ============== constant variables if any ==============
+    const navigate = useNavigate()
+    const toast = useToast()
+    const { addUser } = useUser()
 
     // ============== states (if any) ==============
     const [email, setEmail] = useState<string>("")
@@ -50,7 +58,9 @@ export default function AuthenticationForm({
         await submitMethod(submitItems)
     }
 
-    const googleAuth = async () => {}
+    const googleAuth = async () => {
+        await gmailAuth(navigate, toast, addUser)
+    }
     return (
         <Card
             w={["90vw", "70vw", "60vw", "50vw", "30vw"]}
