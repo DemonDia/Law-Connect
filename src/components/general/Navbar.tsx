@@ -16,6 +16,7 @@ import {
     useColorModeValue,
     useBreakpointValue,
     useDisclosure,
+    Image,
 } from "@chakra-ui/react"
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons"
 
@@ -29,6 +30,7 @@ interface NavItem {
     to?: string
 }
 // ============== external variables (if any) ==============
+import Logo from "../../assets/logo.png"
 // the sub arrays
 // not logged in
 // logged in as mentee
@@ -167,15 +169,9 @@ export default function Navbar() {
                     <Flex
                         flex={{ base: 1 }}
                         justify={{ base: "center", md: "start" }}>
-                        <Text
-                            textAlign={useBreakpointValue({
-                                base: "center",
-                                md: "left",
-                            })}
-                            fontFamily={"heading"}
-                            color={useColorModeValue("gray.800", "white")}>
-                            Logo
-                        </Text>
+                        <DomLink to="/">
+                            <Image height="60px" src={Logo} alt="logo" />
+                        </DomLink>
 
                         <Flex display={{ base: "none", md: "flex" }} ml={10}>
                             <DesktopNav navItems={navItems} />
@@ -209,7 +205,11 @@ export const DesktopNav = ({ navItems }: Array<NavItem>) => {
             {navItems ? (
                 <>
                     {navItems.map((navItem: NavItem) => (
-                        <Box key={navItem.label}>
+                        <Box
+                            key={navItem.label}
+                            margin="0 auto"
+                            display="flex"
+                            alignItems={"center"}>
                             <Popover
                                 trigger={"hover"}
                                 placement={"bottom-start"}>

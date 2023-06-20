@@ -82,7 +82,7 @@ export default function HomePage() {
                 , what would like to do?{" "}
             </Heading>
             <br />
-            <SimpleGrid columns={[1, 2, 3, 4]}>
+            <SimpleGrid columns={[2, null, 3, 4, 6]}>
                 {menuOptions.map((option: MenuItem, index: number) => {
                     const { label, to, icon } = option
                     return (
