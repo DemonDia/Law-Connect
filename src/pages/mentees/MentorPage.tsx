@@ -133,13 +133,13 @@ export default function MentorPage() {
         }
     }
     const applyMentorship = async () => {
+        closeMentor()
         if (selectedMentor) {
             await createMentorshipApplication(
                 user.userId,
                 selectedMentor.userId,
                 toast,
             )
-            onClose()
         }
     }
     const closeMentor = () => {
