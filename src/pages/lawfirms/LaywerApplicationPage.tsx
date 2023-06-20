@@ -17,6 +17,7 @@ import useUser from "../../store/userStore"
 
 // ======= custom components (if any)==========
 import TwoActionTopBar from "../../components/general/TwoActionTopBar"
+import LoadingComponent from "../../components/general/LoadingComponent"
 
 // ============== interfaces (if any) ==============
 
@@ -28,9 +29,6 @@ import { formatDate } from "../../helperFunctions/general/dateformatter"
 // ============== main component ==============
 
 // ============== sub component(s) if any ==============
-
-
-
 
 const pageNavigation = [
     {
@@ -52,6 +50,7 @@ export default function LaywerApplicationPage() {
     const { user } = useUser()
     // ============== states (if any) ==============
     const [currentApplication, setCurrentApplication] = useState<any>({})
+    const [loading, setLoading] = useState(false)
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
@@ -79,69 +78,83 @@ export default function LaywerApplicationPage() {
 
     return (
         <Box>
-            <TwoActionTopBar
-                firstButtonWords="Reject Lawyer"
-                firstButtonAction={rejectApplication}
-                firstButtonColor="#D00000"
-                secondButtonWords="Onboard Lawyer"
-                secondButtonAction={acceptApplication}
-                secondButtonColor="#1D00D0"
-                disabled={currentApplication.outcome != -1}
-            />
-            <Flex>
-                <Box
-                    w="30%"
-                    h="90vh"
-                    bg="white"
-                    boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}
-                    borderRadius={"10px"}
-                    padding={"10px"}
-                    margin={"10px"}>
-                    {pageNavigation.map((item, index) => {
-                        const { label, href } = item
-                        return (
-                            <Link color={"#808080"} href={href} key={index}>
-                                <Box
-                                    background={"#E6E6E6"}
-                                    w={"100%"}
-                                    margin={"10px auto"}
-                                    padding="5px">
-                                    {label}
-                                </Box>
-                            </Link>
-                        )
-                    })}
-                </Box>
+            {loading ? (
+                <>
+                    <LoadingComponent message="Loading lawyer's application ..." />
+                </>
+            ) : (
+                <>
+                    {" "}
+                    <TwoActionTopBar
+                        firstButtonWords="Reject Lawyer"
+                        firstButtonAction={rejectApplication}
+                        firstButtonColor="#D00000"
+                        secondButtonWords="Onboard Lawyer"
+                        secondButtonAction={acceptApplication}
+                        secondButtonColor="#1D00D0"
+                        disabled={currentApplication.outcome != -1}
+                    />
+                    <Flex>
+                        <Box
+                            w="30%"
+                            h="90vh"
+                            bg="white"
+                            boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}
+                            borderRadius={"10px"}
+                            padding={"10px"}
+                            margin={"10px"}>
+                            {pageNavigation.map((item, index) => {
+                                const { label, href } = item
+                                return (
+                                    <Link
+                                        color={"#808080"}
+                                        href={href}
+                                        key={index}>
+                                        <Box
+                                            background={"#E6E6E6"}
+                                            w={"100%"}
+                                            margin={"10px auto"}
+                                            padding="5px">
+                                            {label}
+                                        </Box>
+                                    </Link>
+                                )
+                            })}
+                        </Box>
 
-                <Box
-                    w="70%"
-                    h="90vh"
-                    bg="white"
-                    boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}
-                    borderRadius={"10px"}
-                    padding={"10px"}
-                    margin={"10px"}>
-                    <Box id="lawerInfo" margin={"10px auto"}>
-                        <Heading as="h4" size="lg">
-                            {currentApplication.username}
-                        </Heading>
-                        <Text>{currentApplication.email}</Text>
-                        <Text>
-                            Requested at:
-                            {formatDate(
-                                Date(currentApplication.applicationDate),
-                            )}
-                        </Text>
-                    </Box>
+                        <Box
+                            w="70%"
+                            h="90vh"
+                            bg="white"
+                            boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}
+                            borderRadius={"10px"}
+                            padding={"10px"}
+                            margin={"10px"}>
+                            <Box id="lawerInfo" margin={"10px auto"}>
+                                <Heading as="h4" size="lg">
+                                    {currentApplication.username}
+                                </Heading>
+                                <Text>{currentApplication.email}</Text>
+                                <Text>
+                                    Requested at:
+                                    {formatDate(
+                                        Date(
+                                            currentApplication.applicationDate,
+                                        ),
+                                    )}
+                                </Text>
+                            </Box>
 
-                    <Box id="skillsPossessed" margin={"10px auto"}>
-                        <Heading as="h4" size="md">
-                            Skills Possessed:
-                        </Heading>
-                        {currentApplication.skills ? <></> : <>N/A</>}
-                    </Box>
-                </Box>
-            </Flex>
+                            <Box id="skillsPossessed" margin={"10px auto"}>
+                                <Heading as="h4" size="md">
+                                    Skills Possessed:
+                                </Heading>
+                                {currentApplication.skills ? <></> : <>N/A</>}
+                            </Box>
+                        </Box>
+                    </Flex>
+                </>
+            )}
         </Box>
     )
 }

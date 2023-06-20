@@ -1,6 +1,6 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 // ======= chakra UI ==========
@@ -17,7 +17,7 @@ import useUser from "../../store/userStore"
 
 // ======= custom components (if any)==========
 import AuthenticationForm from "../../components/authentication/AuthenticationForm"
-
+import LoadingComponent from "../../components/general/LoadingComponent"
 // ============== interfaces (if any) ==============
 import { AuthObject } from "../../components/authentication/AuthenticationForm"
 
@@ -32,6 +32,7 @@ export default function RegisterPage() {
     const { user } = useUser()
     const toast = useToast()
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     // ============== states (if any) ==============
 
@@ -69,6 +70,7 @@ export default function RegisterPage() {
                 isClosable: true,
             })
         } else {
+            setLoading(true)
             const newUser = await registerUserViaEmail(email, password)
             if (newUser) {
                 const { uid: userId } = newUser
@@ -81,8 +83,10 @@ export default function RegisterPage() {
                             duration: 1000,
                             isClosable: true,
                         })
+                        setLoading(false)
                         navigate("/setup/" + userId)
                     } else {
+                        setLoading(false)
                         toast({
                             title: "Registration unsuccessful",
                             description: "Please try again later",
@@ -93,6 +97,7 @@ export default function RegisterPage() {
                     }
                 })
             } else {
+                setLoading(false)
                 toast({
                     title: "Registration unsuccessful",
                     description: "Please try again later",
@@ -106,10 +111,14 @@ export default function RegisterPage() {
 
     return (
         <>
-            <AuthenticationForm
-                isLogin={false}
-                submitMethod={registerFunction}
-            />
+            {loading ? (
+                <LoadingComponent message="Registering...." />
+            ) : (
+                <AuthenticationForm
+                    isLogin={false}
+                    submitMethod={registerFunction}
+                />
+            )}
         </>
     )
 }

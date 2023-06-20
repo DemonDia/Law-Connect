@@ -39,8 +39,8 @@ import { findUserById } from "../../helperFunctions/firebase/userFirestore"
 
 // ============== main component ==============
 export default function SetupPage() {
-    const { addUser, user } = useUser()
     // ============== constant variables if any ==============
+    const { addUser, user } = useUser()
     // const userTypes = ["Mentor", "Mentee", "Law Firm"];
     const userTypes = [
         { value: "0", label: "Mentee" },
@@ -64,6 +64,8 @@ export default function SetupPage() {
     // skill
     const [skills, setSkills] = useState<Array<string>>([])
     const [selectedSkillId, setSelectedSkillId] = useState<string>("")
+
+    const [loading, setLoading] = useState<boolean>(false)
 
     // ============== useEffect statement(s) ==============
 
@@ -120,7 +122,7 @@ export default function SetupPage() {
                 isClosable: true,
             })
         } else {
-            // const { userId, skills, userType, name } = userSetupData
+            setLoading(true)
             await onAuthStateChanged(auth, async user => {
                 if (user && auth.currentUser) {
                     const { uid } = user
@@ -167,11 +169,14 @@ export default function SetupPage() {
                                         duration: 1000,
                                         isClosable: true,
                                     })
+                                    setLoading(false)
                                     navigate("/")
                                 })
                             }
                         })
                     }
+                } else {
+                    setLoading(false)
                 }
             })
         }

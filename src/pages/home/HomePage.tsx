@@ -1,7 +1,7 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
 import { useState, useEffect } from "react"
-import { Routes, Route, useNavigate, useLocation, Link } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 // ======= chakra UI ==========
 import { SimpleGrid, Box, Text, Icon, Heading } from "@chakra-ui/react"
 
@@ -15,6 +15,7 @@ import { BiLogOut } from "react-icons/bi"
 // ======= zustand/state ==========
 import useUser from "../../store/userStore"
 // ======= custom components (if any)==========
+import LoadingComponent from "../../components/general/LoadingComponent"
 
 // ============== interfaces (if any) ==============
 type MenuItem = {
@@ -51,23 +52,29 @@ export default function HomePage() {
     const navigate = useNavigate()
     // ============== states (if any) ==============
     const [menuOptions, setMenuOptions] = useState<MenuItem[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
     // ============== useEffect statement(s) ==============
     useEffect(() => {
+        setLoading(true)
         if (!user) {
             navigate("/login")
         }
         switch (user?.userType) {
             case "0":
                 setMenuOptions(menteeMenu)
+                setLoading(false)
                 return
             case "1":
                 setMenuOptions(mentorMenu)
+                setLoading(false)
                 return
             case "2":
                 setMenuOptions(companyMenu)
+                setLoading(false)
                 return
             default:
                 setMenuOptions(emptyMenu)
+                setLoading(false)
                 return
         }
     }, [])
@@ -76,25 +83,39 @@ export default function HomePage() {
 
     return (
         <>
-            <br />
-            <Heading as={"h6"} textAlign={"center"} size={"md"}>
-                Hello {user && user.username ? <>{user.username}</> : <>User</>}
-                , what would like to do?{" "}
-            </Heading>
-            <br />
-            <SimpleGrid columns={[2, null, 3, 4, 6]}>
-                {menuOptions.map((option: MenuItem, index: number) => {
-                    const { label, to, icon } = option
-                    return (
-                        <HomePageOption
-                            key={index}
-                            label={label}
-                            to={to}
-                            icon={icon}
-                        />
-                    )
-                })}
-            </SimpleGrid>
+            {loading ? (
+                <>
+                    <LoadingComponent message="Menu is loading ...." />
+                </>
+            ) : (
+                <>
+                    {" "}
+                    <br />
+                    <Heading as={"h6"} textAlign={"center"} size={"md"}>
+                        Hello{" "}
+                        {user && user.username ? (
+                            <>{user.username}</>
+                        ) : (
+                            <>User</>
+                        )}
+                        , what would like to do?{" "}
+                    </Heading>
+                    <br />
+                    <SimpleGrid columns={[2, null, 3, 4, 6]}>
+                        {menuOptions.map((option: MenuItem, index: number) => {
+                            const { label, to, icon } = option
+                            return (
+                                <HomePageOption
+                                    key={index}
+                                    label={label}
+                                    to={to}
+                                    icon={icon}
+                                />
+                            )
+                        })}
+                    </SimpleGrid>
+                </>
+            )}
         </>
     )
 }

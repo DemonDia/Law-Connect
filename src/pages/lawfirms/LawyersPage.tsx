@@ -18,6 +18,7 @@ import TabTopbar from "../../components/general/TabTopbar"
 import LawyerApplicationContainer from "../../components/lawfirms/LawyerApplicationContainer"
 import { LawyerContainer } from "../../components/lawfirms/LawyerContainer"
 import NoRecordsFoundComponent from "../../components/general/NoRecordsFoundComponent"
+import LoadingComponent from "../../components/general/LoadingComponent"
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
@@ -35,12 +36,15 @@ export default function LawyersPage() {
     const [applications, setApplications] = useState<any>([])
     const [lawyers, setLawyers] = useState<any>([])
     const [selectedTab, setSelectedTab] = useState<number>(-1)
+    const [loading, setLoading] = useState<boolean>(false)
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
         if (user && user.userId && user.userType == 2) {
+            setLoading(true)
             getApplications()
             getLaywers()
+            setLoading(false)
         } else {
             navigate("/")
         }
@@ -78,72 +82,94 @@ export default function LawyersPage() {
     // ============== key functions if any ==============
     return (
         <>
-            {applications ? (
+            {loading ? (
                 <>
-                    <TabTopbar
-                        firstTabWords={"View Applications"}
-                        secondTabWords={"View Lawyers"}
-                        tab={selectedTab}
-                        changeTab={selectTab}
-                    />
-                    <SimpleGrid columns={[2, null, 3]} spacing={1}>
-                        {selectedTab == -1 ? null : (
-                            <>
-                                {selectedTab == 0 ? (
+                    <LoadingComponent message="Loading... Please sit back and wait" />
+                </>
+            ) : (
+                <>
+                    {" "}
+                    {applications ? (
+                        <>
+                            <TabTopbar
+                                firstTabWords={"View Applications"}
+                                secondTabWords={"View Lawyers"}
+                                tab={selectedTab}
+                                changeTab={selectTab}
+                            />
+                            <SimpleGrid columns={[2, null, 3]} spacing={1}>
+                                {selectedTab == -1 ? null : (
                                     <>
-                                        {" "}
-                                        {applications.map(
-                                            (
-                                                application: any,
-                                                index: number,
-                                            ) => {
-                                                const {
-                                                    applicantName,
-                                                    outcome,
-                                                    id,
-                                                    applicationDate,
-                                                } = application
-                                                return (
-                                                    <LawyerApplicationContainer
-                                                        key={index}
-                                                        applicationId={id}
-                                                        applicantName={
-                                                            applicantName
-                                                        }
-                                                        applicationDate={
-                                                            applicationDate
-                                                        }
-                                                        applicationOutcome={
-                                                            outcome
-                                                        }
-                                                    />
-                                                )
-                                            },
-                                        )}
-                                    </>
-                                ) : (
-                                    <>
-                                        {lawyers.map(
-                                            (lawyer: any, index: number) => {
-                                                const { memberName, joinDate } =
-                                                    lawyer
-                                                return (
-                                                    <LawyerContainer
-                                                        key={index}
-                                                        lawyerName={memberName}
-                                                        joinedDate={joinDate}
-                                                    />
-                                                )
-                                            },
+                                        {selectedTab == 0 ? (
+                                            <>
+                                                {" "}
+                                                {applications.map(
+                                                    (
+                                                        application: any,
+                                                        index: number,
+                                                    ) => {
+                                                        const {
+                                                            applicantName,
+                                                            outcome,
+                                                            id,
+                                                            applicationDate,
+                                                        } = application
+                                                        return (
+                                                            <LawyerApplicationContainer
+                                                                key={index}
+                                                                applicationId={
+                                                                    id
+                                                                }
+                                                                applicantName={
+                                                                    applicantName
+                                                                }
+                                                                applicationDate={
+                                                                    applicationDate
+                                                                }
+                                                                applicationOutcome={
+                                                                    outcome
+                                                                }
+                                                            />
+                                                        )
+                                                    },
+                                                )}
+                                            </>
+                                        ) : (
+                                            <>
+                                                {lawyers.map(
+                                                    (
+                                                        lawyer: any,
+                                                        index: number,
+                                                    ) => {
+                                                        const {
+                                                            memberName,
+                                                            joinDate,
+                                                        } = lawyer
+                                                        return (
+                                                            <LawyerContainer
+                                                                key={index}
+                                                                lawyerName={
+                                                                    memberName
+                                                                }
+                                                                joinedDate={
+                                                                    joinDate
+                                                                }
+                                                            />
+                                                        )
+                                                    },
+                                                )}
+                                            </>
                                         )}
                                     </>
                                 )}
-                            </>
-                        )}
-                    </SimpleGrid>
+                            </SimpleGrid>
+                        </>
+                    ) : (
+                        <>
+                            <NoRecordsFoundComponent message="You have not applied to any law firms? Don't worry and keep applying!" />
+                        </>
+                    )}
                 </>
-            ) : (
-                <><NoRecordsFoundComponent message="You have not applied to any law firms? Don't worry and keep applying!"/></>
             )}
         </>
     )

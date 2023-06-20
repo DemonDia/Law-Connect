@@ -16,6 +16,7 @@ import useUser from "../../store/userStore"
 
 // ======= custom components (if any)==========
 import SkillProgressContainer from "../../components/mentorship/SkillProgressContainer"
+import LoadingComponent from "../../components/general/LoadingComponent"
 
 // ============== interfaces (if any) ==============
 
@@ -89,7 +90,9 @@ export default function IndividualMentorshipPage() {
     return (
         <>
             {loading ? (
-                <></>
+                <>
+                    <LoadingComponent message="Finding mentee's progress ... Please sit back for a while!" />{" "}
+                </>
             ) : (
                 <>
                     {" "}

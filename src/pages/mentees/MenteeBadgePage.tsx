@@ -9,7 +9,8 @@ import { findMenteeBadges } from "../../helperFunctions/firebase/mentorshipFunct
 // ======= zustand/state ==========
 import useUser from "../../store/userStore"
 // ======= custom components (if any)==========
-import NoRecordsFoundComponent from "../general/NoRecordsFoundComponent"
+import NoRecordsFoundComponent from "../../components/general/NoRecordsFoundComponent"
+import LoadingComponent from "../../components/general/LoadingComponent"
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
@@ -21,6 +22,7 @@ export default function MenteeBadgePage() {
     // ============== constant variables if any ==============
     const navigate = useNavigate()
     const { user } = useUser()
+    const [loading, setLoading] = useState(false)
 
     // ============== states (if any) ==============
     const [menteeBadges, setMenteeBadges] = useState<any[]>([])
@@ -32,7 +34,9 @@ export default function MenteeBadgePage() {
         if (!user || (user && user.userType != 0)) {
             navigate("/")
         }
+        setLoading(true)
         getAllBadges()
+        setLoading(false)
     }, [])
 
     // ============== helper functions if any ==============
@@ -50,27 +54,38 @@ export default function MenteeBadgePage() {
 
     return (
         <>
-            <Heading>Collected badges by {user.username}</Heading>
-            {menteeBadges && menteeBadges.length > 0 ? (
+            {loading ? (
                 <>
-                    {" "}
-                    {menteeBadges.map(badge => {
-                        return (
-                            <MenteeBadge
-                                skillName={badge.skillName}
-                                skillDescription={badge.skillDescription}
-                                senderName={badge.senderName}
-                                obtainedDate={badge.obtainedDate}
-                            />
-                        )
-                    })}
+                    <LoadingComponent message="Looking for your badges ..." />
                 </>
             ) : (
                 <>
-                    <NoRecordsFoundComponent message="You do not have any badges? Perhaps earn some?" />
+                    {" "}
+                    <Heading>Collected badges by {user.username}</Heading>
+                    {menteeBadges && menteeBadges.length > 0 ? (
+                        <>
+                            {" "}
+                            {menteeBadges.map(badge => {
+                                return (
+                                    <MenteeBadge
+                                        skillName={badge.skillName}
+                                        skillDescription={
+                                            badge.skillDescription
+                                        }
+                                        senderName={badge.senderName}
+                                        obtainedDate={badge.obtainedDate}
+                                    />
+                                )
+                            })}
+                        </>
+                    ) : (
+                        <>
+                            <NoRecordsFoundComponent message="You do not have any badges? Perhaps earn some?" />
+                        </>
+                    )}
+                    <SimpleGrid columns={[2, null, 4, 6]}></SimpleGrid>
                 </>
             )}
-            <SimpleGrid columns={[2, null, 4, 6]}></SimpleGrid>
         </>
     )
 }

@@ -38,6 +38,7 @@ import { SkillBadge } from "../../components/skills/SkillBadge"
 import CustomButton from "../../components/general/CustomButton"
 import ApplicationContainer from "../../components/mentee/ApplicationContainer"
 import NoRecordsFoundComponent from "../../components/general/NoRecordsFoundComponent"
+import LoadingComponent from "../../components/general/LoadingComponent"
 
 // ============== interfaces (if any) ==============
 interface Mentor {
@@ -68,6 +69,7 @@ export default function MentorPage() {
     )
     const [selectedMentor, setSelectedMentor] = useState<Mentor | null>(null)
     const [skillDict, setSkillDict] = useState<unknown>({})
+    const [loading, setLoading] = useState(false)
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
@@ -156,97 +158,118 @@ export default function MentorPage() {
 
     return (
         <>
-            {/* logged in user && user doesnt belong to company */}
-            {user && !user.companyId ? (
+            {loading ? (
                 <>
-                    <NoRecordsFoundComponent message="Please join a law firm before you proceed" />
+                    <LoadingComponent message="Retrieving the best mentors for you. . ." />
                 </>
             ) : (
                 <>
-                    <TabTopbar
-                        firstTabWords={"View Mentor Applications"}
-                        secondTabWords={"View Mentors"}
-                        tab={selectedTab}
-                        changeTab={selectTab}
-                    />
-                    <SimpleGrid columns={[2, null, 3]} spacing={1}>
-                        {selectedTab == -1 ? null : (
-                            <>
-                                {selectedTab == 0 ? (
+                    {" "}
+                    {user && !user.companyId ? (
+                        <>
+                            <NoRecordsFoundComponent message="Please join a law firm before you proceed" />
+                        </>
+                    ) : (
+                        <>
+                            <TabTopbar
+                                firstTabWords={"View Mentor Applications"}
+                                secondTabWords={"View Mentors"}
+                                tab={selectedTab}
+                                changeTab={selectTab}
+                            />
+                            <SimpleGrid columns={[2, null, 3]} spacing={1}>
+                                {selectedTab == -1 ? null : (
                                     <>
-                                        {mentorshipApplications.map(
-                                            (
-                                                mentorshipApplication: unknown,
-                                                index: number,
-                                            ) => {
-                                                const {
-                                                    mentorName,
-                                                    applicationDate,
-                                                    outcome,
-                                                } = mentorshipApplication
-                                                console.log(
-                                                    "mentor",
-                                                    mentorshipApplication,
-                                                )
-                                                return (
-                                                    <ApplicationContainer
-                                                        key={index}
-                                                        companyName={mentorName}
-                                                        applicationDate={
-                                                            applicationDate
-                                                        }
-                                                        applicationOutcome={
-                                                            outcome
-                                                        }
-                                                    />
-                                                )
-                                            },
-                                        )}
-                                    </>
-                                ) : (
-                                    <>
-                                        {companyMentors.map(
-                                            (mentor: Mentor, index: number) => {
-                                                const found: any =
-                                                    mentorshipApplications.find(
-                                                        (
-                                                            mentorshipApplication: any,
-                                                        ) => {
-                                                            return (
-                                                                mentorshipApplication.mentorId ===
-                                                                mentor.userId
+                                        {selectedTab == 0 ? (
+                                            <>
+                                                {mentorshipApplications.map(
+                                                    (
+                                                        mentorshipApplication: unknown,
+                                                        index: number,
+                                                    ) => {
+                                                        const {
+                                                            mentorName,
+                                                            applicationDate,
+                                                            outcome,
+                                                        } =
+                                                            mentorshipApplication
+                                                        console.log(
+                                                            "mentor",
+                                                            mentorshipApplication,
+                                                        )
+                                                        return (
+                                                            <ApplicationContainer
+                                                                key={index}
+                                                                companyName={
+                                                                    mentorName
+                                                                }
+                                                                applicationDate={
+                                                                    applicationDate
+                                                                }
+                                                                applicationOutcome={
+                                                                    outcome
+                                                                }
+                                                            />
+                                                        )
+                                                    },
+                                                )}
+                                            </>
+                                        ) : (
+                                            <>
+                                                {companyMentors.map(
+                                                    (
+                                                        mentor: Mentor,
+                                                        index: number,
+                                                    ) => {
+                                                        const found: any =
+                                                            mentorshipApplications.find(
+                                                                (
+                                                                    mentorshipApplication: any,
+                                                                ) => {
+                                                                    return (
+                                                                        mentorshipApplication.mentorId ===
+                                                                        mentor.userId
+                                                                    )
+                                                                },
                                                             )
-                                                        },
-                                                    )
-                                                const isFound = found != null
+                                                        const isFound =
+                                                            found != null
 
-                                                return (
-                                                    <CompanyMentorContainer
-                                                        handleApplyMentorship={
-                                                            applyMentorship
-                                                        }
-                                                        handleToggleOpen={
-                                                            displayMentor
-                                                        }
-                                                        handleToggleClose={
-                                                            closeMentor
-                                                        }
-                                                        key={index}
-                                                        selectedMentor={
-                                                            selectedMentor
-                                                        }
-                                                        skillDict={skillDict}
-                                                        currentMentor={mentor}
-                                                        isApplied={isFound}
-                                                    />
-                                                )
-                                            },
+                                                        return (
+                                                            <CompanyMentorContainer
+                                                                handleApplyMentorship={
+                                                                    applyMentorship
+                                                                }
+                                                                handleToggleOpen={
+                                                                    displayMentor
+                                                                }
+                                                                handleToggleClose={
+                                                                    closeMentor
+                                                                }
+                                                                key={index}
+                                                                selectedMentor={
+                                                                    selectedMentor
+                                                                }
+                                                                skillDict={
+                                                                    skillDict
+                                                                }
+                                                                currentMentor={
+                                                                    mentor
+                                                                }
+                                                                isApplied={
+                                                                    isFound
+                                                                }
+                                                            />
+                                                        )
+                                                    },
+                                                )}
+                                            </>
                                         )}
                                     </>
                                 )}
-                            </>
-                        )}
-                    </SimpleGrid>
+                            </SimpleGrid>
+                        </>
+                    )}
                 </>
             )}
         </>

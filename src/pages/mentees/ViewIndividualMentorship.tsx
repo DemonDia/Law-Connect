@@ -18,6 +18,7 @@ import useUser from "../../store/userStore"
 
 // ======= custom components (if any)==========
 import SkillProgressContainer from "../../components/mentorship/SkillProgressContainer"
+import LoadingComponent from "../../components/general/LoadingComponent"
 
 // ============== interfaces (if any) ==============
 
@@ -38,12 +39,15 @@ export default function ViewIndividualMentorship() {
     const [currentMentorship, setCurrentMentorship] = useState<unknown>(null)
     const [allSkills, setAllSkills] = useState<any>([])
     const [skillDict, setSkillDict] = useState<any>({})
+    const [loading, setLoading] = useState<boolean>(true)
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
         if (user && user.userId && user.userType == 0) {
+            setLoading(true)
             getAllSkillInfo()
             getMentorship()
+            setLoading(false)
         } else {
             navigate("/")
         }
@@ -79,32 +83,41 @@ export default function ViewIndividualMentorship() {
     }
     return (
         <>
-            <Heading as="h6" textAlign={"center"} size="md">
-                Progress for:{" "}
-                {currentMentorship && currentMentorship.menteeName ? (
-                    <>{currentMentorship.menteeName}</>
-                ) : (
-                    <>Mentee A</>
-                )}{" "}
-            </Heading>
-            <SimpleGrid columns={[2, null, 3]} gap={0}>
-                {currentMentorship && currentMentorship.skills ? (
-                    <>
-                        {currentMentorship.skills.map((skill: any) => {
-                            const { skillLevel, skillId } = skill
-                            return (
-                                <SkillProgressContainer
-                                    skillName={skillDict[skillId]}
-                                    skillLevel={skillLevel}
-                                    editable={false}
-                                />
-                            )
-                        })}
-                    </>
-                ) : (
-                    <></>
-                )}
-            </SimpleGrid>
+            {loading ? (
+                <>
+                    <LoadingComponent message="Finding current mentorship ..." />{" "}
+                </>
+            ) : (
+                <>
+                    {" "}
+                    <Heading as="h6" textAlign={"center"} size="md">
+                        Progress for:{" "}
+                        {currentMentorship && currentMentorship.menteeName ? (
+                            <>{currentMentorship.menteeName}</>
+                        ) : (
+                            <>Mentee A</>
+                        )}{" "}
+                    </Heading>
+                    <SimpleGrid columns={[2, null, 3]} gap={0}>
+                        {currentMentorship && currentMentorship.skills ? (
+                            <>
+                                {currentMentorship.skills.map((skill: any) => {
+                                    const { skillLevel, skillId } = skill
+                                    return (
+                                        <SkillProgressContainer
+                                            skillName={skillDict[skillId]}
+                                            skillLevel={skillLevel}
+                                            editable={false}
+                                        />
+                                    )
+                                })}
+                            </>
+                        ) : (
+                            <></>
+                        )}
+                    </SimpleGrid>
+                </>
+            )}
         </>
     )
 }

@@ -36,8 +36,8 @@ import HomePage from "./pages/home/HomePage"
 // ======================== mentee pages ========================
 import CompanyPage from "./pages/mentees/CompanyPage"
 import MentorPage from "./pages/mentees/MentorPage"
-import ViewIndividualMentorship from "./components/mentee/ViewIndividualMentorship"
-import MenteeBadgePage from "./components/mentee/MenteeBadgePage"
+import ViewIndividualMentorship from "./pages/mentees/ViewIndividualMentorship"
+import MenteeBadgePage from "./pages/mentees/MenteeBadgePage"
 // ======================== mentorPages ========================
 import MenteePage from "./pages/mentors/MenteePage"
 import MentorshipApplicationPage from "./pages/mentors/MentorshipApplicationPage"
