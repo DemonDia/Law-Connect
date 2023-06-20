@@ -34,12 +34,15 @@ export default function IndividualMentorshipPage() {
     // ============== states (if any) ==============
     const [currentMentorship, setCurrentMentorship] = useState<unknown>(null)
     const [skillDict, setSkillDict] = useState<any>({})
+    const [loading, setLoading] = useState<boolean>(false)
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
         if (user && user.userId && user.userType == 1) {
+            setLoading(true)
             getAllSkillInfo()
             getMentorship()
+            setLoading(false)
         } else {
             navigate("/")
         }
@@ -50,6 +53,8 @@ export default function IndividualMentorshipPage() {
     const updateSkillProgress = async () => {
         // if exceed 100, award a badge
         await updateMentorshipSkill(
+            user.userId,
+            currentMentorship.menteeId,
             mentorshipId,
             currentMentorship.skills,
             toast,
@@ -83,40 +88,50 @@ export default function IndividualMentorshipPage() {
 
     return (
         <>
-            <Heading as="h6" textAlign={"center"} size="md">
-                Progress for:{" "}
-                {currentMentorship && currentMentorship.menteeName ? (
-                    <>{currentMentorship.menteeName}</>
-                ) : (
-                    <>Mentee A</>
-                )}{" "}
-            </Heading>
-            <SimpleGrid columns={3} gap={0}>
-                {currentMentorship && currentMentorship.skills ? (
-                    <>
-                        {currentMentorship.skills.map(
-                            (skill: any, key: number) => {
-                                const { skillLevel, skillId } = skill
-                                return (
-                                    <SkillProgressContainer
-                                        key={key}
-                                        skills={currentMentorship.skills}
-                                        skillId={skillId}
-                                        skillNum={key}
-                                        skillLevel={skillLevel}
-                                        skillName={skillDict[skillId]}
-                                        handleUpdateSkillProgress={
-                                            updateSkillProgress
-                                        }
-                                    />
-                                )
-                            },
+            {loading ? (
+                <></>
+            ) : (
+                <>
+                    {" "}
+                    <Heading as="h6" textAlign={"center"} size="md">
+                        Progress for:{" "}
+                        {currentMentorship && currentMentorship.menteeName ? (
+                            <>{currentMentorship.menteeName}</>
+                        ) : (
+                            <>Mentee A</>
+                        )}{" "}
+                    </Heading>
+                    <SimpleGrid columns={3} gap={0}>
+                        {currentMentorship && currentMentorship.skills ? (
+                            <>
+                                {currentMentorship.skills.map(
+                                    (skill: any, key: number) => {
+                                        const { skillLevel, skillId } = skill
+                                        return (
+                                            <SkillProgressContainer
+                                                key={key}
+                                                skills={
+                                                    currentMentorship.skills
+                                                }
+                                                // skillId={skillId}
+                                                skillNum={key}
+                                                skillLevel={skillLevel}
+                                                skillName={skillDict[skillId]}
+                                                handleUpdateSkillProgress={
+                                                    updateSkillProgress
+                                                }
+                                                editable={!(skillLevel == 100)}
+                                            />
+                                        )
+                                    },
+                                )}
+                            </>
+                        ) : (
+                            <>Nothing for you to see.</>
                         )}
-                    </>
-                ) : (
-                    <>Nothing for you to see.</>
-                )}
-            </SimpleGrid>
+                    </SimpleGrid>
+                </>
+            )}
         </>
     )
 }

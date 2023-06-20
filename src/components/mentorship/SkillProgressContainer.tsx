@@ -18,7 +18,8 @@ interface SkillProgressContainerProps {
     skillNum: number
     skillLevel: number
     skillName: string
-    handleUpdateSkillProgress: any
+    handleUpdateSkillProgress?: any
+    editable: boolean
 }
 
 // ============== external variables (if any) ==============
@@ -34,6 +35,7 @@ export default function SkillProgressContainer({
     skillLevel,
     skillName,
     handleUpdateSkillProgress,
+    editable,
 }: SkillProgressContainerProps) {
     // ============== constant variables if any ==============
     const toast = useToast()
@@ -87,39 +89,56 @@ export default function SkillProgressContainer({
                 colorScheme="green"
                 m="10px auto"
             />
-            {!isEditing ? (
+            {editable ? (
                 <>
                     {" "}
-                    <CustomButton
-                        buttonColor="#3609EA"
-                        textColor="white"
-                        buttonText={"Edit"}
-                        buttonOnClick={startEdit}
-                    />
+                    {!isEditing ? (
+                        <>
+                            {" "}
+                            <CustomButton
+                                buttonColor="#3609EA"
+                                textColor="white"
+                                buttonText={"Edit"}
+                                buttonOnClick={startEdit}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <InputField
+                                label="Skill level"
+                                placeholder="Enter new skill level"
+                                formType="number"
+                                changeHandler={(e: any) =>
+                                    handleEdit(e.target.value)
+                                }
+                                value={currSkillLevel}
+                            />
+                            <CustomButton
+                                buttonColor="#6D6D6D"
+                                textColor="white"
+                                buttonText={"Cancel"}
+                                buttonOnClick={cancelEdit}
+                                buttonWidth="50%"
+                            />
+                            <CustomButton
+                                buttonColor="#1D00D0"
+                                textColor="white"
+                                buttonText={"Save"}
+                                buttonOnClick={saveEdit}
+                                buttonWidth="50%"
+                            />
+                        </>
+                    )}
                 </>
             ) : (
                 <>
-                    <InputField
-                        label="Skill level"
-                        placeholder="Enter new skill level"
-                        formType="number"
-                        changeHandler={(e: any) => handleEdit(e.target.value)}
-                        value={currSkillLevel}
-                    />
-                    <CustomButton
-                        buttonColor="#6D6D6D"
-                        textColor="white"
-                        buttonText={"Cancel"}
-                        buttonOnClick={cancelEdit}
-                        buttonWidth="50%"
-                    />
-                    <CustomButton
-                        buttonColor="#1D00D0"
-                        textColor="white"
-                        buttonText={"Save"}
-                        buttonOnClick={saveEdit}
-                        buttonWidth="50%"
-                    />
+                    {skillLevel == 100 ? (
+                        <>
+                            <Text>Mentee already achieved badge!</Text>
+                        </>
+                    ) : (
+                        <><Text>Keep working for it! You will get there!</Text></>
+                    )}
                 </>
             )}
         </Box>

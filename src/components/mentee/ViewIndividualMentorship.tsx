@@ -96,6 +96,7 @@ export default function ViewIndividualMentorship() {
                                 <SkillProgressContainer
                                     skillName={skillDict[skillId]}
                                     skillLevel={skillLevel}
+                                    editable={false}
                                 />
                             )
                         })}

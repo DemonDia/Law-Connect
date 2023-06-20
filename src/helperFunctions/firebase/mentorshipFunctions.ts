@@ -78,6 +78,8 @@ export const checkMentorshipByMentorAndMentee = async (
     return mentorshipId
 }
 export const updateMentorshipSkill = async (
+    mentorId: string,
+    menteeId: string,
     mentorshipId: string,
     skills: Array<any>,
     toast: any,
@@ -86,24 +88,80 @@ export const updateMentorshipSkill = async (
     await updateDoc(skillToUpdateRef, {
         skills,
     })
-    .then(() => {
-        toast({
-            title: "Skill updated successfully",
-            description: "",
-            status: "success",
-            duration: 1000,
-            isClosable: true,
-        })
-    })
-    .catch(err => {
-        toast({
-            title: "Error updating skill",
-            description: "Please try again later",
-            status: "error",
-            duration: 1000,
-            isClosable: true,
-        })
-    })
+        .then(async () => {
+            const userObtainedBadgeIds = await getDistinctBadgesOfMentee(
+                menteeId,
+            )
+            console.log("userObtainedBadgeIds", userObtainedBadgeIds)
+            skills.forEach(async skill => {
+                const { skillId, skillLevel } = skill
+                console.log("skillId", skillId)
+                console.log("skillLevel", skillLevel)
+                console.log(
+                    "userObtainedBadgeIds.includes(skillId)",
+                    userObtainedBadgeIds.includes(skillId),
+                )
+                console.log("skillLevel", skillLevel == 100)
+                if (
+                    !userObtainedBadgeIds.includes(skillId) &&
+                    skillLevel == 100
+                ) {
+                    // add badge
+                    console.log("Done")
+                    await addDoc(collection(db, "badge"), {
+                        senderId: mentorId,
+                        recipientId: menteeId,
+                        skillId,
+                        receivedDate: new Date(),
+                    })
+                }
+            })
 
-    // find mentorship via Id
+            toast({
+                title: "Skill updated successfully",
+                description: "",
+                status: "success",
+                duration: 1000,
+                isClosable: true,
+            })
+        })
+        .catch(err => {
+            toast({
+                title: "Error updating skill",
+                description: "Please try again later",
+                status: "error",
+                duration: 1000,
+                isClosable: true,
+            })
+        })
+}
+
+// return badge arr
+// badge is: {senderId, recipientId, skillId, receivedDate}
+export const findMenteeBadges = async (menteeId: string) => {
+    const findQuery = query(
+        collection(db, "badge"),
+        where("recipientId", "==", menteeId),
+    )
+    const menteeBadges: unknown[] = []
+    const docSnap = await getDocs(findQuery)
+    docSnap.forEach(doc => {
+        menteeBadges.push(doc.data())
+    })
+    return menteeBadges
+}
+
+// get all the skillIds
+export const getDistinctBadgesOfMentee = async (menteeId: string) => {
+    const findQuery = query(
+        collection(db, "badge"),
+        where("recipientId", "==", menteeId),
+    )
+    const badgeIds: unknown[] = []
+    const docSnap = await getDocs(findQuery)
+    docSnap.forEach(doc => {
+        const { skillId } = doc.data()
+        badgeIds.push(skillId)
+    })
+    return badgeIds
 }
