@@ -42,7 +42,7 @@ export default function CustomButton({
                 }}
                 boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.35)"}
                 isDisabled={disabled ? true : false}
-                isActive={!disabled}>
+                >
                 {buttonText}
             </Button>
         </>
