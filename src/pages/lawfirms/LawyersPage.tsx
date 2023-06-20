@@ -17,7 +17,7 @@ import useUser from "../../store/userStore"
 import TabTopbar from "../../components/general/TabTopbar"
 import LawyerApplicationContainer from "../../components/lawfirms/LawyerApplicationContainer"
 import { LawyerContainer } from "../../components/lawfirms/LawyerContainer"
-
+import NoRecordsFoundComponent from "../../components/general/NoRecordsFoundComponent"
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
@@ -143,7 +143,7 @@ export default function LawyersPage() {
                     </SimpleGrid>
                 </>
             ) : (
-                <></>
+                <><NoRecordsFoundComponent message="You have not applied to any law firms? Don't worry and keep applying!"/></>
             )}
         </>
     )

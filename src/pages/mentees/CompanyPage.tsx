@@ -20,7 +20,7 @@ import useUser from "../../store/userStore"
 import TabTopbar from "../../components/general/TabTopbar"
 import CompanyContainer from "../../components/mentee/CompanyContainer"
 import ApplicationContainer from "../../components/mentee/ApplicationContainer"
-
+import NoRecordsFoundComponent from "../../components/general/NoRecordsFoundComponent"
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
@@ -40,7 +40,7 @@ export default function CompanyPage() {
     const [applications, setApplications] = useState<any>([])
     // ============== useEffect statement(s) ==============
     useEffect(() => {
-        if (user && user.userId && user.userType != 2 && !user.companyId) {
+        if (user && user.userId && user.userType != 2) {
             getApplications()
             getCompanies()
         } else {
@@ -84,7 +84,9 @@ export default function CompanyPage() {
     return (
         <>
             {user && user.companyId ? (
-                <>Already in a company</>
+                <>
+                    <NoRecordsFoundComponent message="You are aready in a law firm. You can consider leaving first before joining another law firm." />
+                </>
             ) : (
                 <>
                     <TabTopbar
@@ -94,71 +96,119 @@ export default function CompanyPage() {
                         changeTab={selectTab}
                     />
                     {/* show company & applications */}
-                    <SimpleGrid columns={[2, null, 3]} spacing={1}>
-                        {selectedTab == -1 ? null : (
-                            <>
-                                {selectedTab == 0 ? (
+                    {selectedTab == -1 ? (
+                        <>
+                            {" "}
+                            <NoRecordsFoundComponent message="Please select an option to continue." />
+                        </>
+                    ) : (
+                        <>
+                            {" "}
+                            <SimpleGrid
+                                columns={
+                                    //
+                                    (selectedTab == 0 &&
+                                        applications &&
+                                        applications.length) ||
+                                    (selectedTab == 1 &&
+                                        companies &&
+                                        companies.length) > 0
+                                        ? [2, null, 3]
+                                        : 1
+
+                                    // applications.length > 0 ? [2, null, 3] : 1
+                                }
+                                spacing={1}>
+                                {selectedTab == -1 ? null : (
                                     <>
-                                        {" "}
-                                        {applications.map(
-                                            (application: any) => {
-                                                const {
-                                                    companyId,
-                                                    companyName,
-                                                    outcome,
-                                                    applicationDate,
-                                                    id,
-                                                } = application
-                                                return (
-                                                    <ApplicationContainer
-                                                        key={id}
-                                                        companyId={companyId}
-                                                        companyName={
-                                                            companyName
-                                                        }
-                                                        applicationDate={
-                                                            applicationDate
-                                                        }
-                                                        applicationOutcome={
-                                                            outcome
-                                                        }
-                                                    />
-                                                )
-                                            },
-                                        )}
-                                    </>
-                                ) : (
-                                    <>
-                                        {companies.map((company: any) => {
-                                            const found: any =
-                                                applications.find(
-                                                    (application: any) => {
+                                        {selectedTab == 0 ? (
+                                            <>
+                                                {applications &&
+                                                applications.length > 0 ? (
+                                                    <>
+                                                        {" "}
+                                                        {applications.map(
+                                                            (
+                                                                application: any,
+                                                            ) => {
+                                                                const {
+                                                                    companyId,
+                                                                    companyName,
+                                                                    outcome,
+                                                                    applicationDate,
+                                                                    id,
+                                                                } = application
+                                                                return (
+                                                                    <ApplicationContainer
+                                                                        key={id}
+                                                                        companyId={
+                                                                            companyId
+                                                                        }
+                                                                        companyName={
+                                                                            companyName
+                                                                        }
+                                                                        applicationDate={
+                                                                            applicationDate
+                                                                        }
+                                                                        applicationOutcome={
+                                                                            outcome
+                                                                        }
+                                                                    />
+                                                                )
+                                                            },
+                                                        )}
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <NoRecordsFoundComponent message="You did not apply to any law firms. Do try to apply whenever possible!" />
+                                                    </>
+                                                )}
+                                            </>
+                                        ) : (
+                                            <>
+                                                {companies.map(
+                                                    (company: any) => {
+                                                        const found: any =
+                                                            applications.find(
+                                                                (
+                                                                    application: any,
+                                                                ) => {
+                                                                    return (
+                                                                        application.companyId ===
+                                                                        company.userId
+                                                                    )
+                                                                },
+                                                            )
+                                                        const isFound =
+                                                            found != null
                                                         return (
-                                                            application.companyId ===
-                                                            company.userId
+                                                            <CompanyContainer
+                                                                key={
+                                                                    company.userId
+                                                                }
+                                                                companyId={
+                                                                    company.userId
+                                                                }
+                                                                companyName={
+                                                                    company.username
+                                                                }
+                                                                applyFunction={
+                                                                    applyToCompany
+                                                                }
+                                                                applied={
+                                                                    isFound
+                                                                }
+                                                            />
                                                         )
                                                     },
-                                                )
-                                            const isFound = found != null
-                                            return (
-                                                <CompanyContainer
-                                                    key={company.userId}
-                                                    companyId={company.userId}
-                                                    companyName={
-                                                        company.username
-                                                    }
-                                                    applyFunction={
-                                                        applyToCompany
-                                                    }
-                                                    applied={isFound}
-                                                />
-                                            )
-                                        })}
+                                                )}
+                                            </>
+                                        )}
                                     </>
                                 )}
-                            </>
-                        )}
-                    </SimpleGrid>
+                            </SimpleGrid>
+                        </>
+                    )}
                 </>
             )}
         </>

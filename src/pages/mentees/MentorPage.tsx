@@ -37,6 +37,7 @@ import TabTopbar from "../../components/general/TabTopbar"
 import { SkillBadge } from "../../components/skills/SkillBadge"
 import CustomButton from "../../components/general/CustomButton"
 import ApplicationContainer from "../../components/mentee/ApplicationContainer"
+import NoRecordsFoundComponent from "../../components/general/NoRecordsFoundComponent"
 
 // ============== interfaces (if any) ==============
 interface Mentor {
@@ -157,7 +158,9 @@ export default function MentorPage() {
         <>
             {/* logged in user && user doesnt belong to company */}
             {user && !user.companyId ? (
-                <>Please join a law firm first!</>
+                <>
+                    <NoRecordsFoundComponent message="Please join a law firm before you proceed" />
+                </>
             ) : (
                 <>
                     <TabTopbar

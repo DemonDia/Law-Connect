@@ -172,6 +172,9 @@ export default function Navbar() {
                         <DomLink to="/">
                             <Image height="60px" src={Logo} alt="logo" />
                         </DomLink>
+                        {/* <Text m="0" display="flex" alignItems={"center"}>
+                            {user ? user.username : null}
+                        </Text> */}
 
                         <Flex display={{ base: "none", md: "flex" }} ml={10}>
                             <DesktopNav navItems={navItems} />

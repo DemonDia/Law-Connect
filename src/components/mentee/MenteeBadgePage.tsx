@@ -9,7 +9,7 @@ import { findMenteeBadges } from "../../helperFunctions/firebase/mentorshipFunct
 // ======= zustand/state ==========
 import useUser from "../../store/userStore"
 // ======= custom components (if any)==========
-
+import NoRecordsFoundComponent from "../general/NoRecordsFoundComponent"
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
@@ -51,18 +51,26 @@ export default function MenteeBadgePage() {
     return (
         <>
             <Heading>Collected badges by {user.username}</Heading>
-            <SimpleGrid columns={[2, null, 4, 6]}>
-                {menteeBadges.map(badge => {
-                    return (
-                        <MenteeBadge
-                            skillName={badge.skillName}
-                            skillDescription={badge.skillDescription}
-                            senderName={badge.senderName}
-                            obtainedDate={badge.obtainedDate}
-                        />
-                    )
-                })}
-            </SimpleGrid>
+            {menteeBadges && menteeBadges.length > 0 ? (
+                <>
+                    {" "}
+                    {menteeBadges.map(badge => {
+                        return (
+                            <MenteeBadge
+                                skillName={badge.skillName}
+                                skillDescription={badge.skillDescription}
+                                senderName={badge.senderName}
+                                obtainedDate={badge.obtainedDate}
+                            />
+                        )
+                    })}
+                </>
+            ) : (
+                <>
+                    <NoRecordsFoundComponent message="You do not have any badges? Perhaps earn some?" />
+                </>
+            )}
+            <SimpleGrid columns={[2, null, 4, 6]}></SimpleGrid>
         </>
     )
 }

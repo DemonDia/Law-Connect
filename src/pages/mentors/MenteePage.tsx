@@ -13,10 +13,9 @@ import useUser from "../../store/userStore"
 
 // ======= custom components (if any)==========
 import TabTopbar from "../../components/general/TabTopbar"
-import CompanyContainer from "../../components/mentee/CompanyContainer"
-import ApplicationContainer from "../../components/mentee/ApplicationContainer"
 import MentorshipApplicationContainer from "../../components/mentor/MentorshipApplicationContainer"
 import MenteeContainer from "../../components/mentor/MenteeContainer"
+import NoRecordsFoundComponent from "../../components/general/NoRecordsFoundComponent"
 
 // ============== interfaces (if any) ==============
 
@@ -83,7 +82,9 @@ export default function MenteePage() {
     return (
         <>
             {user && !user.companyId ? (
-                <>Join a company first</>
+                <>
+                    <NoRecordsFoundComponent message="Please join a law firm before you proceed." />
+                </>
             ) : (
                 <>
                     <TabTopbar
@@ -92,53 +93,89 @@ export default function MenteePage() {
                         tab={selectedTab}
                         changeTab={selectTab}
                     />
-                    <SimpleGrid columns={[2, null, 3]} spacing={1}>
-                        {selectedTab == -1 ? null : (
+                    <SimpleGrid
+                        columns={
+                            (selectedTab == 0 && mentees.length > 0) ||
+                            (selectedTab == 1 &&
+                                mentorshipApplications.length > 0)
+                                ? [2, null, 3]
+                                : 1
+                        }
+                        spacing={1}>
+                        {selectedTab == -1 ? (
+                            <NoRecordsFoundComponent message="Please select an option to continue." />
+                        ) : (
                             <>
                                 {selectedTab == 0 ? (
                                     <>
-                                        {mentees.map((mentee: any) => {
-                                            const {
-                                                mentorshipId,
-                                                menteeName,
-                                                joinedDate,
-                                            } = mentee
-                                            return (
-                                                <MenteeContainer
-                                                    mentorshipId={mentorshipId}
-                                                    menteeName={menteeName}
-                                                    joinedDate={joinedDate}
-                                                />
-                                            )
-                                        })}
+                                        {mentees && mentees.length > 0 ? (
+                                            <>
+                                                {" "}
+                                                {mentees.map((mentee: any) => {
+                                                    const {
+                                                        mentorshipId,
+                                                        menteeName,
+                                                        joinedDate,
+                                                    } = mentee
+                                                    return (
+                                                        <MenteeContainer
+                                                            mentorshipId={
+                                                                mentorshipId
+                                                            }
+                                                            menteeName={
+                                                                menteeName
+                                                            }
+                                                            joinedDate={
+                                                                joinedDate
+                                                            }
+                                                        />
+                                                    )
+                                                })}
+                                            </>
+                                        ) : (
+                                            <>
+                                                <NoRecordsFoundComponent message="You are not in change of any mentees." />
+                                            </>
+                                        )}
                                     </>
                                 ) : (
                                     <>
-                                        {" "}
-                                        {mentorshipApplications.map(
-                                            (mentorshipApplication: any) => {
-                                                const {
-                                                    menteeId,
-                                                    menteeName,
-                                                    outcome,
-                                                    applicationDate,
-                                                    id,
-                                                } = mentorshipApplication
-                                                return (
-                                                    <MentorshipApplicationContainer
-                                                        mentorshipApplicationId={
-                                                            id
-                                                        }
-                                                        menteeName={menteeName}
-                                                        applicationDate={
-                                                            applicationDate
-                                                        }
-                                                        applicationOutcome={
-                                                            outcome
-                                                        }
-                                                    />
-                                                )
-                                            },
+                                        {mentorshipApplications &&
+                                        mentorshipApplications.length > 0 ? (
+                                            <>
+                                                {" "}
+                                                {mentorshipApplications.map(
+                                                    (
+                                                        mentorshipApplication: any,
+                                                    ) => {
+                                                        const {
+                                                            menteeName,
+                                                            outcome,
+                                                            applicationDate,
+                                                            id,
+                                                        } =
+                                                            mentorshipApplication
+                                                        return (
+                                                            <MentorshipApplicationContainer
+                                                                mentorshipApplicationId={
+                                                                    id
+                                                                }
+                                                                menteeName={
+                                                                    menteeName
+                                                                }
+                                                                applicationDate={
+                                                                    applicationDate
+                                                                }
+                                                                applicationOutcome={
+                                                                    outcome
+                                                                }
+                                                            />
+                                                        )
+                                                    },
+                                                )}
+                                            </>
+                                        ) : (
+                                            <><NoRecordsFoundComponent message="No mentee has approached you yet, please wait for a bit!" /></>
                                         )}
                                     </>
                                 )}
