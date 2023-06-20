@@ -179,14 +179,26 @@ export const updateMentorshipApplication = async (
                 outcome: isAccept ? 1 : 0,
             }),
         )
+        const mentor = await findUserById(mentorId)
+        const { skills } = mentor
+        let mentorshipSkills: any[] = []
+        skills.forEach((skill: string) => {
+            mentorshipSkills.push({
+                skillId: skill,
+                skillLevel: 0,
+            })
+        })
+
         // update data
         if (isAccept) {
-            updateApplicationPromise.push()
-            addDoc(collection(db, "mentorship"), {
-                joinDate: new Date(),
-                menteeId,
-                mentorId,
-            })
+            updateApplicationPromise.push(
+                addDoc(collection(db, "mentorship"), {
+                    joinDate: new Date(),
+                    menteeId,
+                    mentorId,
+                    skills: mentorshipSkills,
+                }),
+            )
         }
         Promise.all(updateApplicationPromise)
             .then(() => {

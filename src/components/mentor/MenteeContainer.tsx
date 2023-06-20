@@ -1,6 +1,6 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-
+import { Link } from "react-router-dom"
 // ======= chakra UI ==========
 import { Box, Heading, Text } from "@chakra-ui/react"
 
@@ -12,7 +12,7 @@ import { Box, Heading, Text } from "@chakra-ui/react"
 
 // ============== interfaces (if any) ==============
 interface MenteeContainerProps {
-    menteeId: string
+    mentorshipId: string
     menteeName: string
     joinedDate: any
 }
@@ -24,7 +24,7 @@ import { formatDate } from "../../helperFunctions/general/dateformatter"
 // ============== main component ==============
 
 export default function MenteeContainer({
-    menteeId,
+    mentorshipId,
     menteeName,
     joinedDate,
 }: MenteeContainerProps) {
@@ -46,7 +46,9 @@ export default function MenteeContainer({
             {/* <br /> */}
             <Text>Joined at:{formatDate(Date(joinedDate))}</Text>
             <br />
-            <Text>More Info</Text>
+            <Link to={`/mentorship/${mentorshipId}`}>
+                <Text>More Info</Text>
+            </Link>
         </Box>
     )
 }

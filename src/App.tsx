@@ -36,10 +36,12 @@ import HomePage from "./pages/home/HomePage"
 // ======================== mentee pages ========================
 import CompanyPage from "./pages/mentees/CompanyPage"
 import MentorPage from "./pages/mentees/MentorPage"
-
+import ViewIndividualMentorship from "./components/mentee/ViewIndividualMentorship"
+import MenteeBadgePage from "./components/mentee/MenteeBadgePage"
 // ======================== mentorPages ========================
 import MenteePage from "./pages/mentors/MenteePage"
 import MentorshipApplicationPage from "./pages/mentors/MentorshipApplicationPage"
+import IndividualMentorshipPage from "./pages/mentors/IndividualMentorshipPage"
 
 // ======================== law firm pages ========================
 import LawyersPage from "./pages/lawfirms/LawyersPage"
@@ -87,12 +89,21 @@ function App() {
                     {/* mentee */}
                     <Route path="/company" element={<CompanyPage />} />
                     <Route path="/mentors" element={<MentorPage />} />
+                    <Route
+                        path="/mentee/m/:mentorshipId"
+                        element={<ViewIndividualMentorship />}
+                    />
+                    <Route path="/skills" element={<MenteeBadgePage />} />
 
                     {/* mentor */}
                     <Route path="/mentees" element={<MenteePage />} />
                     <Route
                         path="/mentees/application/:mentorshipApplicationId"
                         element={<MentorshipApplicationPage />}
+                    />
+                    <Route
+                        path="/mentorship/:mentorshipId"
+                        element={<IndividualMentorshipPage />}
                     />
 
                     {/* lawyer */}

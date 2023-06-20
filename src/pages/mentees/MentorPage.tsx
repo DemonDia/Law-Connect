@@ -1,7 +1,7 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
 import { useEffect, useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 // ======= chakra UI ==========
 import {
@@ -27,6 +27,8 @@ import {
     createMentorshipApplication,
     getUserMentorShipApplications,
 } from "../../helperFunctions/firebase/mentorshipApplication"
+
+import { checkMentorshipByMentorAndMentee } from "../../helperFunctions/firebase/mentorshipFunctions"
 import { getAllSkills } from "../../helperFunctions/firebase/skillsFunctions"
 // ======= zustand/state ==========
 import useUser from "../../store/userStore"
@@ -114,11 +116,20 @@ export default function MentorPage() {
             setSelectedTab(tabNumber)
         }
     }
-    const displayMentor = (currMentor: Mentor) => {
+    const displayMentor = async (currMentor: Mentor) => {
         // get the mentor
         if (currMentor) {
-            setSelectedMentor(currMentor)
-            onOpen()
+            // check if mentee is under this mentor or not
+            const existingMentorshipId = await checkMentorshipByMentorAndMentee(
+                currMentor.userId,
+                user.userId,
+            )
+            if (existingMentorshipId) {
+                navigate(`/mentee/m/${existingMentorshipId}`)
+            } else {
+                setSelectedMentor(currMentor)
+                onOpen()
+            }
         }
     }
     const applyMentorship = async () => {
@@ -278,7 +289,7 @@ const CompanyMentorContainer = ({
                 <Box>
                     <Image
                         src={ProfilePic}
-                        alt="Dan Abramov"
+                        alt="Profile Picture"
                         margin="10px auto"
                         // width="50%"
                     />
@@ -327,7 +338,6 @@ const MentorModalContainer = ({
     handleApplyMentorship,
     handleToggleClose,
 }: MentorContainerProps) => {
-    console.log("selectedMentor", selectedMentor)
     return (
         <Modal isOpen={selectedMentor != null} onClose={handleToggleClose}>
             <ModalOverlay />
