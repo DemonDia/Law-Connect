@@ -9,8 +9,8 @@ import CustomButton from "./CustomButton"
 interface TabTopbarProps {
     firstTabWords: string
     secondTabWords: string
-    tab: any
-    changeTab: any
+    tab: unknown
+    changeTab: unknown
 }
 // ============== external variables (if any) ==============
 

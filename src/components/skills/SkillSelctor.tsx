@@ -8,9 +8,9 @@ import { SkillBadge } from "./SkillBadge"
 
 // ============== interfaces (if any) ==============
 interface SkillSelectorProps {
-    handleDeleteSkillId?: any
+    handleDeleteSkillId?: unknown
     selectedSkillId: string
-    handleChangeSelectedSkillId?: any
+    handleChangeSelectedSkillId?: unknown
     chosenSkills: Array<string>
 }
 // ============== external variables (if any) ==============
@@ -26,14 +26,14 @@ export const SkillSelector = ({
 }: SkillSelectorProps) => {
     // ============== constant variables if any ==============
     // ============== states (if any) ==============
-    const [availableSkills, setAvailableSkills] = useState<any>([])
-    const [skillDict, setSkillDict] = useState<any>(null)
+    const [availableSkills, setAvailableSkills] = useState<unknown>([])
+    const [skillDict, setSkillDict] = useState<unknown>(null)
     // ============== useEffect statement(s) ==============
     useEffect(() => {
         const allSkills = getAllSkills()
         Promise.resolve(allSkills).then(res => {
             setSkillDict(res)
-            let skills = []
+            const skills = []
             for (const [id, skill] of res) {
                 const { skillName } = skill
                 skills.push({ skillId: id, skillName })
@@ -54,7 +54,7 @@ export const SkillSelector = ({
                 {availableSkills ? (
                     <>
                         {availableSkills.map(
-                            (availableSkill: any, index: number) => {
+                            (availableSkill: unknown, index: number) => {
                                 const { skillId, skillName } = availableSkill
                                 return (
                                     <option key={index} value={skillId}>

@@ -8,15 +8,12 @@ import { Badge } from "@chakra-ui/react"
 // ======= custom components (if any)==========
 
 // ============== interfaces (if any) ==============
-interface ApplicationOutcomeBadgeProps {
-    text: string
-    color: string
-}
+
 // ============== external variables (if any) ==============
 
 // ============== main component ==============
 
-export default function ApplicationOutcomeBadge({ text, color }: any) {
+export default function ApplicationOutcomeBadge({ text, color }: unknown) {
     // ============== constant variables if any ==============
 
     // ============== states (if any) ==============

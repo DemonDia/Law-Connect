@@ -8,7 +8,6 @@ import {
     doc,
     getDoc,
     updateDoc,
-    setDoc,
 } from "firebase/firestore"
 import { findUsersByUserTypes, findUserById } from "./userFirestore"
 import { getAllSkills } from "./skillsFunctions"
@@ -17,8 +16,8 @@ import { getAllSkills } from "./skillsFunctions"
 export const getMentorMentees = async (mentorId: string) => {
     const allMentees = await findUsersByUserTypes("0")
 
-    let menteeDict: any = {}
-    allMentees.forEach((mentee: any) => {
+    const menteeDict: unknown = {}
+    allMentees.forEach((mentee: unknown) => {
         const { userId, username } = mentee
         menteeDict[userId] = username
     })
@@ -28,7 +27,7 @@ export const getMentorMentees = async (mentorId: string) => {
         where("mentorId", "==", mentorId),
     )
     const docSnap = await getDocs(findQuery)
-    let mentees: Array<any> = []
+    const mentees: Array<unknown> = []
 
     docSnap.forEach(doc => {
         let menteeToPush = doc.data()
@@ -68,7 +67,7 @@ export const checkMentorshipByMentorAndMentee = async (
         where("mentorId", "==", mentorId),
         where("menteeId", "==", menteeId),
     )
-    let mentorshipId: string = ""
+    let mentorshipId = ""
     const docSnap = await getDocs(findQuery)
 
     docSnap.forEach(doc => {
@@ -80,8 +79,8 @@ export const updateMentorshipSkill = async (
     mentorId: string,
     menteeId: string,
     mentorshipId: string,
-    skills: Array<any>,
-    toast: any,
+    skills: Array<unknown>,
+    toast: unknown,
 ) => {
     const skillToUpdateRef = doc(db, "mentorship", mentorshipId)
     await updateDoc(skillToUpdateRef, {
@@ -115,7 +114,7 @@ export const updateMentorshipSkill = async (
                 isClosable: true,
             })
         })
-        .catch(err => {
+        .catch(() => {
             toast({
                 title: "Error updating skill",
                 description: "Please try again later",
@@ -129,10 +128,9 @@ export const updateMentorshipSkill = async (
 // return badge arr
 // badge is: {senderId, recipientId, skillId, receivedDate}
 export const findMenteeBadges = async (menteeId: string) => {
-
-    const menteeBadges: any[] = []
+    const menteeBadges: unknown[] = []
     // make a skill dictionary (skillId as the key)
-    const skillDict: any = {}
+    const skillDict: unknown = {}
     const allSkills = await getAllSkills()
     for (const [id, skill] of allSkills) {
         const { skillName } = skill
@@ -140,9 +138,9 @@ export const findMenteeBadges = async (menteeId: string) => {
     }
 
     // make a mentor dictionary (mentorId as the key)
-    const mentorDict: any = {}
+    const mentorDict: unknown = {}
     const allMentors = await findUsersByUserTypes("1")
-    allMentors.forEach((mentor: any) => {
+    allMentors.forEach((mentor: unknown) => {
         const { userId, username } = mentor
         mentorDict[userId] = username
     })

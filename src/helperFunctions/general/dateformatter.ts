@@ -1,5 +1,5 @@
-export function formatDate(date: any) {
-    var d = new Date(date),
+export function formatDate(date: unknown) {
+    const d = new Date(date),
         month = "" + (d.getMonth() + 1),
         day = "" + d.getDate(),
         year = d.getFullYear()

@@ -60,13 +60,12 @@ export default function MentorPage() {
     const toast = useToast()
     const { user } = useUser()
     // for modal
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { onOpen, onClose } = useDisclosure()
     // ============== states (if any) ==============
     const [selectedTab, setSelectedTab] = useState<number>(-1)
     const [companyMentors, setCompanyMentors] = useState<Mentor[]>([])
-    const [mentorshipApplications, setMentorshipApplications] = useState<any>(
-        [],
-    )
+    const [mentorshipApplications, setMentorshipApplications] =
+        useState<unknown>([])
     const [selectedMentor, setSelectedMentor] = useState<Mentor | null>(null)
     const [skillDict, setSkillDict] = useState<unknown>({})
     const [loading, setLoading] = useState(false)
@@ -74,9 +73,11 @@ export default function MentorPage() {
     // ============== useEffect statement(s) ==============
     useEffect(() => {
         if (user && user.userId && user.userType == 0 && user.companyId) {
+            setLoading(true)
             getMentorApplications()
             getMentors()
             getSkills()
+            setLoading(false)
         } else {
             navigate("/")
         }
@@ -99,7 +100,7 @@ export default function MentorPage() {
         // get all the mentor applications mentee has applied to
     }
     const getSkills = async () => {
-        let currSkillDict = {}
+        const currSkillDict = {}
         const skills = await getAllSkills()
         for (const [id, skill] of skills) {
             const { skillName } = skill
@@ -218,10 +219,10 @@ export default function MentorPage() {
                                                         mentor: Mentor,
                                                         index: number,
                                                     ) => {
-                                                        const found: any =
+                                                        const found: unknown =
                                                             mentorshipApplications.find(
                                                                 (
-                                                                    mentorshipApplication: any,
+                                                                    mentorshipApplication: unknown,
                                                                 ) => {
                                                                     return (
                                                                         mentorshipApplication.mentorId ===
@@ -299,7 +300,7 @@ const CompanyMentorContainer = ({
     // ============== helper functions if any ==============
     // ============== key functions if any ==============
 
-    const { userId, username, email, skills } = currentMentor
+    const { username, email } = currentMentor
 
     return (
         <Box
@@ -397,6 +398,7 @@ const MentorModalContainer = ({
                                 (skill: string, index: number) => {
                                     return (
                                         <SkillBadge
+                                            key={index}
                                             skillId={skill}
                                             skillName={
                                                 skillDict

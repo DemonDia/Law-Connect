@@ -10,7 +10,7 @@ import { CloseIcon } from "@chakra-ui/icons"
 interface SkillBadgeProps {
     skillId: string
     skillName: string
-    handleDeleteSkillId?: any
+    handleDeleteSkillId?: unknown
 }
 
 // ============== external variables (if any) ==============

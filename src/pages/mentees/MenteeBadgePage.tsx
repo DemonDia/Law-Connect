@@ -25,7 +25,7 @@ export default function MenteeBadgePage() {
     const [loading, setLoading] = useState(false)
 
     // ============== states (if any) ==============
-    const [menteeBadges, setMenteeBadges] = useState<any[]>([])
+    const [menteeBadges, setMenteeBadges] = useState<unknown[]>([])
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
@@ -99,7 +99,6 @@ interface MenteeBadgeProps {
 }
 export const MenteeBadge = ({
     skillName,
-    skillDescription,
     senderName,
     obtainedDate,
 }: MenteeBadgeProps) => {

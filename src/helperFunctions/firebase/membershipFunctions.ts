@@ -1,14 +1,5 @@
 import { db } from "../../config"
-import {
-    collection,
-    getDocs,
-    where,
-    query,
-    addDoc,
-    doc,
-    getDoc,
-    updateDoc,
-} from "firebase/firestore"
+import { collection, getDocs, where, query } from "firebase/firestore"
 import { findUsersByUserTypes } from "./userFirestore"
 
 // get all members of a company
@@ -17,8 +8,8 @@ export const getCompanyMembers = async (companyId: string) => {
     const mentors = await findUsersByUserTypes("1")
     const allLaywers = [...mentees, ...mentors]
 
-    let lawyerDict: any = {}
-    allLaywers.forEach((lawyer: any) => {
+    const lawyerDict: unknown = {}
+    allLaywers.forEach((lawyer: unknown) => {
         const { userId, username } = lawyer
         lawyerDict[userId] = username
     })
@@ -28,7 +19,7 @@ export const getCompanyMembers = async (companyId: string) => {
         where("companyId", "==", companyId),
     )
     const docSnap = await getDocs(findQuery)
-    let members: Array<any> = []
+    const members: Array<unknown> = []
 
     docSnap.forEach(doc => {
         let memberToPush = doc.data()

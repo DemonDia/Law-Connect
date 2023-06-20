@@ -14,7 +14,6 @@ import {
     Popover,
     PopoverTrigger,
     useColorModeValue,
-    useBreakpointValue,
     useDisclosure,
     Image,
 } from "@chakra-ui/react"
@@ -249,7 +248,7 @@ const MobileNavItem = ({ label, to }: NavItem) => {
     // ============== constant variables if any ==============
 
     // ============== states (if any) ==============
-    const { isOpen, onToggle } = useDisclosure()
+    const { onToggle } = useDisclosure()
 
     // ============== useEffect statement(s) ==============
 

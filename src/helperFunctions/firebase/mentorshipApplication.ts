@@ -16,7 +16,7 @@ import { findUsersByUserTypes } from "./userFirestore"
 export const createMentorshipApplication = async (
     menteeId: string,
     mentorId: string,
-    toast: any,
+    toast: unknown,
 ) => {
     // mentor only
     const validMentee = await findUserById(menteeId)
@@ -40,7 +40,7 @@ export const createMentorshipApplication = async (
             // 0 means reject
             // 1 means accept
         })
-            .then((res: any) => {
+            .then(() => {
                 toast({
                     title: "Application Successful",
                     description: "Please wait for the outcome",
@@ -49,7 +49,7 @@ export const createMentorshipApplication = async (
                     isClosable: true,
                 })
             })
-            .catch((err: any) => {
+            .catch((err: unknown) => {
                 console.log(err.message)
                 toast({
                     title: "Error",
@@ -75,8 +75,8 @@ export const createMentorshipApplication = async (
 // =========get user mentorship applications=========
 export const getUserMentorShipApplications = async (userId: string) => {
     const mentors = await findUsersByUserTypes("1")
-    let mentorDict: any = {}
-    mentors.forEach((mentor: any) => {
+    const mentorDict: unknown = {}
+    mentors.forEach((mentor: unknown) => {
         const { userId, username } = mentor
         mentorDict[userId] = username
     })
@@ -86,7 +86,7 @@ export const getUserMentorShipApplications = async (userId: string) => {
         where("menteeId", "==", userId),
     )
     const docSnap = await getDocs(findQuery)
-    let applications: Array<any> = []
+    const applications: Array<unknown> = []
     docSnap.forEach(doc => {
         let applicationToPush = doc.data()
         const { mentorId } = applicationToPush
@@ -105,8 +105,8 @@ export const getUserMentorShipApplications = async (userId: string) => {
 export const getMentorApplications = async (mentorId: string) => {
     const mentees = await findUsersByUserTypes("0")
 
-    let menteeDict: any = {}
-    mentees.forEach((mentee: any) => {
+    const menteeDict: unknown = {}
+    mentees.forEach((mentee: unknown) => {
         const { userId, username } = mentee
         menteeDict[userId] = username
     })
@@ -117,7 +117,7 @@ export const getMentorApplications = async (mentorId: string) => {
     )
     const docSnap = await getDocs(findQuery)
 
-    let applications: Array<any> = []
+    const applications: Array<unknown> = []
     docSnap.forEach(doc => {
         let applicationToPush = doc.data()
         const { menteeId } = applicationToPush
@@ -160,8 +160,8 @@ export const getMentorshipApplicationInfo = async (applicationId: string) => {
 export const updateMentorshipApplication = async (
     mentorshipApplicationId: string,
     isAccept: boolean,
-    toast: any,
-    navigate: any,
+    toast: unknown,
+    navigate: unknown,
 ) => {
     // get application by ID
     const applicationRef = doc(
@@ -173,7 +173,7 @@ export const updateMentorshipApplication = async (
 
     if (docSnap.exists()) {
         const { menteeId, mentorId } = docSnap.data()
-        let updateApplicationPromise: Array<any> = []
+        const updateApplicationPromise: Array<unknown> = []
         updateApplicationPromise.push(
             updateDoc(applicationRef, {
                 outcome: isAccept ? 1 : 0,
@@ -181,7 +181,7 @@ export const updateMentorshipApplication = async (
         )
         const mentor = await findUserById(mentorId)
         const { skills } = mentor
-        let mentorshipSkills: any[] = []
+        const mentorshipSkills: unknown[] = []
         skills.forEach((skill: string) => {
             mentorshipSkills.push({
                 skillId: skill,
@@ -212,7 +212,7 @@ export const updateMentorshipApplication = async (
                 })
                 navigate("/mentees")
             })
-            .catch((err: any) => {
+            .catch((err: unknown) => {
                 console.log(err.message)
                 toast({
                     title: "Something went wrong",

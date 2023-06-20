@@ -42,7 +42,7 @@ export default function LoginPage() {
     // ============== helper functions if any ==============
 
     // ============== key functions if any ==============
-    const loginFunction = async (submitItems: any) => {
+    const loginFunction = async (submitItems: unknown) => {
         const { email, password } = submitItems
         setLoading(true)
         await signInWithEmailAndPassword(auth, email, password)

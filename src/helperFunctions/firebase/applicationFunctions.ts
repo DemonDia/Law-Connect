@@ -15,7 +15,7 @@ import { findUsersByUserTypes } from "./userFirestore"
 export const createApplication = async (
     applicantId: string,
     companyId: string,
-    toast: any,
+    toast: unknown,
 ) => {
     // applicant cannot be company
     const validApplicant = await findUserById(applicantId)
@@ -39,7 +39,7 @@ export const createApplication = async (
             // 0 means reject
             // 1 means accept
         })
-            .then((res: any) => {
+            .then(() => {
                 toast({
                     title: "Application Successful",
                     description: "Please wait for the outcome",
@@ -48,7 +48,7 @@ export const createApplication = async (
                     isClosable: true,
                 })
             })
-            .catch((err: any) => {
+            .catch((err: unknown) => {
                 console.log(err.message)
                 toast({
                     title: "Error",
@@ -74,8 +74,8 @@ export const createApplication = async (
 // =========get user applications=========
 export const getUserApplications = async (userId: string) => {
     const companies = await findUsersByUserTypes("2")
-    let companyDict: any = {}
-    companies.forEach((company: any) => {
+    const companyDict: unknown = {}
+    companies.forEach((company: unknown) => {
         const { userId, username } = company
         companyDict[userId] = username
     })
@@ -85,7 +85,7 @@ export const getUserApplications = async (userId: string) => {
         where("applicantId", "==", userId),
     )
     const docSnap = await getDocs(findQuery)
-    let applications: Array<any> = []
+    const applications: Array<unknown> = []
     docSnap.forEach(doc => {
         let applicationToPush = doc.data()
         const { companyId } = applicationToPush
@@ -106,8 +106,8 @@ export const getCompanyApplications = async (companyId: string) => {
     const mentors = await findUsersByUserTypes("1")
     const allLaywers = [...mentees, ...mentors]
 
-    let lawyerDict: any = {}
-    allLaywers.forEach((lawyer: any) => {
+    const lawyerDict: unknown = {}
+    allLaywers.forEach((lawyer: unknown) => {
         const { userId, username } = lawyer
         lawyerDict[userId] = username
     })
@@ -117,7 +117,7 @@ export const getCompanyApplications = async (companyId: string) => {
         where("companyId", "==", companyId),
     )
     const docSnap = await getDocs(findQuery)
-    let applications: Array<any> = []
+    const applications: Array<unknown> = []
     docSnap.forEach(doc => {
         let applicationToPush = doc.data()
         const { applicantId } = applicationToPush
@@ -159,8 +159,8 @@ export const getApplicationInfo = async (applicationId: string) => {
 export const updateApplication = async (
     applicationId: string,
     isAccept: boolean,
-    toast: any,
-    navigate: any,
+    toast: unknown,
+    navigate: unknown,
 ) => {
     // get application by ID
     const applicationRef = doc(db, "application", applicationId)
@@ -168,7 +168,7 @@ export const updateApplication = async (
 
     if (docSnap.exists()) {
         const { applicantId, companyId } = docSnap.data()
-        let updateApplicationPromise: Array<any> = []
+        const updateApplicationPromise: Array<unknown> = []
         updateApplicationPromise.push(
             updateDoc(applicationRef, {
                 outcome: isAccept ? 1 : 0,
@@ -195,7 +195,7 @@ export const updateApplication = async (
                 })
                 navigate("/lawyers")
             })
-            .catch((err: any) => {
+            .catch((err: unknown) => {
                 console.log(err.message)
                 toast({
                     title: "Something went wrong",

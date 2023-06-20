@@ -49,12 +49,14 @@ export default function LaywerApplicationPage() {
     const toast = useToast()
     const { user } = useUser()
     // ============== states (if any) ==============
-    const [currentApplication, setCurrentApplication] = useState<any>({})
+    const [currentApplication, setCurrentApplication] = useState<unknown>({})
     const [loading, setLoading] = useState(false)
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
+        setLoading(true)
         fetchApplication()
+        setLoading(false)
     }, [])
 
     // ============== helper functions if any ==============

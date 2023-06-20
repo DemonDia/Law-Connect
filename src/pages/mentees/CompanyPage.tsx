@@ -38,8 +38,8 @@ export default function CompanyPage() {
     const [loading, setLoading] = useState(false)
     // ============== states (if any) ==============
     const [selectedTab, setSelectedTab] = useState<number>(-1)
-    const [companies, setCompanies] = useState<any>([])
-    const [applications, setApplications] = useState<any>([])
+    const [companies, setCompanies] = useState<unknown>([])
+    const [applications, setApplications] = useState<unknown>([])
     // ============== useEffect statement(s) ==============
     useEffect(() => {
         if (user && user.userId && user.userType != 2) {
@@ -141,7 +141,7 @@ export default function CompanyPage() {
                                                                 {" "}
                                                                 {applications.map(
                                                                     (
-                                                                        application: any,
+                                                                        application: unknown,
                                                                     ) => {
                                                                         const {
                                                                             companyId,
@@ -182,11 +182,11 @@ export default function CompanyPage() {
                                                 ) : (
                                                     <>
                                                         {companies.map(
-                                                            (company: any) => {
-                                                                const found: any =
+                                                            (company: unknown) => {
+                                                                const found: unknown =
                                                                     applications.find(
                                                                         (
-                                                                            application: any,
+                                                                            application: unknown,
                                                                         ) => {
                                                                             return (
                                                                                 application.companyId ===

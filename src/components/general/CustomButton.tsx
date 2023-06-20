@@ -11,7 +11,7 @@ interface ButtonSettings {
     buttonColor: string // button color in hexadecimal
     textColor: string // text color in hexadecimal
     buttonText: string // text in button
-    buttonOnClick: any // function
+    buttonOnClick: unknown // function
     buttonWidth?: string // width of button
     disabled?: boolean
 }
@@ -42,6 +42,7 @@ export default function CustomButton({
                 }}
                 boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.35)"}
                 isDisabled={disabled ? true : false}
+                // isActive={!disabled}
                 >
                 {buttonText}
             </Button>

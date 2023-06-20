@@ -15,10 +15,10 @@ import { formatDate } from "../../helperFunctions/general/dateformatter"
 interface CompanyContainerProps {
     companyId: string
     companyName: string
-    applyFunction?: any
+    applyFunction?: unknown
     // appliedTo?: boolean; //user have applied to this company?
     disabled?: boolean
-    applicationDate?: any
+    applicationDate?: unknown
     applicationOutcome: number
 }
 // ============== external variables (if any) ==============

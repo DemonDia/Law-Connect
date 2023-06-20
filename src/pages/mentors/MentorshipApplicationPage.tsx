@@ -47,14 +47,18 @@ export default function MentorshipApplicationPage() {
 
     // ============== states (if any) ==============
     const [currentMentorshipApplication, setCurrentMentorshipApplication] =
-        useState<any>({})
+        useState<unknown>({})
 
     // ============== useEffect statement(s) ==============
+
     useEffect(() => {
         setLoading(true)
         fetchMentorshipApplication()
+
+
         setLoading(false)
-    }, [])
+    },[])
+
     // ============== helper functions if any ==============
     const fetchMentorshipApplication = async () => {
         const mentorshipApplication = await getMentorshipApplicationInfo(
