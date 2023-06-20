@@ -11,6 +11,7 @@ import {
     setDoc,
 } from "firebase/firestore"
 import { findUsersByUserTypes, findUserById } from "./userFirestore"
+import { getAllSkills } from "./skillsFunctions"
 
 // get all mentees of a mentor
 export const getMentorMentees = async (mentorId: string) => {
@@ -139,14 +140,38 @@ export const updateMentorshipSkill = async (
 // return badge arr
 // badge is: {senderId, recipientId, skillId, receivedDate}
 export const findMenteeBadges = async (menteeId: string) => {
+    console.log("menteeId", menteeId)
+
+    const menteeBadges: any[] = []
+    // make a skill dictionary (skillId as the key)
+    const skillDict: any = {}
+    const allSkills = await getAllSkills()
+    for (const [id, skill] of allSkills) {
+        const { skillName } = skill
+        skillDict[id] = skillName
+    }
+
+    // make a mentor dictionary (mentorId as the key)
+    const mentorDict: any = {}
+    const allMentors = await findUsersByUserTypes("1")
+    allMentors.forEach((mentor: any) => {
+        const { userId, username } = mentor
+        mentorDict[userId] = username
+    })
+
+    // find all received badges
     const findQuery = query(
         collection(db, "badge"),
         where("recipientId", "==", menteeId),
     )
-    const menteeBadges: unknown[] = []
     const docSnap = await getDocs(findQuery)
     docSnap.forEach(doc => {
-        menteeBadges.push(doc.data())
+        const { skillId, senderId, receivedDate } = doc.data()
+        menteeBadges.push({
+            skillName: skillDict[skillId],
+            senderName: mentorDict[senderId],
+            receivedDate,
+        })
     })
     return menteeBadges
 }

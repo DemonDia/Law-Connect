@@ -289,7 +289,7 @@ const CompanyMentorContainer = ({
                 <Box>
                     <Image
                         src={ProfilePic}
-                        alt="Dan Abramov"
+                        alt="Profile Picture"
                         margin="10px auto"
                         // width="50%"
                     />

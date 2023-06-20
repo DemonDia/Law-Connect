@@ -26,7 +26,7 @@ type MenuItem = {
 const menteeMenu: MenuItem[] = [
     { label: "Manage Mentors", to: "/mentors", icon: BsPersonRolodex },
     { label: "Manage Applications", to: "/company", icon: IoIosDocument },
-    { label: "Manage Skills", to: "/skills", icon: GiSkills },
+    { label: "View Badges", to: "/skills", icon: GiSkills },
     { label: "Logout", to: "/logout", icon: BiLogOut },
 ]
 

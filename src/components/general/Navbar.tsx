@@ -58,7 +58,7 @@ const menteeItems: Array<NavItem> = [
         to: "/company",
     },
     {
-        label: "Skills",
+        label: "Badges",
         to: "/skills",
     },
     {

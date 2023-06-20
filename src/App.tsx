@@ -37,7 +37,7 @@ import HomePage from "./pages/home/HomePage"
 import CompanyPage from "./pages/mentees/CompanyPage"
 import MentorPage from "./pages/mentees/MentorPage"
 import ViewIndividualMentorship from "./components/mentee/ViewIndividualMentorship"
-
+import MenteeBadgePage from "./components/mentee/MenteeBadgePage"
 // ======================== mentorPages ========================
 import MenteePage from "./pages/mentors/MenteePage"
 import MentorshipApplicationPage from "./pages/mentors/MentorshipApplicationPage"
@@ -93,6 +93,7 @@ function App() {
                         path="/mentee/m/:mentorshipId"
                         element={<ViewIndividualMentorship />}
                     />
+                    <Route path="/skills" element={<MenteeBadgePage />} />
 
                     {/* mentor */}
                     <Route path="/mentees" element={<MenteePage />} />
