@@ -61,7 +61,6 @@ export default function ViewIndividualMentorship() {
             mentorship.mentorId,
             user.userId,
         )
-        console.log("isPresent", isPresent)
         if (!isPresent) {
             navigate("/")
         }

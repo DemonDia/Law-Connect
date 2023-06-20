@@ -46,11 +46,9 @@ export const getMentorMentees = async (mentorId: string) => {
 export const getMentorshipById = async (mentorshipId: string) => {
     const docRef = doc(db, "mentorship", mentorshipId)
     const docSnap = await getDoc(docRef)
-    console.log("docSnap", docSnap)
 
     if (docSnap.exists()) {
         const { menteeId, mentorId, joinDate, skills } = docSnap.data()
-        console.log(docSnap.data())
         const mentee = await findUserById(menteeId)
         const { username: menteeName } = mentee
         return { menteeId, menteeName, mentorId, joinDate, skills }
@@ -93,22 +91,13 @@ export const updateMentorshipSkill = async (
             const userObtainedBadgeIds = await getDistinctBadgesOfMentee(
                 menteeId,
             )
-            console.log("userObtainedBadgeIds", userObtainedBadgeIds)
             skills.forEach(async skill => {
                 const { skillId, skillLevel } = skill
-                console.log("skillId", skillId)
-                console.log("skillLevel", skillLevel)
-                console.log(
-                    "userObtainedBadgeIds.includes(skillId)",
-                    userObtainedBadgeIds.includes(skillId),
-                )
-                console.log("skillLevel", skillLevel == 100)
                 if (
                     !userObtainedBadgeIds.includes(skillId) &&
                     skillLevel == 100
                 ) {
                     // add badge
-                    console.log("Done")
                     await addDoc(collection(db, "badge"), {
                         senderId: mentorId,
                         recipientId: menteeId,
@@ -140,7 +129,6 @@ export const updateMentorshipSkill = async (
 // return badge arr
 // badge is: {senderId, recipientId, skillId, receivedDate}
 export const findMenteeBadges = async (menteeId: string) => {
-    console.log("menteeId", menteeId)
 
     const menteeBadges: any[] = []
     // make a skill dictionary (skillId as the key)

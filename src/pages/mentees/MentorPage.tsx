@@ -193,10 +193,7 @@ export default function MentorPage() {
                                                             outcome,
                                                         } =
                                                             mentorshipApplication
-                                                        console.log(
-                                                            "mentor",
-                                                            mentorshipApplication,
-                                                        )
+
                                                         return (
                                                             <ApplicationContainer
                                                                 key={index}

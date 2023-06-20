@@ -183,8 +183,6 @@ export default function SetupPage() {
     }
 
     // ============== key functions if any ==============
-    // console.log("userId param", userId);
-
     return (
         <Card
             w={["90vw", "70vw", "60vw", "50vw", "30vw"]}
