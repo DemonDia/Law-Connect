@@ -10,9 +10,9 @@ import { FormControl, FormLabel, Input } from "@chakra-ui/react"
 interface InputFieldProps {
     label: string
     placeholder: string
-    value: unknown
+    value: any
     formType: string
-    changeHandler: unknown
+    changeHandler: any
 }
 
 // ============== external variables (if any) ==============

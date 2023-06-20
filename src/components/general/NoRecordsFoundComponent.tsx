@@ -16,7 +16,7 @@ import { Box, Heading } from "@chakra-ui/react"
 // ======= external functions  ==========
 
 // ============== main component ==============
-export default function NoRecordsFoundComponent({ message }: unknown) {
+export default function NoRecordsFoundComponent({ message }: any) {
     // ============== constant variables if any ==============
 
     // ============== states (if any) ==============

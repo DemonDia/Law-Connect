@@ -27,7 +27,6 @@ import useUser from "../../store/userStore"
 import InputField from "../../components/general/InputField"
 import CustomButton from "../../components/general/CustomButton"
 import { SkillSelector } from "../../components/skills/SkillSelctor"
-import LoadingComponent from "../../components/general/LoadingComponent"
 
 // ============== interfaces (if any) ==============
 
@@ -41,7 +40,7 @@ import { findUserById } from "../../helperFunctions/firebase/userFirestore"
 // ============== main component ==============
 export default function SetupPage() {
     // ============== constant variables if any ==============
-    const { addUser } = useUser()
+    const { addUser, user } = useUser()
     // const userTypes = ["Mentor", "Mentee", "Law Firm"];
     const userTypes = [
         { value: "0", label: "Mentee" },
@@ -85,7 +84,7 @@ export default function SetupPage() {
         }
     }
 
-    const skillSelector = (e: unknown) => {
+    const skillSelector = (e: any) => {
         const newId: string = e.target.value
         setSelectedSkillId(newId)
         if (newId) {
@@ -107,7 +106,7 @@ export default function SetupPage() {
     }
 
     const finishSetup = async () => {
-        const errors: Array<string> = []
+        let errors: Array<string> = []
         if (name == "") {
             errors.push("Name cannot be empty")
         }
@@ -128,10 +127,10 @@ export default function SetupPage() {
                 if (user && auth.currentUser) {
                     const { uid } = user
                     if (uid == userId) {
-                        const userRecord: unknown = await findUserById(uid)
+                        const userRecord: any = await findUserById(uid)
                         Promise.resolve(userRecord).then(user => {
                             if (user) {
-                                const allPromises = []
+                                let allPromises = []
                                 // change username in auth
                                 if (auth.currentUser) {
                                     // working
@@ -185,102 +184,76 @@ export default function SetupPage() {
 
     // ============== key functions if any ==============
     return (
-        <>
-            {loading ? (
-                <>
-                    <LoadingComponent message="Setting up ..." />{" "}
-                </>
-            ) : (
-                <>
-                    {" "}
-                    <Card
-                        w={["90vw", "70vw", "60vw", "50vw", "30vw"]}
-                        m={"10px auto"}
-                        p={"10px"}>
-                        <Heading textAlign={"center"}>One-time Setup</Heading>
-                        {
-                            // step 1
-                            step === 1 ? (
-                                <Box h={"20vh"} p={"10px"} w={"100%"}>
-                                    <Text>I am a:</Text>
-                                    <RadioGroup
-                                        onChange={setUserType}
-                                        value={userType}>
-                                        <Stack direction="column">
-                                            {userTypes.map(
-                                                (userType, index) => {
-                                                    const { value, label } =
-                                                        userType
-                                                    return (
-                                                        <Radio
-                                                            key={index}
-                                                            value={value}>
-                                                            {label}
-                                                        </Radio>
-                                                    )
-                                                },
-                                            )}
-                                        </Stack>
-                                    </RadioGroup>
-                                </Box>
-                            ) : (
-                                <>
-                                    {step === 2 ? (
-                                        <>
-                                            <InputField
-                                                label={"My name is..."}
-                                                placeholder={"Enter your name"}
-                                                value={name}
-                                                formType="text"
-                                                changeHandler={(e: unknown) => {
-                                                    setName(e.target.value)
-                                                }}
-                                            />
-                                        </>
-                                    ) : (
-                                        <>
-                                            <SkillSelector
-                                                handleChangeSelectedSkillId={
-                                                    skillSelector
-                                                }
-                                                selectedSkillId={
-                                                    selectedSkillId
-                                                }
-                                                chosenSkills={skills}
-                                                handleDeleteSkillId={
-                                                    deleteSkill
-                                                }
-                                            />
-                                        </>
-                                    )}
-                                </>
-                            )
-                        }
+        <Card
+            w={["90vw", "70vw", "60vw", "50vw", "30vw"]}
+            m={"10px auto"}
+            p={"10px"}>
+            <Heading textAlign={"center"}>One-time Setup</Heading>
+            {
+                // step 1
+                step === 1 ? (
+                    <Box h={"20vh"} p={"10px"} w={"100%"}>
+                        <Text>I am a:</Text>
+                        <RadioGroup onChange={setUserType} value={userType}>
+                            <Stack direction="column">
+                                {userTypes.map((userType, index) => {
+                                    const { value, label } = userType
+                                    return (
+                                        <Radio key={index} value={value}>
+                                            {label}
+                                        </Radio>
+                                    )
+                                })}
+                            </Stack>
+                        </RadioGroup>
+                    </Box>
+                ) : (
+                    <>
+                        {step === 2 ? (
+                            <>
+                                <InputField
+                                    label={"My name is..."}
+                                    placeholder={"Enter your name"}
+                                    value={name}
+                                    formType="text"
+                                    changeHandler={(e: any) => {
+                                        setName(e.target.value)
+                                    }}
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <SkillSelector
+                                    handleChangeSelectedSkillId={skillSelector}
+                                    selectedSkillId={selectedSkillId}
+                                    chosenSkills={skills}
+                                    handleDeleteSkillId={deleteSkill}
+                                />
+                            </>
+                        )}
+                    </>
+                )
+            }
 
-                        <Text align={"center"}>Step {step} of 3</Text>
-                        <Flex align={"center"} justify={"center"}>
-                            {" "}
-                            <CustomButton
-                                buttonColor={step === 1 ? "#F8F8F8" : "#808080"}
-                                buttonOnClick={previousStep}
-                                textColor={step === 1 ? "#CCCCCC" : "#FFFFFF"}
-                                buttonText={"Previous"}
-                                buttonWidth="40%"
-                            />
-                            <CustomButton
-                                buttonColor={"#3609EA"}
-                                buttonOnClick={nextStep}
-                                textColor={"#FFFFFF"}
-                                buttonText={
-                                    step === 3 ? "Finish Setup" : "Next"
-                                }
-                                buttonWidth="40%"
-                            />
-                        </Flex>
-                    </Card>
-                </>
-            )}
-        </>
+            <Text align={"center"}>Step {step} of 3</Text>
+            <Flex align={"center"} justify={"center"}>
+                {" "}
+                <CustomButton
+                    buttonColor={step === 1 ? "#F8F8F8" : "#808080"}
+                    buttonOnClick={previousStep}
+                    textColor={step === 1 ? "#CCCCCC" : "#FFFFFF"}
+                    buttonText={"Previous"}
+                    buttonWidth="40%"
+                />
+                <CustomButton
+                    buttonColor={"#3609EA"}
+                    buttonOnClick={nextStep}
+                    textColor={"#FFFFFF"}
+                    buttonText={step === 3 ? "Finish Setup" : "Next"}
+                    buttonWidth="40%"
+                />
+            </Flex>
+        </Card>
     )
 }
 

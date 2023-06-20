@@ -1,6 +1,6 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-import { useState } from "react"
+import { useEffect, useState } from "react"
 // ======= chakra UI ==========
 import { Text, Box, Progress, useToast } from "@chakra-ui/react"
 import CustomButton from "../general/CustomButton"
@@ -14,11 +14,11 @@ import InputField from "../general/InputField"
 // ============== interfaces (if any) ==============
 interface SkillProgressContainerProps {
     // skillId: string
-    skills: unknown[]
+    skills: any[]
     skillNum: number
     skillLevel: number
     skillName: string
-    handleUpdateSkillProgress?: unknown
+    handleUpdateSkillProgress?: any
     editable: boolean
 }
 
@@ -108,7 +108,7 @@ export default function SkillProgressContainer({
                                 label="Skill level"
                                 placeholder="Enter new skill level"
                                 formType="number"
-                                changeHandler={(e: unknown) =>
+                                changeHandler={(e: any) =>
                                     handleEdit(e.target.value)
                                 }
                                 value={currSkillLevel}
@@ -137,11 +137,7 @@ export default function SkillProgressContainer({
                             <Text>Mentee already achieved badge!</Text>
                         </>
                     ) : (
-                        <>
-                            <Text>
-                                Keep working for it! You will get there!
-                            </Text>
-                        </>
+                        <><Text>Keep working for it! You will get there!</Text></>
                     )}
                 </>
             )}

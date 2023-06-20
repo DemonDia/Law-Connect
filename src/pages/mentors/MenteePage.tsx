@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 // ======= chakra UI ==========
-import { SimpleGrid } from "@chakra-ui/react"
+import { SimpleGrid, useToast } from "@chakra-ui/react"
 
 // ======= firebase ==========
 import { getMentorApplications } from "../../helperFunctions/firebase/mentorshipApplication"
@@ -30,13 +30,15 @@ import NoRecordsFoundComponent from "../../components/general/NoRecordsFoundComp
 export default function MenteePage() {
     // ============== constant variables if any ==============
     const navigate = useNavigate()
+    const toast = useToast()
     const { user } = useUser()
 
     // ============== states (if any) ==============
     const [selectedTab, setSelectedTab] = useState<number>(-1)
-    const [mentees, setMentees] = useState<unknown>([])
-    const [mentorshipApplications, setMentorshipApplications] =
-        useState<unknown>([])
+    const [mentees, setMentees] = useState<any>([])
+    const [mentorshipApplications, setMentorshipApplications] = useState<any>(
+        [],
+    )
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
@@ -109,28 +111,26 @@ export default function MenteePage() {
                                         {mentees && mentees.length > 0 ? (
                                             <>
                                                 {" "}
-                                                {mentees.map(
-                                                    (mentee: unknown) => {
-                                                        const {
-                                                            mentorshipId,
-                                                            menteeName,
-                                                            joinedDate,
-                                                        } = mentee
-                                                        return (
-                                                            <MenteeContainer
-                                                                mentorshipId={
-                                                                    mentorshipId
-                                                                }
-                                                                menteeName={
-                                                                    menteeName
-                                                                }
-                                                                joinedDate={
-                                                                    joinedDate
-                                                                }
-                                                            />
-                                                        )
-                                                    },
-                                                )}
+                                                {mentees.map((mentee: any) => {
+                                                    const {
+                                                        mentorshipId,
+                                                        menteeName,
+                                                        joinedDate,
+                                                    } = mentee
+                                                    return (
+                                                        <MenteeContainer
+                                                            mentorshipId={
+                                                                mentorshipId
+                                                            }
+                                                            menteeName={
+                                                                menteeName
+                                                            }
+                                                            joinedDate={
+                                                                joinedDate
+                                                            }
+                                                        />
+                                                    )
+                                                })}
                                             </>
                                         ) : (
                                             <>
@@ -146,7 +146,7 @@ export default function MenteePage() {
                                                 {" "}
                                                 {mentorshipApplications.map(
                                                     (
-                                                        mentorshipApplication: unknown,
+                                                        mentorshipApplication: any,
                                                     ) => {
                                                         const {
                                                             menteeName,
@@ -175,9 +175,7 @@ export default function MenteePage() {
                                                 )}
                                             </>
                                         ) : (
-                                            <>
-                                                <NoRecordsFoundComponent message="No mentee has approached you yet, please wait for a bit!" />
-                                            </>
+                                            <><NoRecordsFoundComponent message="No mentee has approached you yet, please wait for a bit!" /></>
                                         )}
                                     </>
                                 )}

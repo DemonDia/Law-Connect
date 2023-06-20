@@ -14,7 +14,7 @@ import { Box, Heading, Text } from "@chakra-ui/react"
 interface MenteeContainerProps {
     mentorshipId: string
     menteeName: string
-    joinedDate: unknown
+    joinedDate: any
 }
 // ============== external variables (if any) ==============
 

@@ -10,7 +10,7 @@ import { formatDate } from "../../helperFunctions/general/dateformatter"
 // ============== interfaces (if any) ==============
 interface LawyerContainerProps {
     lawyerName: string
-    joinedDate: unknown
+    joinedDate: any
 }
 // ============== external variables (if any) ==============
 

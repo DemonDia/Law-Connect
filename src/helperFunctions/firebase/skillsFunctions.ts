@@ -94,9 +94,9 @@ export const seedSkills = async () => {
                 "The legal field is constantly evolving, and lawyers should be adaptable, open to new challenges, and able to quickly grasp changes in laws or legal precedents.",
         },
     ]
-    let count = 0
-    const querySnapshot: unknown = await getDocs(collection(db, "skills"))
-    querySnapshot.forEach(() => {
+    let count: number = 0
+    const querySnapshot: any = await getDocs(collection(db, "skills"))
+    querySnapshot.forEach((doc: any) => {
         count += 1
     })
     if (count == 0) {
@@ -106,10 +106,10 @@ export const seedSkills = async () => {
                 skillName,
                 skillDesc,
             })
-                .then(() => {
+                .then((res: any) => {
                     console.log("added")
                 })
-                .catch((err: unknown) => {
+                .catch((err: any) => {
                     console.log(err)
                 })
         })
@@ -120,9 +120,9 @@ seedSkills()
 // ==========find/retrieve functions==========
 // get all skills
 export const getAllSkills = async () => {
-    const querySnapshot: unknown = await getDocs(collection(db, "skills"))
-    const skills: Map<string, unknown> = new Map()
-    querySnapshot.forEach((doc: unknown) => {
+    const querySnapshot: any = await getDocs(collection(db, "skills"))
+    let skills: Map<string, any> = new Map()
+    querySnapshot.forEach((doc: any) => {
         const { skillName, skillDesc } = doc.data()
         skills.set(doc.id, { skillName, skillDesc })
     })

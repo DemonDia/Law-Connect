@@ -10,7 +10,7 @@ export const findUserById = async (userId: string) => {
         where("userId", "==", userId),
     )
     const docSnap = await getDocs(findQuery)
-    let foundUser: unknown = null
+    let foundUser: any = null
 
     docSnap.forEach(doc => {
         // doc.data() is never undefined for query doc snapshots
@@ -30,7 +30,7 @@ export const findUsersByUserTypes = async (userType: string) => {
         where("userType", "==", userType),
     )
     const docSnap = await getDocs(findQuery)
-    const targetUsers: unknown = []
+    let targetUsers: any = []
 
     docSnap.forEach(doc => {
         targetUsers.push(doc.data())
@@ -41,14 +41,14 @@ export const findUsersByUserTypes = async (userType: string) => {
 // ========== find mentors by company ==========
 export const findCompanyMentors = async (companyId: string) => {
     const mentorList = await findUsersByUserTypes("1")
-    const mentorHashMap = {}
+    let mentorHashMap = {}
     mentorList.forEach((mentor: unknown) => {
         const { username, email, userId, skills } = mentor
         mentorHashMap[mentor.userId] = { username, email, userId, skills }
     })
-    const res = []
+    let res = []
     const companyMemberShips = await getCompanyMembers(companyId)
-    companyMemberShips.forEach((memberShip: unknown) => {
+    companyMemberShips.forEach((memberShip: any) => {
         const { memberId } = memberShip
         if (mentorHashMap[memberId]) {
             res.push(mentorHashMap[memberId])

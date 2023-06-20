@@ -1,7 +1,7 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
 import { useState, useEffect } from "react"
-import { useParams, useNavigate } from "react-router-dom"
+import { Link, useParams, useNavigate } from "react-router-dom"
 // ======= chakra UI ==========
 import { SimpleGrid, useToast, Heading } from "@chakra-ui/react"
 
@@ -34,7 +34,7 @@ export default function IndividualMentorshipPage() {
 
     // ============== states (if any) ==============
     const [currentMentorship, setCurrentMentorship] = useState<unknown>(null)
-    const [skillDict, setSkillDict] = useState<unknown>({})
+    const [skillDict, setSkillDict] = useState<any>({})
     const [loading, setLoading] = useState<boolean>(false)
 
     // ============== useEffect statement(s) ==============
@@ -108,7 +108,7 @@ export default function IndividualMentorshipPage() {
                         {currentMentorship && currentMentorship.skills ? (
                             <>
                                 {currentMentorship.skills.map(
-                                    (skill: unknown, key: number) => {
+                                    (skill: any, key: number) => {
                                         const { skillLevel, skillId } = skill
                                         return (
                                             <SkillProgressContainer

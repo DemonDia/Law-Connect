@@ -12,11 +12,11 @@ import CustomButton from "./CustomButton"
 interface TwoActionTopBarProps {
     firstButtonWords: string
     firstButtonColor: string
-    firstButtonAction: unknown
+    firstButtonAction: any
     disabled?: boolean
     secondButtonWords: string
     secondButtonColor: string
-    secondButtonAction: unknown
+    secondButtonAction: any
 }
 
 // ============== external variables (if any) ==============

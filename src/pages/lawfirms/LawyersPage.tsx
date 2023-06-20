@@ -33,8 +33,8 @@ export default function LawyersPage() {
     const { user } = useUser()
 
     // ============== states (if any) ==============
-    const [applications, setApplications] = useState<unknown>([])
-    const [lawyers, setLawyers] = useState<unknown>([])
+    const [applications, setApplications] = useState<any>([])
+    const [lawyers, setLawyers] = useState<any>([])
     const [selectedTab, setSelectedTab] = useState<number>(-1)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -105,7 +105,7 @@ export default function LawyersPage() {
                                                 {" "}
                                                 {applications.map(
                                                     (
-                                                        application: unknown,
+                                                        application: any,
                                                         index: number,
                                                     ) => {
                                                         const {
@@ -138,7 +138,7 @@ export default function LawyersPage() {
                                             <>
                                                 {lawyers.map(
                                                     (
-                                                        lawyer: unknown,
+                                                        lawyer: any,
                                                         index: number,
                                                     ) => {
                                                         const {

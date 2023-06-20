@@ -38,7 +38,7 @@ export const createUserRecord = async (userId: string, email: string) => {
     }
 }
 
-export const gmailAuth = async (navigate: unknown, toast: unknown, addUser: unknown) => {
+export const gmailAuth = async (navigate: any, toast: any, addUser: any) => {
     const provider = new GoogleAuthProvider()
     signInWithPopup(auth, provider)
         .then(async result => {

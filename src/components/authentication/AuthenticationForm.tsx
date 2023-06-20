@@ -1,6 +1,6 @@
 // ============== imports ==============
 // ======= react ==========
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 // ======= chakra UI ==========
@@ -16,7 +16,7 @@ import { gmailAuth } from "../../helperFunctions/firebase/userAuthFunctions"
 // ============== interfaces ==============
 interface AuthManager {
     isLogin: boolean
-    submitMethod: unknown
+    submitMethod: any
 }
 export interface AuthObject {
     email: string
@@ -43,6 +43,7 @@ export default function AuthenticationForm({
     const [confirmPassword, setConfirmPassword] = useState<string>("")
 
     // ============== useEffect statement(s) ==============
+    useEffect(() => {}, [])
 
     // ============== helper functions if any ==============
 
@@ -73,14 +74,14 @@ export default function AuthenticationForm({
                 placeholder="Email"
                 value={email}
                 formType="email"
-                changeHandler={(e: unknown) => setEmail(e.target.value)}
+                changeHandler={(e: any) => setEmail(e.target.value)}
             />
             <InputField
                 label="Password"
                 placeholder="Password"
                 value={password}
                 formType="password"
-                changeHandler={(e: unknown) => setPassword(e.target.value)}
+                changeHandler={(e: any) => setPassword(e.target.value)}
             />
             {isLogin ? (
                 <></>
@@ -91,7 +92,7 @@ export default function AuthenticationForm({
                         placeholder="Confirm Password"
                         value={confirmPassword}
                         formType="password"
-                        changeHandler={(e: unknown) =>
+                        changeHandler={(e: any) =>
                             setConfirmPassword(e.target.value)
                         }
                     />

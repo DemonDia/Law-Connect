@@ -13,7 +13,7 @@ import CustomButton from "../general/CustomButton"
 interface CompanyContainerProps {
     companyId: string
     companyName: string
-    applyFunction?: unknown
+    applyFunction?: any
     applied?: boolean //user have applied to this company?
     disabled?: boolean
 }

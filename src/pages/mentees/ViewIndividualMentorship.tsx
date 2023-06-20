@@ -1,10 +1,10 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
 import { useState, useEffect } from "react"
-import { useParams, useNavigate } from "react-router-dom"
+import { Link, useParams, useNavigate } from "react-router-dom"
 
 // ======= chakra UI ==========
-import { SimpleGrid, Heading } from "@chakra-ui/react"
+import { SimpleGrid, useToast, Heading } from "@chakra-ui/react"
 
 // ======= firebase ==========
 import {
@@ -32,11 +32,13 @@ export default function ViewIndividualMentorship() {
     // ============== constant variables if any ==============
     const { mentorshipId } = useParams()
     const navigate = useNavigate()
+    const toast = useToast()
     const { user } = useUser()
 
     // ============== states (if any) ==============
     const [currentMentorship, setCurrentMentorship] = useState<unknown>(null)
-    const [skillDict, setSkillDict] = useState<unknown>({})
+    const [allSkills, setAllSkills] = useState<any>([])
+    const [skillDict, setSkillDict] = useState<any>({})
     const [loading, setLoading] = useState<boolean>(true)
 
     // ============== useEffect statement(s) ==============
@@ -66,9 +68,11 @@ export default function ViewIndividualMentorship() {
     }
     const getAllSkillInfo = async () => {
         const skills = await getAllSkills()
+        setAllSkills(skills)
+
         Promise.resolve(skills).then(res => {
             setSkillDict(res)
-            const currentSkillDict = {}
+            let currentSkillDict = {}
             for (const [id, skill] of res) {
                 const { skillName } = skill
                 currentSkillDict[id] = skillName
@@ -96,18 +100,16 @@ export default function ViewIndividualMentorship() {
                     <SimpleGrid columns={[2, null, 3]} gap={0}>
                         {currentMentorship && currentMentorship.skills ? (
                             <>
-                                {currentMentorship.skills.map(
-                                    (skill: unknown) => {
-                                        const { skillLevel, skillId } = skill
-                                        return (
-                                            <SkillProgressContainer
-                                                skillName={skillDict[skillId]}
-                                                skillLevel={skillLevel}
-                                                editable={false}
-                                            />
-                                        )
-                                    },
-                                )}
+                                {currentMentorship.skills.map((skill: any) => {
+                                    const { skillLevel, skillId } = skill
+                                    return (
+                                        <SkillProgressContainer
+                                            skillName={skillDict[skillId]}
+                                            skillLevel={skillLevel}
+                                            editable={false}
+                                        />
+                                    )
+                                })}
                             </>
                         ) : (
                             <></>

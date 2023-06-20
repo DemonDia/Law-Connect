@@ -47,7 +47,7 @@ export default function RegisterPage() {
 
     // ============== key functions if any ==============
     const registerFunction = async (items: AuthObject) => {
-        const errors: Array<string> = []
+        let errors: Array<String> = []
         const { email, password, confirmPassword } = items
         if (!validateEmail(email)) {
             errors.push("Invalid email")

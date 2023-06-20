@@ -12,7 +12,7 @@ import ApplicationOutcomeBadge from "../mentee/ApplicationOutcomeBadge"
 interface LawyerContainerProps {
     applicationId: string
     applicantName: string
-    applicationDate?: unknown
+    applicationDate?: any
     applicationOutcome: number
 }
 // ============== external variables (if any) ==============

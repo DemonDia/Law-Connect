@@ -15,7 +15,7 @@ import ApplicationOutcomeBadge from "../mentee/ApplicationOutcomeBadge"
 interface MentorshipApplicationContainerProps {
     mentorshipApplicationId: string
     menteeName: string
-    applicationDate?: unknown
+    applicationDate?: any
     applicationOutcome: number
 }
 // ============== external variables (if any) ==============

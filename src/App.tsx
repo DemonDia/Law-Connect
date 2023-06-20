@@ -1,6 +1,6 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom"
 
 // ======= chakra UI ==========
@@ -59,7 +59,7 @@ function App() {
     // ============== useEffect statement(s) ==============
     useEffect(() => {
         seedSkills()
-    })
+    }, [])
     useEffect(() => {
         if (user && user.userType == "-1") {
             navigate("/setup/" + user.userId)
