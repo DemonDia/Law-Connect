@@ -100,8 +100,6 @@ export default function MentorPage() {
             getCurrentMentors()
             getSkills()
             setLoading(false)
-        } else {
-            navigate("/")
         }
     }, [])
     useEffect(() => {
@@ -271,10 +269,7 @@ export default function MentorPage() {
                                                                 const isFound =
                                                                     found !=
                                                                     null
-                                                                console.log(
-                                                                    "mentor",
-                                                                    mentor,
-                                                                )
+
                                                                 return (
                                                                     <CompanyMentorContainer
                                                                         handleApplyMentorship={
@@ -314,10 +309,6 @@ export default function MentorPage() {
                                                                 mentor: CurrentMentorProps,
                                                                 index: number,
                                                             ) => {
-                                                                console.log(
-                                                                    "currentMentor",
-                                                                    mentor,
-                                                                )
                                                                 const {
                                                                     mentorName,
                                                                     mentorEmail,

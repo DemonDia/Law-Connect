@@ -51,7 +51,7 @@ export default function MentorshipApplicationContainer({
                 {menteeName}
             </Heading>
             {/* <br /> */}
-            <Text>Applied at:{formatDate(Date(applicationDate))}</Text>
+            <Text>Applied at:{formatDate(applicationDate)}</Text>
             {/* <br /> */}
             <ApplicationOutcomeBadge
                 text={applicationOutcomes[applicationOutcome].text}

@@ -47,7 +47,7 @@ export default function ApplicationContainer({
             </Heading>
             <br />
             <Heading as="h6" size="sm">
-                Applied at:{formatDate(Date(applicationDate))}
+                Applied at:{formatDate(applicationDate)}
             </Heading>
             <br />
             <ApplicationOutcomeBadge

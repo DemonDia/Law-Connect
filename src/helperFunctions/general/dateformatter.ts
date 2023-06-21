@@ -1,6 +1,6 @@
 export function formatDate(date: any) {
-    var d = new Date(date),
-        month = "" + (d.getMonth() + 1),
+    const d: Date = new Date(date.seconds*1000)
+    var month = "" + (d.getMonth() + 1),
         day = "" + d.getDate(),
         year = d.getFullYear()
 

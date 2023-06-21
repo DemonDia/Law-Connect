@@ -117,8 +117,12 @@ export default function MenteePage() {
                                                     const {
                                                         mentorshipId,
                                                         menteeName,
-                                                        joinedDate,
+                                                        joinDate,
                                                     } = mentee
+                                                    console.log(
+                                                        "mentee",
+                                                        mentee,
+                                                    )
                                                     return (
                                                         <MenteeContainer
                                                             mentorshipId={
@@ -128,7 +132,7 @@ export default function MenteePage() {
                                                                 menteeName
                                                             }
                                                             joinedDate={
-                                                                joinedDate
+                                                                joinDate
                                                             }
                                                         />
                                                     )

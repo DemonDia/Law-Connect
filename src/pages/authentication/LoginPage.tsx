@@ -66,7 +66,7 @@ export default function LoginPage() {
                     })
                     setLoading(false)
                     if (isSetUp) {
-                        navigate("/")
+                        navigate("/home")
                     } else {
                         navigate("/setup/" + userId)
                     }

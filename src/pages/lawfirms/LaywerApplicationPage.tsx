@@ -56,12 +56,18 @@ export default function LaywerApplicationPage() {
     useEffect(() => {
         fetchApplication()
     }, [])
+    useEffect(() => {
+        console.log("currentApplication", currentApplication)
+    }, [currentApplication])
 
     // ============== helper functions if any ==============
     const fetchApplication = async () => {
+        setLoading(true)
         const application = await getApplicationInfo(applicationId)
         if (user && application && application.companyId == user.userId) {
+            console.log("application", application)
             setCurrentApplication(application)
+            setLoading(false)
         } else {
             navigate("/lawyers")
         }
@@ -78,7 +84,7 @@ export default function LaywerApplicationPage() {
 
     return (
         <Box>
-            {loading ? (
+            {loading == true ? (
                 <>
                     <LoadingComponent message="Loading lawyer's application ..." />
                 </>
@@ -132,16 +138,39 @@ export default function LaywerApplicationPage() {
                             margin={"10px"}>
                             <Box id="lawerInfo" margin={"10px auto"}>
                                 <Heading as="h4" size="lg">
-                                    {currentApplication.username}
+                                    {currentApplication &&
+                                    currentApplication.username ? (
+                                        <>{currentApplication.username}</>
+                                    ) : (
+                                        <>Applicant Name</>
+                                    )}
+                                    {/* {currentApplication.username} */}
                                 </Heading>
-                                <Text>{currentApplication.email}</Text>
+                                <Text>
+                                    {currentApplication &&
+                                    currentApplication.email ? (
+                                        <>{currentApplication.email}</>
+                                    ) : (
+                                        <>Applicant Email</>
+                                    )}
+
+                                    {currentApplication.email}
+                                </Text>
                                 <Text>
                                     Requested at:
-                                    {formatDate(
-                                        Date(
-                                            currentApplication.applicationDate,
-                                        ),
+                                    {currentApplication &&
+                                    currentApplication.applicationDate ? (
+                                        <>
+                                            {formatDate(
+                                                currentApplication.applicationDate,
+                                            )}
+                                        </>
+                                    ) : (
+                                        <>Application Date</>
                                     )}
+                                    {/* {formatDate(
+                                        currentApplication.applicationDate,
+                                    )} */}
                                 </Text>
                             </Box>
 

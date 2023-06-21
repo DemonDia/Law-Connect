@@ -47,7 +47,7 @@ export default function MenteeBadgePage() {
         // skillName
         // skillDescription (can hover)
         // mentor name
-        // obtainedDate
+        // receivedDate
     }
 
     // ============== key functions if any ==============
@@ -79,7 +79,7 @@ export default function MenteeBadgePage() {
                                                 badge.skillDescription
                                             }
                                             senderName={badge.senderName}
-                                            obtainedDate={badge.obtainedDate}
+                                            receivedDate={badge.receivedDate}
                                         />
                                     )
                                 })}
@@ -101,13 +101,13 @@ interface MenteeBadgeProps {
     skillName: string
     skillDescription?: string
     senderName: string
-    obtainedDate: unknown
+    receivedDate: unknown
 }
 export const MenteeBadge = ({
     skillName,
     skillDescription,
     senderName,
-    obtainedDate,
+    receivedDate,
 }: MenteeBadgeProps) => {
     // ============== constant variables if any ==============
     // ============== states (if any) ==============
@@ -126,7 +126,7 @@ export const MenteeBadge = ({
             </Heading>
             <hr />
             <Text>Awarded by:{senderName}</Text>
-            <Text>Awarded at:{formatDate(Date(obtainedDate))}</Text>
+            <Text>Awarded at:{formatDate(receivedDate)}</Text>
         </Box>
     )
 }

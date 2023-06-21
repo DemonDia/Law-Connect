@@ -20,6 +20,7 @@ import { BiDownArrowAlt } from "react-icons/bi"
 // ======= firebase ==========
 
 // ======= zustand/state ==========
+import useUser from "../../store/userStore"
 
 // ======= custom components (if any)==========
 import CustomButton from "../../components/general/CustomButton"
@@ -85,8 +86,12 @@ export default function LandingPage() {
     const bounceAnimation = `${bounce} infinite 1s linear`
 
     // ============== states (if any) ==============
+    const { user } = useUser()
     // ============== useEffect statement(s) ==============
     useEffect(() => {
+        if (user) {
+            navigate("/home")
+        }
         AOS.init({ duration: 1000 })
     }, [])
     // ============== helper functions if any ==============
@@ -113,9 +118,9 @@ export default function LandingPage() {
                         </Heading>
                         <br />
                         <Heading as="h4" size="md">
-                            LawConnect is a portal that quickly links
-                            junior lawyers to their mentors and law firms,
-                            and to track their progress!
+                            LawConnect is a portal that quickly links junior
+                            lawyers to their mentors and law firms, and to track
+                            their progress!
                         </Heading>
                         <br />
                         <CustomButton

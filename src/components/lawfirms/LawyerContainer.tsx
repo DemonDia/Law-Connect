@@ -37,7 +37,7 @@ export function LawyerContainer({
                 {lawyerName}
             </Heading>
             {/* <br /> */}
-            <Text>Joined at:{formatDate(Date(joinedDate))}</Text>
+            <Text>Joined at:{formatDate(joinedDate)}</Text>
             <br />
             <Text>More Info</Text>
         </Box>

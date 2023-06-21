@@ -44,7 +44,7 @@ export default function MenteeContainer({
                 {menteeName}
             </Heading>
             {/* <br /> */}
-            <Text>Joined at:{formatDate(Date(joinedDate))}</Text>
+            <Text>Joined at:{formatDate(joinedDate)}</Text>
             <br />
             <Link to={`/mentorship/${mentorshipId}`}>
                 <Text>More Info</Text>

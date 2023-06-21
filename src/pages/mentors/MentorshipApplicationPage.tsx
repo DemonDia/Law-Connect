@@ -147,17 +147,24 @@ export default function MentorshipApplicationPage() {
                                 margin={"10px"}>
                                 <Box id="lawerInfo" margin={"10px auto"}>
                                     <Heading as="h4" size="lg">
-                                        {currentMentorshipApplication.username}
+                                        {/* {currentMentorshipApplication.username} */}
+                                        { currentMentorshipApplication && currentMentorshipApplication.username ? currentMentorshipApplication.username : "Applicant Name" }
                                     </Heading>
                                     <Text>
-                                        {currentMentorshipApplication.email}
+                                        { currentMentorshipApplication && currentMentorshipApplication.email ? currentMentorshipApplication.email : "Applicant Email" }
                                     </Text>
                                     <Text>
                                         Requested at:
-                                        {formatDate(
-                                            Date(
-                                                currentMentorshipApplication.applicationDate,
-                                            ),
+                                        {currentMentorshipApplication &&
+                                        currentMentorshipApplication.applicationDate ? (
+                                            <>
+                                                {" "}
+                                                {formatDate(
+                                                    currentMentorshipApplication.applicationDate,
+                                                )}
+                                            </>
+                                        ) : (
+                                            <>Application Date</>
                                         )}
                                     </Text>
                                 </Box>

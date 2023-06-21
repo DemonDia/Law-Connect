@@ -33,7 +33,6 @@ export default function LawyerApplicationContainer({
     // ============== helper functions if any ==============
 
     // ============== key functions if any ==============
-
     return (
         <Box
             background={"white"}
@@ -44,7 +43,7 @@ export default function LawyerApplicationContainer({
                 {applicantName}
             </Heading>
             {/* <br /> */}
-            <Text>Applied at:{formatDate(Date(applicationDate))}</Text>
+            <Text>Applied at:{formatDate(applicationDate)}</Text>
             {/* <br /> */}
             <ApplicationOutcomeBadge
                 text={applicationOutcomes[applicationOutcome].text}
