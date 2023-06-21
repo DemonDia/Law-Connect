@@ -101,8 +101,12 @@ export default function CompanyPage() {
                     ) : (
                         <>
                             <TabTopbar
-                                firstTabWords={"View Applications"}
-                                secondTabWords={"View Companies"}
+                                tabWords={[
+                                    "View Applications",
+                                    "View Companies",
+                                ]}
+                                // firstTabWords={"View Applications"}
+                                // secondTabWords={"View Companies"}
                                 tab={selectedTab}
                                 changeTab={selectTab}
                             />

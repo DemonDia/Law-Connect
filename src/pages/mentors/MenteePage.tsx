@@ -88,8 +88,10 @@ export default function MenteePage() {
             ) : (
                 <>
                     <TabTopbar
-                        firstTabWords={"View Mentees"}
-                        secondTabWords={"View Mentorship Applications"}
+                        tabWords={[
+                            "View Mentees",
+                            "View Mentorship Applications",
+                        ]}
                         tab={selectedTab}
                         changeTab={selectTab}
                     />
@@ -175,7 +177,9 @@ export default function MenteePage() {
                                                 )}
                                             </>
                                         ) : (
-                                            <><NoRecordsFoundComponent message="No mentee has approached you yet, please wait for a bit!" /></>
+                                            <>
+                                                <NoRecordsFoundComponent message="No mentee has approached you yet, please wait for a bit!" />
+                                            </>
                                         )}
                                     </>
                                 )}

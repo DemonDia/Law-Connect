@@ -7,19 +7,18 @@ import { Card, Box } from "@chakra-ui/react"
 import CustomButton from "./CustomButton"
 // ============== interfaces (if any) ==============
 interface TabTopbarProps {
-    firstTabWords: string
-    secondTabWords: string
+    tabWords: string[]
     tab: any
     changeTab: any
 }
+
 // ============== external variables (if any) ==============
 
 // ============== main component ==============
 
 // ============== sub component(s) if any ==============
 export default function TabTopbar({
-    firstTabWords,
-    secondTabWords,
+    tabWords,
     tab,
     changeTab,
 }: TabTopbarProps) {
@@ -36,25 +35,22 @@ export default function TabTopbar({
     }
     return (
         <Card>
-            <Box padding="10px" display={"flex"}>
-                <Box m="5px">
-                    <CustomButton
-                        buttonColor={tab == 0 ? "#3609EA" : "#E2E2E2"}
-                        textColor={tab == 0 ? "white" : "black"}
-                        buttonText={firstTabWords}
-                        buttonOnClick={() => selectTab(0)}
-                        buttonWidth="100%"
-                    />
-                </Box>
-                <Box m="5px">
-                    <CustomButton
-                        buttonColor={tab == 1 ? "#3609EA" : "#E2E2E2"}
-                        textColor={tab == 1 ? "white" : "black"}
-                        buttonText={secondTabWords}
-                        buttonOnClick={() => selectTab(1)}
-                        buttonWidth="100%"
-                    />
-                </Box>
+            <Box padding="10px" display={"flex"} overflowX={"scroll"}>
+                {tabWords.map((word: string, index) => {
+                    return (
+                        <Box m="5px" key={index}>
+                            <CustomButton
+                                buttonColor={
+                                    tab == index ? "#3609EA" : "#E2E2E2"
+                                }
+                                textColor={tab == index ? "white" : "black"}
+                                buttonText={word}
+                                buttonOnClick={() => selectTab(index)}
+                                buttonWidth="100%"
+                            />
+                        </Box>
+                    )
+                })}
             </Box>
         </Card>
     )

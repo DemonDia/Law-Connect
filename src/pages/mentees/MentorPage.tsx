@@ -172,8 +172,11 @@ export default function MentorPage() {
                     ) : (
                         <>
                             <TabTopbar
-                                firstTabWords={"View Mentor Applications"}
-                                secondTabWords={"View Mentors"}
+                                tabWords={[
+                                    "View Mentor Applications",
+                                    "View Available Mentors",
+                                    "View Current Mentors",
+                                ]}
                                 tab={selectedTab}
                                 changeTab={selectTab}
                             />
@@ -213,6 +216,12 @@ export default function MentorPage() {
                                             </>
                                         ) : (
                                             <>
+                                                {selectedTab == 1 ? (
+                                                    <></>
+                                                ) : (
+                                                    <></>
+                                                )}
+
                                                 {companyMentors.map(
                                                     (
                                                         mentor: Mentor,

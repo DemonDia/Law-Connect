@@ -92,8 +92,7 @@ export default function LawyersPage() {
                     {applications ? (
                         <>
                             <TabTopbar
-                                firstTabWords={"View Applications"}
-                                secondTabWords={"View Lawyers"}
+                                tabWords={["View Applications", "View Lawyers"]}
                                 tab={selectedTab}
                                 changeTab={selectTab}
                             />
