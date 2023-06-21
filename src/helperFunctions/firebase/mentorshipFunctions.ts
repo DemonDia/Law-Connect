@@ -8,10 +8,40 @@ import {
     doc,
     getDoc,
     updateDoc,
-    setDoc,
 } from "firebase/firestore"
 import { findUsersByUserTypes, findUserById } from "./userFirestore"
 import { getAllSkills } from "./skillsFunctions"
+
+// get all mentors of mentee
+// mentorId, mentorName, mentorshipId
+export const getMenteeMentors = async (menteeId: string) => {
+    const allMentors = await findUsersByUserTypes("1")
+    let mentorDict: any = {}
+    allMentors.forEach((mentor: any) => {
+        const { email, userId, username } = mentor
+        mentorDict[userId] = [username, email]
+    })
+
+    const findQuery = query(
+        collection(db, "mentorship"),
+        where("menteeId", "==", menteeId),
+    )
+    const docSnap = await getDocs(findQuery)
+    let mentors: Array<any> = []
+
+    docSnap.forEach(doc => {
+        let menteeToPush = doc.data()
+        const { mentorId } = menteeToPush
+        const [mentorName, mentorEmail] = mentorDict[mentorId]
+        menteeToPush = {
+            mentorEmail,
+            mentorshipId: doc.id,
+            mentorName,
+        }
+        mentors.push(menteeToPush)
+    })
+    return mentors
+}
 
 // get all mentees of a mentor
 export const getMentorMentees = async (mentorId: string) => {
@@ -129,7 +159,6 @@ export const updateMentorshipSkill = async (
 // return badge arr
 // badge is: {senderId, recipientId, skillId, receivedDate}
 export const findMenteeBadges = async (menteeId: string) => {
-
     const menteeBadges: any[] = []
     // make a skill dictionary (skillId as the key)
     const skillDict: any = {}

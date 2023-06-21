@@ -1,7 +1,7 @@
 // ============== imports: the dependencies ==============
 // ======= react ==========
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 
 // ======= chakra UI ==========
 import {
@@ -28,7 +28,10 @@ import {
     getUserMentorShipApplications,
 } from "../../helperFunctions/firebase/mentorshipApplication"
 
-import { checkMentorshipByMentorAndMentee } from "../../helperFunctions/firebase/mentorshipFunctions"
+import {
+    checkMentorshipByMentorAndMentee,
+    getMenteeMentors,
+} from "../../helperFunctions/firebase/mentorshipFunctions"
 import { getAllSkills } from "../../helperFunctions/firebase/skillsFunctions"
 // ======= zustand/state ==========
 import useUser from "../../store/userStore"
@@ -60,10 +63,11 @@ export default function MentorPage() {
     const toast = useToast()
     const { user } = useUser()
     // for modal
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { onOpen, onClose } = useDisclosure()
     // ============== states (if any) ==============
     const [selectedTab, setSelectedTab] = useState<number>(-1)
     const [companyMentors, setCompanyMentors] = useState<Mentor[]>([])
+    const [currentMentors, setCurrentMentors] = useState<Mentor[]>([])
     const [mentorshipApplications, setMentorshipApplications] = useState<any>(
         [],
     )
@@ -74,9 +78,12 @@ export default function MentorPage() {
     // ============== useEffect statement(s) ==============
     useEffect(() => {
         if (user && user.userId && user.userType == 0 && user.companyId) {
+            setLoading(true)
             getMentorApplications()
             getMentors()
+            getCurrentMentors()
             getSkills()
+            setLoading(false)
         } else {
             navigate("/")
         }
@@ -86,6 +93,8 @@ export default function MentorPage() {
             getMentorApplications()
         } else if (selectedTab == 1) {
             getMentors()
+        } else if (selectedTab == 2) {
+            getCurrentMentors()
         }
     }, [selectedTab])
     // ============== helper functions if any ==============
@@ -106,6 +115,11 @@ export default function MentorPage() {
             currSkillDict[id] = skillName
         }
         setSkillDict(currSkillDict)
+    }
+
+    const getCurrentMentors = async () => {
+        let mentors: Mentor[] = await getMenteeMentors(user.userId)
+        setCurrentMentors(mentors)
     }
     const getMentors = async () => {
         // get all the mentors from the company
@@ -217,57 +231,98 @@ export default function MentorPage() {
                                         ) : (
                                             <>
                                                 {selectedTab == 1 ? (
-                                                    <></>
-                                                ) : (
-                                                    <></>
-                                                )}
-
-                                                {companyMentors.map(
-                                                    (
-                                                        mentor: Mentor,
-                                                        index: number,
-                                                    ) => {
-                                                        const found: any =
-                                                            mentorshipApplications.find(
-                                                                (
-                                                                    mentorshipApplication: any,
-                                                                ) => {
-                                                                    return (
-                                                                        mentorshipApplication.mentorId ===
-                                                                        mentor.userId
+                                                    <>
+                                                        {/* all mentors in compnay */}
+                                                        {companyMentors.map(
+                                                            (
+                                                                mentor: Mentor,
+                                                                index: number,
+                                                            ) => {
+                                                                const found: any =
+                                                                    mentorshipApplications.find(
+                                                                        (
+                                                                            mentorshipApplication: any,
+                                                                        ) => {
+                                                                            return (
+                                                                                mentorshipApplication.mentorId ===
+                                                                                mentor.userId
+                                                                            )
+                                                                        },
                                                                     )
-                                                                },
-                                                            )
-                                                        const isFound =
-                                                            found != null
-
-                                                        return (
-                                                            <CompanyMentorContainer
-                                                                handleApplyMentorship={
-                                                                    applyMentorship
-                                                                }
-                                                                handleToggleOpen={
-                                                                    displayMentor
-                                                                }
-                                                                handleToggleClose={
-                                                                    closeMentor
-                                                                }
-                                                                key={index}
-                                                                selectedMentor={
-                                                                    selectedMentor
-                                                                }
-                                                                skillDict={
-                                                                    skillDict
-                                                                }
-                                                                currentMentor={
-                                                                    mentor
-                                                                }
-                                                                isApplied={
-                                                                    isFound
-                                                                }
-                                                            />
-                                                        )
-                                                    },
+                                                                const isFound =
+                                                                    found !=
+                                                                    null
+                                                                console.log(
+                                                                    "mentor",
+                                                                    mentor,
+                                                                )
+                                                                return (
+                                                                    <CompanyMentorContainer
+                                                                        handleApplyMentorship={
+                                                                            applyMentorship
+                                                                        }
+                                                                        handleToggleOpen={
+                                                                            displayMentor
+                                                                        }
+                                                                        handleToggleClose={
+                                                                            closeMentor
+                                                                        }
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        selectedMentor={
+                                                                            selectedMentor
+                                                                        }
+                                                                        skillDict={
+                                                                            skillDict
+                                                                        }
+                                                                        currentMentor={
+                                                                            mentor
+                                                                        }
+                                                                        isApplied={
+                                                                            isFound
+                                                                        }
+                                                                    />
+                                                                )
+                                                            },
+                                                        )}
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        {/* current mentors that you have */}
+                                                        {currentMentors.map(
+                                                            (
+                                                                mentor: CurrentMentorProps,
+                                                                index: number,
+                                                            ) => {
+                                                                console.log(
+                                                                    "currentMentor",
+                                                                    mentor,
+                                                                )
+                                                                const {
+                                                                    mentorName,
+                                                                    mentorEmail,
+                                                                    mentorshipId,
+                                                                } = mentor
+                                                                return (
+                                                                    <CurrentMentorContainer
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        mentorName={
+                                                                            mentorName
+                                                                        }
+                                                                        mentorEmail={
+                                                                            mentorEmail
+                                                                        }
+                                                                        mentorshipId={
+                                                                            mentorshipId
+                                                                        }
+                                                                    />
+                                                                )
+                                                            },
+                                                        )}
+                                                    </>
                                                 )}
                                             </>
                                         )}
@@ -282,6 +337,12 @@ export default function MentorPage() {
     )
 }
 
+interface CurrentMentorProps {
+    mentorName: string
+    mentorEmail: string
+    mentorshipId: string
+}
+
 interface MentorContainerProps {
     selectedMentor: Mentor | null
     currentMentor: Mentor | null
@@ -293,6 +354,52 @@ interface MentorContainerProps {
 }
 
 // ============== sub component(s) if any ==============
+const CurrentMentorContainer = ({
+    mentorName,
+    mentorEmail,
+    mentorshipId,
+}: CurrentMentorProps) => {
+    return (
+        <Box
+            background={"white"}
+            p="10px"
+            borderRadius={"10px"}
+            margin="10px"
+            boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}>
+            <SimpleGrid columns={2}>
+                <Box>
+                    <Image
+                        src={ProfilePic}
+                        alt="Profile Picture"
+                        margin="10px auto"
+                        // width="50%"
+                    />
+                </Box>
+
+                <Box padding="5px" margin={["5px", null, null, "5px auto"]}>
+                    <Heading
+                        as="h6"
+                        size={["sm", null, null, "lg"]}
+                        overflow={"hidden"}
+                        whiteSpace={"nowrap"}>
+                        {mentorName}
+                    </Heading>
+                    <Text
+                        overflow={"hidden"}
+                        whiteSpace={"nowrap"}
+                        textOverflow={"ellipsis"}>
+                        {mentorEmail}
+                    </Text>
+                    <br></br>
+                    <Link to={`/mentee/m/${mentorshipId}`}>
+                        <Text>More Info</Text>
+                    </Link>
+                </Box>
+            </SimpleGrid>
+        </Box>
+    )
+}
+
 const CompanyMentorContainer = ({
     currentMentor,
     selectedMentor,
