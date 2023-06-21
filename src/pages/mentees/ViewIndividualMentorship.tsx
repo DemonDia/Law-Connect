@@ -97,7 +97,10 @@ export default function ViewIndividualMentorship() {
                             <>Mentee A</>
                         )}{" "}
                     </Heading>
-                    <SimpleGrid columns={[2, null, 3]} gap={0}>
+                    <SimpleGrid
+                        columns={[2, null, 3, 4, 6]}
+                        spacing={5}
+                        margin="10px">
                         {currentMentorship && currentMentorship.skills ? (
                             <>
                                 {currentMentorship.skills.map((skill: any) => {

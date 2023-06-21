@@ -96,7 +96,10 @@ export default function LawyersPage() {
                                 tab={selectedTab}
                                 changeTab={selectTab}
                             />
-                            <SimpleGrid columns={[2, null, 3]} spacing={1}>
+                            <SimpleGrid
+                                columns={[2, null, 3, 4, 6]}
+                                spacing={5}
+                                margin="10px">
                                 {selectedTab == -1 ? null : (
                                     <>
                                         {selectedTab == 0 ? (

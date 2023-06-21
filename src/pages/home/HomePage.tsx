@@ -101,7 +101,10 @@ export default function HomePage() {
                         , what would like to do?{" "}
                     </Heading>
                     <br />
-                    <SimpleGrid columns={[2, null, 3, 4, 6]}>
+                    <SimpleGrid
+                        columns={[2, null, 3, 4, 6]}
+                        spacing={5}
+                        margin="10px">
                         {menuOptions.map((option: MenuItem, index: number) => {
                             const { label, to, icon } = option
                             return (

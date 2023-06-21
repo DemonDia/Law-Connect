@@ -105,8 +105,6 @@ export default function CompanyPage() {
                                     "View Applications",
                                     "View Companies",
                                 ]}
-                                // firstTabWords={"View Applications"}
-                                // secondTabWords={"View Companies"}
                                 tab={selectedTab}
                                 changeTab={selectTab}
                             />
@@ -120,6 +118,8 @@ export default function CompanyPage() {
                                 <>
                                     {" "}
                                     <SimpleGrid
+                                        spacing={5}
+                                        margin="10px"
                                         columns={
                                             //
                                             (selectedTab == 0 &&
@@ -128,7 +128,7 @@ export default function CompanyPage() {
                                             (selectedTab == 1 &&
                                                 companies &&
                                                 companies.length) > 0
-                                                ? [2, null, 3]
+                                                ? [2, null, 3, 4, 6]
                                                 : 1
 
                                             // applications.length > 0 ? [2, null, 3] : 1

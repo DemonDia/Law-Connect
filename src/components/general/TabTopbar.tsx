@@ -34,7 +34,7 @@ export default function TabTopbar({
         changeTab(newTabIndex)
     }
     return (
-        <Card>
+        <Card margin="10px ">
             <Box padding="10px" display={"flex"} overflowX={"scroll"}>
                 {tabWords.map((word: string, index) => {
                     return (

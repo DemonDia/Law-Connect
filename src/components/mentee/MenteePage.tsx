@@ -9,8 +9,8 @@ import { findMenteeBadges } from "../../helperFunctions/firebase/mentorshipFunct
 // ======= zustand/state ==========
 import useUser from "../../store/userStore"
 // ======= custom components (if any)==========
-import NoRecordsFoundComponent from "../../components/general/NoRecordsFoundComponent"
-import LoadingComponent from "../../components/general/LoadingComponent"
+import NoRecordsFoundComponent from "../general/NoRecordsFoundComponent"
+import LoadingComponent from "../general/LoadingComponent"
 // ============== interfaces (if any) ==============
 
 // ============== external variables (if any) ==============
@@ -61,29 +61,35 @@ export default function MenteeBadgePage() {
             ) : (
                 <>
                     {" "}
-                    <Heading>Collected badges by {user.username}</Heading>
+                    <Heading textAlign={"center"} as="h6" size={"lg"}>
+                        Collected badges by {user.username}
+                    </Heading>
                     {menteeBadges && menteeBadges.length > 0 ? (
                         <>
-                            {" "}
-                            {menteeBadges.map(badge => {
-                                return (
-                                    <MenteeBadge
-                                        skillName={badge.skillName}
-                                        skillDescription={
-                                            badge.skillDescription
-                                        }
-                                        senderName={badge.senderName}
-                                        obtainedDate={badge.obtainedDate}
-                                    />
-                                )
-                            })}
+                            <SimpleGrid
+                                columns={[2, null, 3, 4, 6]}
+                                spacing={5}
+                                margin="10px">
+                                {" "}
+                                {menteeBadges.map(badge => {
+                                    return (
+                                        <MenteeBadge
+                                            skillName={badge.skillName}
+                                            skillDescription={
+                                                badge.skillDescription
+                                            }
+                                            senderName={badge.senderName}
+                                            obtainedDate={badge.obtainedDate}
+                                        />
+                                    )
+                                })}
+                            </SimpleGrid>
                         </>
                     ) : (
                         <>
                             <NoRecordsFoundComponent message="You do not have any badges? Perhaps earn some?" />
                         </>
                     )}
-                    <SimpleGrid columns={[2, null, 4, 6]}></SimpleGrid>
                 </>
             )}
         </>
@@ -115,7 +121,7 @@ export const MenteeBadge = ({
             borderRadius={"10px"}
             background="white"
             boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}>
-            <Heading as="h3" size="md">
+            <Heading as="h3" size="md" alignItems={"center"}>
                 {skillName}
             </Heading>
             <hr />

@@ -50,6 +50,22 @@ interface Mentor {
     email: string
     skills?: string[]
 }
+
+interface CurrentMentorProps {
+    mentorName: string
+    mentorEmail: string
+    mentorshipId: string
+}
+
+interface MentorContainerProps {
+    selectedMentor: Mentor | null
+    currentMentor: Mentor | null
+    skillDict: unknown
+    isApplied: boolean
+    handleApplyMentorship: (mentorId: string) => void
+    handleToggleOpen?: () => void | null
+    handleToggleClose?: () => void | null
+}
 // ============== external variables (if any) ==============
 import ProfilePic from "../../assets/defaultProfilePic.png"
 
@@ -194,7 +210,10 @@ export default function MentorPage() {
                                 tab={selectedTab}
                                 changeTab={selectTab}
                             />
-                            <SimpleGrid columns={[2, null, 3]} spacing={1}>
+                            <SimpleGrid
+                                columns={[2, null, 3, 4, 6]}
+                                spacing={5}
+                                margin="10px">
                                 {selectedTab == -1 ? null : (
                                     <>
                                         {selectedTab == 0 ? (
@@ -337,22 +356,6 @@ export default function MentorPage() {
     )
 }
 
-interface CurrentMentorProps {
-    mentorName: string
-    mentorEmail: string
-    mentorshipId: string
-}
-
-interface MentorContainerProps {
-    selectedMentor: Mentor | null
-    currentMentor: Mentor | null
-    skillDict: unknown
-    isApplied: boolean
-    handleApplyMentorship: (mentorId: string) => void
-    handleToggleOpen?: () => void | null
-    handleToggleClose?: () => void | null
-}
-
 // ============== sub component(s) if any ==============
 const CurrentMentorContainer = ({
     mentorName,
@@ -364,7 +367,6 @@ const CurrentMentorContainer = ({
             background={"white"}
             p="10px"
             borderRadius={"10px"}
-            margin="10px"
             boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}>
             <SimpleGrid columns={2}>
                 <Box>
@@ -372,24 +374,14 @@ const CurrentMentorContainer = ({
                         src={ProfilePic}
                         alt="Profile Picture"
                         margin="10px auto"
-                        // width="50%"
                     />
                 </Box>
 
-                <Box padding="5px" margin={["5px", null, null, "5px auto"]}>
-                    <Heading
-                        as="h6"
-                        size={["sm", null, null, "lg"]}
-                        overflow={"hidden"}
-                        whiteSpace={"nowrap"}>
+                <Box padding="5px" margin={"5px"} width="100%">
+                    <Heading as="h6" size={"sm"} noOfLines={1}>
                         {mentorName}
                     </Heading>
-                    <Text
-                        overflow={"hidden"}
-                        whiteSpace={"nowrap"}
-                        textOverflow={"ellipsis"}>
-                        {mentorEmail}
-                    </Text>
+                    <Text noOfLines={1}>{mentorEmail}</Text>
                     <br></br>
                     <Link to={`/mentee/m/${mentorshipId}`}>
                         <Text>More Info</Text>
@@ -422,7 +414,6 @@ const CompanyMentorContainer = ({
             background={"white"}
             p="10px"
             borderRadius={"10px"}
-            margin="10px"
             boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.3)"}>
             <SimpleGrid columns={2}>
                 <Box>
@@ -430,22 +421,21 @@ const CompanyMentorContainer = ({
                         src={ProfilePic}
                         alt="Profile Picture"
                         margin="10px auto"
-                        // width="50%"
                     />
                 </Box>
 
-                <Box padding="5px" margin={["5px", null, null, "5px auto"]}>
+                <Box
+                    padding="5px"
+                    margin={["5px", null, null, "5px auto"]}
+                    maxWidth="100%">
                     <Heading
                         as="h6"
-                        size={["sm", null, null, "lg"]}
-                        overflow={"hidden"}
-                        whiteSpace={"nowrap"}>
+                        size={"sm"}
+                        noOfLines={1}
+                        overflow={"hidden"}>
                         {username}
                     </Heading>
-                    <Text
-                        overflow={"hidden"}
-                        whiteSpace={"nowrap"}
-                        textOverflow={"ellipsis"}>
+                    <Text noOfLines={1} overflow={"hidden"}>
                         {email}
                     </Text>
                     <br></br>
