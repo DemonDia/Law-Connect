@@ -14,7 +14,6 @@ import {
     Popover,
     PopoverTrigger,
     useColorModeValue,
-    useBreakpointValue,
     useDisclosure,
     Image,
 } from "@chakra-ui/react"
@@ -50,7 +49,7 @@ const notLoggedInItems: Array<NavItem> = [
 
 // for mentees
 const menteeItems: Array<NavItem> = [
-    { label: "Home", to: "/" },
+    { label: "Home", to: "/home" },
     {
         label: "Mentors",
         to: "/mentors",
@@ -71,7 +70,7 @@ const menteeItems: Array<NavItem> = [
 
 // for mentors
 const mentorItems: Array<NavItem> = [
-    { label: "Home", to: "/" },
+    { label: "Home", to: "/home" },
     {
         label: "Mentees",
         to: "/mentees",
@@ -88,7 +87,7 @@ const mentorItems: Array<NavItem> = [
 
 // for firms
 const companyItems: Array<NavItem> = [
-    { label: "Home", to: "/" },
+    { label: "Home", to: "/home" },
     {
         label: "Lawyers",
         to: "/lawyers",
@@ -169,7 +168,7 @@ export default function Navbar() {
                     <Flex
                         flex={{ base: 1 }}
                         justify={{ base: "center", md: "start" }}>
-                        <DomLink to="/">
+                        <DomLink to={user ? "/home" : "/"}>
                             <Image height="60px" src={Logo} alt="logo" />
                         </DomLink>
                         {/* <Text m="0" display="flex" alignItems={"center"}>

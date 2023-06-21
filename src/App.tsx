@@ -47,6 +47,9 @@ import IndividualMentorshipPage from "./pages/mentors/IndividualMentorshipPage"
 import LawyersPage from "./pages/lawfirms/LawyersPage"
 import LaywerApplicationPage from "./pages/lawfirms/LaywerApplicationPage"
 
+// ======================== other pages ========================
+import LandingPage from "./pages/others/LandingPage"
+
 // ============== main component ==============
 function App() {
     // ============== constant variables if any ==============
@@ -77,8 +80,11 @@ function App() {
             <Navbar />
             <Box p="10px">
                 <Routes>
+                    {/* landing page */}
+                    <Route path="/" element={<LandingPage />} />
+
                     {/* homepage */}
-                    <Route path="/" element={<HomePage />} />
+                    <Route path="/home" element={<HomePage />} />
 
                     {/* authentication */}
                     <Route path="/register" element={<RegisterPage />} />

@@ -17,6 +17,7 @@
     "@types/minimist": "^1.2.2",
     "@types/normalize-package-data": "^2.4.1",
     "@types/react-router-dom": "^5.3.3",
+    "aos": "^2.3.4",
     "firebase": "^9.22.2",
     "framer-motion": "^10.12.16",
     "react": "^18.2.0",
