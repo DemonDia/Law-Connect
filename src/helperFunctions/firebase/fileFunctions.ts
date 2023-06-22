@@ -1,5 +1,13 @@
 import { db } from "../../config"
-import { addDoc, collection, getDocs, where, query } from "firebase/firestore"
+import {
+    addDoc,
+    collection,
+    getDocs,
+    where,
+    query,
+    doc,
+    getDoc,
+} from "firebase/firestore"
 
 // ================= folder =================
 // add folder (take in folder name and company Id)
@@ -26,9 +34,28 @@ export const getFoldersByCompanyId = async (companyId: string) => {
     return folders
 }
 
-// select folder (take in folderId)
+// take folder by Id
+export const getFolderByFolderId = async (folderId: string) => {
+    const docRef = doc(db, "folders", folderId)
+    const docSnap = await getDoc(docRef)
+    if (docSnap.exists()) {
+        return docSnap.data()
+    }
+    return null
+}
 
 // ================= file =================
-// add file (take in file, folderId)
 
-//
+// get all files in folder
+export const getAllFilesFromFolder = async (folderId: string) => {
+    const findQuery = query(
+        collection(db, "file"),
+        where("folderId", "==", folderId),
+    )
+    const querySnapshot = await getDocs(findQuery)
+    const files: any[] = []
+    querySnapshot.forEach((doc: any) => {
+        files.push(doc.data())
+    })
+    return files
+}

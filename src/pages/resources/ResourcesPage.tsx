@@ -38,9 +38,9 @@ export default function ResourcesPage() {
         if (!user) {
             navigate("/login")
         }
-        if (user.userType != 2 && !user.companyId) {
-            navigate("/home")
-        }
+        // if (user.userType != 2 && !user.companyId) {
+        //     navigate("/home")
+        // }
         getCompanyFolders()
     }, [])
     // ============== helper functions if any ==============
@@ -61,7 +61,7 @@ export default function ResourcesPage() {
             })
         } else {
             let currentCompanyId
-            if (user.userType === 3) {
+            if (user.userType === 2) {
                 currentCompanyId = user.userId
             } else {
                 currentCompanyId = user.companyId
@@ -92,14 +92,17 @@ export default function ResourcesPage() {
     // get all folders of company
     const getCompanyFolders = async () => {
         setLoading(true)
+        console.log(user)
         let currentCompanyId
-        if (user.userType === 3) {
+        if (user.userType == 2) {
             currentCompanyId = user.userId
         } else {
             currentCompanyId = user.companyId
         }
         const folders = await getFoldersByCompanyId(currentCompanyId)
+        console.log("folders", folders)
         setCompanyFolders(folders)
+        // "0g4fjfWZE7dWhJxQMnePG1jJBmm2"
         setLoading(false)
     }
 
@@ -112,11 +115,17 @@ export default function ResourcesPage() {
             ) : (
                 <>
                     <SimpleGrid columns={[2, 3, null, 4]} spacing={5}>
-                        <AddFolderForm
-                            changeNameHandler={handleFolderNameChange}
-                            name={folderName}
-                            handleSubmit={addNewFolder}
-                        />
+                        {user && user.userType == 2 ? (
+                            <>
+                                {" "}
+                                <AddFolderForm
+                                    changeNameHandler={handleFolderNameChange}
+                                    name={folderName}
+                                    handleSubmit={addNewFolder}
+                                />
+                            </>
+                        ) : null}
+
                         {
                             // display folders
                             companyFolders.map((folder: Folder) => {
@@ -181,7 +190,7 @@ function FolderContainer({ folderId, folderName }: Folder) {
             <Heading as="h3" size="xl" noOfLines={1}>
                 {folderName}
             </Heading>
-            <br/>
+            <br />
             <Text fontSize="md" color="gray.500">
                 <Link to={`/resources/${folderId}`}>View Folder ..</Link>
             </Text>

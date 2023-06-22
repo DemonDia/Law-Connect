@@ -46,7 +46,10 @@ import IndividualMentorshipPage from "./pages/mentors/IndividualMentorshipPage"
 // ======================== law firm pages ========================
 import LawyersPage from "./pages/lawfirms/LawyersPage"
 import LaywerApplicationPage from "./pages/lawfirms/LaywerApplicationPage"
-import ResourcesPage from "./pages/lawfirms/ResourcesPage"
+
+// ======================== resources pages ========================
+import ResourcesPage from "./pages/resources/ResourcesPage"
+import CurrentFolderPage from "./pages/resources/CurrentFolderPage"
 
 // ======================== other pages ========================
 import LandingPage from "./pages/others/LandingPage"
@@ -120,7 +123,13 @@ function App() {
                         path="/lawyers/:applicationId"
                         element={<LaywerApplicationPage />}
                     />
+
+                    {/* resources */}
                     <Route path="/resources" element={<ResourcesPage />} />
+                    <Route
+                        path="/resources/:folderId"
+                        element={<CurrentFolderPage />}
+                    />
                 </Routes>
             </Box>
         </>

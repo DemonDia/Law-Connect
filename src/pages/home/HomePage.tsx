@@ -9,6 +9,7 @@ import { BsPersonRolodex } from "react-icons/bs"
 import { IoIosDocument } from "react-icons/io"
 import { GiSkills } from "react-icons/gi"
 import { BiLogOut } from "react-icons/bi"
+import { AiFillFolderOpen } from "react-icons/ai"
 
 // ======= firebase ==========
 
@@ -27,6 +28,7 @@ type MenuItem = {
 const menteeMenu: MenuItem[] = [
     { label: "Manage Mentors", to: "/mentors", icon: BsPersonRolodex },
     { label: "Manage Applications", to: "/company", icon: IoIosDocument },
+    { label: "Manage Resources", to: "/resources", icon: AiFillFolderOpen },
     { label: "View Badges", to: "/skills", icon: GiSkills },
     { label: "Logout", to: "/logout", icon: BiLogOut },
 ]
@@ -34,11 +36,13 @@ const menteeMenu: MenuItem[] = [
 const mentorMenu: MenuItem[] = [
     { label: "Manage Mentees", to: "/mentees", icon: BsPersonRolodex },
     { label: "Manage Applications", to: "/company", icon: IoIosDocument },
+    { label: "Manage Resources", to: "/resources", icon: AiFillFolderOpen },
     { label: "Logout", to: "/logout", icon: BiLogOut },
 ]
 
 const companyMenu: MenuItem[] = [
     { label: "Manage Lawyers", to: "/lawyers", icon: BsPersonRolodex },
+    { label: "Manage Resources", to: "/resources", icon: AiFillFolderOpen },
     { label: "Logout", to: "/logout", icon: BiLogOut },
 ]
 

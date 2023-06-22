@@ -59,6 +59,10 @@ const menteeItems: Array<NavItem> = [
         to: "/company",
     },
     {
+        label: "Resources",
+        to: "/resources",
+    },
+    {
         label: "Badges",
         to: "/skills",
     },
@@ -80,6 +84,10 @@ const mentorItems: Array<NavItem> = [
         to: "/company",
     },
     {
+        label: "Resources",
+        to: "/resources",
+    },
+    {
         label: "Logout",
         to: "/logout",
     },
@@ -91,6 +99,10 @@ const companyItems: Array<NavItem> = [
     {
         label: "Lawyers",
         to: "/lawyers",
+    },
+    {
+        label: "Resources",
+        to: "/resources",
     },
     {
         label: "Logout",
