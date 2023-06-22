@@ -53,6 +53,7 @@ import CurrentFolderPage from "./pages/resources/CurrentFolderPage"
 
 // ======================== other pages ========================
 import LandingPage from "./pages/others/LandingPage"
+import { Landing } from "./pages/others/Landing"
 
 // ============== main component ==============
 function App() {
@@ -86,7 +87,7 @@ function App() {
             <Box p="10px">
                 <Routes>
                     {/* landing page */}
-                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/" element={<Landing />} />
 
                     {/* homepage */}
                     <Route path="/home" element={<HomePage />} />
