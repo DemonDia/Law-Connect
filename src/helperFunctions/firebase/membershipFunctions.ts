@@ -13,8 +13,8 @@ import { findUsersByUserTypes } from "./userFirestore"
 
 // get all members of a company
 export const getCompanyMembers = async (companyId: string) => {
-    const mentees = await findUsersByUserTypes("0")
-    const mentors = await findUsersByUserTypes("1")
+    const mentees = await findUsersByUserTypes(0)
+    const mentors = await findUsersByUserTypes(1)
     const allLaywers = [...mentees, ...mentors]
 
     let lawyerDict: any = {}

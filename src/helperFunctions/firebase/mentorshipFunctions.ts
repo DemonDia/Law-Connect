@@ -15,7 +15,7 @@ import { getAllSkills } from "./skillsFunctions"
 // get all mentors of mentee
 // mentorId, mentorName, mentorshipId
 export const getMenteeMentors = async (menteeId: string) => {
-    const allMentors = await findUsersByUserTypes("1")
+    const allMentors = await findUsersByUserTypes(1)
     let mentorDict: any = {}
     allMentors.forEach((mentor: any) => {
         const { email, userId, username } = mentor
@@ -45,7 +45,7 @@ export const getMenteeMentors = async (menteeId: string) => {
 
 // get all mentees of a mentor
 export const getMentorMentees = async (mentorId: string) => {
-    const allMentees = await findUsersByUserTypes("0")
+    const allMentees = await findUsersByUserTypes(0)
 
     let menteeDict: any = {}
     allMentees.forEach((mentee: any) => {
@@ -170,7 +170,7 @@ export const findMenteeBadges = async (menteeId: string) => {
 
     // make a mentor dictionary (mentorId as the key)
     const mentorDict: any = {}
-    const allMentors = await findUsersByUserTypes("1")
+    const allMentors = await findUsersByUserTypes(1)
     allMentors.forEach((mentor: any) => {
         const { userId, username } = mentor
         mentorDict[userId] = username

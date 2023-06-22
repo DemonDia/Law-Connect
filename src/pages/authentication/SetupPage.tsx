@@ -43,9 +43,9 @@ export default function SetupPage() {
     const { addUser, user } = useUser()
     // const userTypes = ["Mentor", "Mentee", "Law Firm"];
     const userTypes = [
-        { value: "0", label: "Mentee" },
-        { value: "1", label: "Mentor" },
-        { value: "2", label: "Law Firm" },
+        { value: 0, label: "Mentee" },
+        { value: 1, label: "Mentor" },
+        { value: 2, label: "Law Firm" },
     ]
     const { userId } = useParams()
     const navigate = useNavigate()
@@ -56,7 +56,7 @@ export default function SetupPage() {
     const [step, setStep] = useState<number>(1)
 
     // 1: mentor, 2: mentee, 3: law firm
-    const [userType, setUserType] = useState<string>("0")
+    const [userType, setUserType] = useState<number>(0)
 
     // name
     const [name, setName] = useState<string>("")
@@ -150,7 +150,7 @@ export default function SetupPage() {
                                 allPromises.push(
                                     updateDoc(userDocRef, {
                                         username: name,
-                                        userType,
+                                        userType: parseInt(userType),
                                         isSetUp: true,
                                         skills,
                                     }),

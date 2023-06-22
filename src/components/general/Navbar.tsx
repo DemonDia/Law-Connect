@@ -113,13 +113,13 @@ export default function Navbar() {
         if (user) {
             const { userType } = user
             switch (userType) {
-                case "0":
+                case 0:
                     setNavItems(menteeItems)
                     break
-                case "1":
+                case 1:
                     setNavItems(mentorItems)
                     break
-                case "2":
+                case 2:
                     setNavItems(companyItems)
                     break
                 default:

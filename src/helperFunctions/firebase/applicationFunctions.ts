@@ -26,8 +26,8 @@ export const createApplication = async (
     if (
         validApplicant &&
         validCompany &&
-        validApplicant.userType != "2" &&
-        validCompany.userType == "2"
+        validApplicant.userType != 2 &&
+        validCompany.userType == 2
     ) {
         // apply
         await addDoc(collection(db, "application"), {
@@ -73,7 +73,7 @@ export const createApplication = async (
 
 // =========get user applications=========
 export const getUserApplications = async (userId: string) => {
-    const companies = await findUsersByUserTypes("2")
+    const companies = await findUsersByUserTypes(2)
     let companyDict: any = {}
     companies.forEach((company: any) => {
         const { userId, username } = company
@@ -102,8 +102,8 @@ export const getUserApplications = async (userId: string) => {
 // =========get company applications=========
 // mentors & mentees
 export const getCompanyApplications = async (companyId: string) => {
-    const mentees = await findUsersByUserTypes("0")
-    const mentors = await findUsersByUserTypes("1")
+    const mentees = await findUsersByUserTypes(0)
+    const mentors = await findUsersByUserTypes(1)
     const allLaywers = [...mentees, ...mentors]
 
     let lawyerDict: any = {}

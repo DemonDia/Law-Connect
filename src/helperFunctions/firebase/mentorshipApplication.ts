@@ -27,8 +27,8 @@ export const createMentorshipApplication = async (
     if (
         validMentee &&
         validMentor &&
-        validMentee.userType == "0" &&
-        validMentor.userType == "1"
+        validMentee.userType == 0 &&
+        validMentor.userType == 1
     ) {
         // apply
         await addDoc(collection(db, "mentorshipApplication"), {
@@ -74,7 +74,7 @@ export const createMentorshipApplication = async (
 
 // =========get user mentorship applications=========
 export const getUserMentorShipApplications = async (userId: string) => {
-    const mentors = await findUsersByUserTypes("1")
+    const mentors = await findUsersByUserTypes(1)
     let mentorDict: any = {}
     mentors.forEach((mentor: any) => {
         const { userId, username } = mentor
@@ -103,7 +103,7 @@ export const getUserMentorShipApplications = async (userId: string) => {
 // =========get mentor's applications=========
 // mentors & mentees
 export const getMentorApplications = async (mentorId: string) => {
-    const mentees = await findUsersByUserTypes("0")
+    const mentees = await findUsersByUserTypes(0)
 
     let menteeDict: any = {}
     mentees.forEach((mentee: any) => {

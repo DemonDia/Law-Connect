@@ -54,8 +54,8 @@ export default function LoginPage() {
                     addUser({
                         userId,
                         username,
-                        userType,
-                        companyId: companyBelonging,
+                        userType: parseInt(userType),
+                        companyId: companyBelonging ? companyBelonging : null,
                     })
                     toast({
                         title: "Login successful",

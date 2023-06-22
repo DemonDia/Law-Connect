@@ -60,15 +60,15 @@ export default function HomePage() {
             navigate("/login")
         }
         switch (user?.userType) {
-            case "0":
+            case 0:
                 setMenuOptions(menteeMenu)
                 setLoading(false)
                 return
-            case "1":
+            case 1:
                 setMenuOptions(mentorMenu)
                 setLoading(false)
                 return
-            case "2":
+            case 2:
                 setMenuOptions(companyMenu)
                 setLoading(false)
                 return

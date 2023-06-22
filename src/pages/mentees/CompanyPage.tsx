@@ -61,7 +61,7 @@ export default function CompanyPage() {
     }, [selectedTab])
     // ============== helper functions if any ==============
     const getCompanies = async () => {
-        const companies = await findUsersByUserTypes("2")
+        const companies = await findUsersByUserTypes(2)
         setCompanies(companies)
     }
     const getApplications = async () => {

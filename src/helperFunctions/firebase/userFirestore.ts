@@ -22,9 +22,9 @@ export const findUserById = async (userId: string) => {
 
 // ========== find user by userTypes ==========
 // "0" for mentor
-// "1" for mentee
+// 1 for mentee
 // "2" for company
-export const findUsersByUserTypes = async (userType: string) => {
+export const findUsersByUserTypes = async (userType: number) => {
     const findQuery = query(
         collection(db, "users"),
         where("userType", "==", userType),
@@ -40,7 +40,7 @@ export const findUsersByUserTypes = async (userType: string) => {
 
 // ========== find mentors by company ==========
 export const findCompanyMentors = async (companyId: string) => {
-    const mentorList = await findUsersByUserTypes("1")
+    const mentorList = await findUsersByUserTypes(1)
     let mentorHashMap = {}
     mentorList.forEach((mentor: unknown) => {
         const { username, email, userId, skills } = mentor
