@@ -6,8 +6,8 @@ import { Routes, Route, useNavigate, useLocation } from "react-router-dom"
 // ======= chakra UI ==========
 import { Box } from "@chakra-ui/react"
 // ======= firebase ==========
-import { seedSkills } from "./helperFunctions/firebase/skillsFunctions"
-import { userSetupAll } from "./helperFunctions/firebase/userAuthFunctions"
+// import { seedSkills } from "./helperFunctions/firebase/skillsFunctions"
+// import { userSetupAll } from "./helperFunctions/firebase/userAuthFunctions"
 // ======= zustand/state ==========
 import useUser from "./store/userStore"
 
@@ -62,8 +62,8 @@ function App() {
 
     // ============== useEffect statement(s) ==============
     useEffect(() => {
-        seedSkills()
-        userSetupAll()
+        // seedSkills()
+        // userSetupAll()
     }, [])
     useEffect(() => {
         if (user && user.userType == "-1") {

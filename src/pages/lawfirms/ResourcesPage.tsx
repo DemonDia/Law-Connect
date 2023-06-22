@@ -183,7 +183,7 @@ function FolderContainer({ folderId, folderName }: Folder) {
             </Heading>
             <br/>
             <Text fontSize="md" color="gray.500">
-                <Link to={`/resources/${folderId}`}>View Folder >></Link>
+                <Link to={`/resources/${folderId}`}>View Folder ..</Link>
             </Text>
         </Box>
     )
