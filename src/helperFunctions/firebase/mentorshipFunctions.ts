@@ -70,7 +70,11 @@ export const getMentorMentees = async (mentorId: string) => {
         }
         mentees.push(menteeToPush)
     })
-    return mentees
+    return mentees.sort(function (a, b) {
+        var textA = a.menteeName.toUpperCase()
+        var textB = b.menteeName.toUpperCase()
+        return textA < textB ? -1 : textA > textB ? 1 : 0
+    })
 }
 
 export const getMentorshipById = async (mentorshipId: string) => {
@@ -190,7 +194,11 @@ export const findMenteeBadges = async (menteeId: string) => {
             receivedDate,
         })
     })
-    return menteeBadges
+    return menteeBadges.sort(function (a, b) {
+        var textA = a.skillName.toUpperCase()
+        var textB = b.skillName.toUpperCase()
+        return textA < textB ? -1 : textA > textB ? 1 : 0
+    })
 }
 
 // get all the skillIds

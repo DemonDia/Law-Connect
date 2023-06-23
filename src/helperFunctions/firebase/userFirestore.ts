@@ -35,7 +35,12 @@ export const findUsersByUserTypes = async (userType: number) => {
     docSnap.forEach(doc => {
         targetUsers.push(doc.data())
     })
-    return targetUsers
+
+    return targetUsers.sort(function (a, b) {
+        var textA = a.username.toUpperCase()
+        var textB = b.username.toUpperCase()
+        return textA < textB ? -1 : textA > textB ? 1 : 0
+    })
 }
 
 // ========== find mentors by company ==========
@@ -54,5 +59,9 @@ export const findCompanyMentors = async (companyId: string) => {
             res.push(mentorHashMap[memberId])
         }
     })
-    return res
+    return res.sort(function (a, b) {
+        var textA = a.username.toUpperCase()
+        var textB = b.username.toUpperCase()
+        return textA < textB ? -1 : textA > textB ? 1 : 0
+    })
 }

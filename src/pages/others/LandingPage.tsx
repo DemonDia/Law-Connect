@@ -197,13 +197,13 @@ const KeyFeatureCard = ({ title, description, image, index }: any) => {
                 <Box margin="5px" width={["100%", null, "40%"]} padding="10px">
                     <Heading
                         as="h2"
-                        size={["md", null, null, "lg"]}
+                        size={["md", null, "xl", "3xl"]}
                         fontWeight={"bold"}
                         color="#0C15FF">
                         {index + 1}. {title}
                     </Heading>
                     <br />
-                    <Text>{description}</Text>
+                    <Text margin={"25px"} fontSize={"2xl"}>{description}</Text>
                 </Box>
                 <Image
                     src={image}

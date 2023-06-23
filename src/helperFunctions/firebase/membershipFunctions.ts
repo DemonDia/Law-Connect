@@ -40,7 +40,11 @@ export const getCompanyMembers = async (companyId: string) => {
         }
         members.push(memberToPush)
     })
-    return members
+    return members.sort(function (a, b) {
+        var textA = a.username.toUpperCase()
+        var textB = b.username.toUpperCase()
+        return textA < textB ? -1 : textA > textB ? 1 : 0
+    })
 }
 
 // return the company the member is from
