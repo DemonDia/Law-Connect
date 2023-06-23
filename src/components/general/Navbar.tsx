@@ -16,6 +16,7 @@ import {
     useColorModeValue,
     useDisclosure,
     Image,
+    Badge,
 } from "@chakra-ui/react"
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons"
 
@@ -30,6 +31,7 @@ interface NavItem {
 }
 // ============== external variables (if any) ==============
 import Logo from "../../assets/logo.png"
+import CustomButton from "./CustomButton"
 // the sub arrays
 // not logged in
 // logged in as mentee
@@ -66,10 +68,6 @@ const menteeItems: Array<NavItem> = [
         label: "Badges",
         to: "/skills",
     },
-    {
-        label: "Logout",
-        to: "/logout",
-    },
 ]
 
 // for mentors
@@ -87,10 +85,6 @@ const mentorItems: Array<NavItem> = [
         label: "Resources",
         to: "/resources",
     },
-    {
-        label: "Logout",
-        to: "/logout",
-    },
 ]
 
 // for firms
@@ -103,10 +97,6 @@ const companyItems: Array<NavItem> = [
     {
         label: "Resources",
         to: "/resources",
-    },
-    {
-        label: "Logout",
-        to: "/logout",
     },
 ]
 
@@ -178,18 +168,77 @@ export default function Navbar() {
                         />
                     </Flex>
                     <Flex
+                        direction={"row"}
                         flex={{ base: 1 }}
-                        justify={{ base: "center", md: "start" }}>
-                        <DomLink to={user ? "/home" : "/"}>
-                            <Image height="60px" src={Logo} alt="logo" />
-                        </DomLink>
-                        {/* <Text m="0" display="flex" alignItems={"center"}>
+                        w="100%"
+                        justify={{ base: "center", md: "space-between" }}>
+                        <Stack direction="row" flex="1">
+                            {" "}
+                            <DomLink to={user ? "/home" : "/"}>
+                                <Image height="60px" src={Logo} alt="logo" />
+                            </DomLink>
+                            {/* <Text m="0" display="flex" alignItems={"center"}>
                             {user ? user.username : null}
                         </Text> */}
+                            <Flex
+                                display={{ base: "none", md: "flex" }}
+                                ml={10}>
+                                <DesktopNav navItems={navItems} />
+                            </Flex>
+                        </Stack>
 
-                        <Flex display={{ base: "none", md: "flex" }} ml={10}>
-                            <DesktopNav navItems={navItems} />
-                        </Flex>
+                        {user ? (
+                            <Stack
+                                direction="row"
+                                align="center"
+                                h="full"
+                                m="auto">
+                                <Badge
+                                    style={{ userSelect: "none" }}
+                                    h="full"
+                                    px="2"
+                                    py="1"
+                                    colorScheme={
+                                        user.userType === 0
+                                            ? "teal" // mentee
+                                            : user.userType === 1
+                                            ? "green" // mentor
+                                            : "purple" // company
+                                    }>
+                                    {user.userType === 0
+                                        ? "Mentee"
+                                        : user.userType === 1
+                                        ? "Mentor"
+                                        : "Company"}
+                                </Badge>
+                                <Text
+                                    style={{ userSelect: "none" }}
+                                    m="0"
+                                    display="flex"
+                                    alignItems={"center"}>
+                                    {user.username}
+                                </Text>
+
+                                <Box
+                                    bg="#eef3fb"
+                                    py="1"
+                                    px="2"
+                                    borderRadius="4">
+                                    <DomLink
+                                        to="/logout"
+                                        style={{ textDecoration: "none" }}>
+                                        <Text
+                                            m="0"
+                                            display="flex"
+                                            alignItems={"center"}>
+                                            Logout
+                                        </Text>
+                                    </DomLink>
+                                </Box>
+                            </Stack>
+                        ) : (
+                            <></>
+                        )}
                     </Flex>
                 </Flex>
 
@@ -202,7 +251,7 @@ export default function Navbar() {
 }
 
 // ============== sub component(s) if any ==============
-export const DesktopNav = ({ navItems }: Array<NavItem>) => {
+export const DesktopNav = ({ navItems }: { navItems: Array<NavItem> }) => {
     // ============== constant variables if any ==============
     const linkColor = useColorModeValue("gray.600", "gray.200")
 
