@@ -51,12 +51,12 @@ const notLoggedInItems: Array<NavItem> = [
 const menteeItems: Array<NavItem> = [
     { label: "Home", to: "/home" },
     {
-        label: "Mentors",
-        to: "/mentors",
-    },
-    {
         label: "Company",
         to: "/company",
+    },
+    {
+        label: "Mentors",
+        to: "/mentors",
     },
     {
         label: "Resources",
@@ -76,12 +76,12 @@ const menteeItems: Array<NavItem> = [
 const mentorItems: Array<NavItem> = [
     { label: "Home", to: "/home" },
     {
-        label: "Mentees",
-        to: "/mentees",
-    },
-    {
         label: "Company",
         to: "/company",
+    },
+    {
+        label: "Mentees",
+        to: "/mentees",
     },
     {
         label: "Resources",

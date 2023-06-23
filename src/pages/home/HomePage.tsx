@@ -26,16 +26,16 @@ type MenuItem = {
 }
 // ============== external variables (if any) ==============
 const menteeMenu: MenuItem[] = [
-    { label: "Manage Mentors", to: "/mentors", icon: BsPersonRolodex },
     { label: "Manage Applications", to: "/company", icon: IoIosDocument },
+    { label: "Manage Mentors", to: "/mentors", icon: BsPersonRolodex },
     { label: "Manage Resources", to: "/resources", icon: AiFillFolderOpen },
     { label: "View Badges", to: "/skills", icon: GiSkills },
     { label: "Logout", to: "/logout", icon: BiLogOut },
 ]
 
 const mentorMenu: MenuItem[] = [
-    { label: "Manage Mentees", to: "/mentees", icon: BsPersonRolodex },
     { label: "Manage Applications", to: "/company", icon: IoIosDocument },
+    { label: "Manage Mentees", to: "/mentees", icon: BsPersonRolodex },
     { label: "Manage Resources", to: "/resources", icon: AiFillFolderOpen },
     { label: "Logout", to: "/logout", icon: BiLogOut },
 ]
