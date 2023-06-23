@@ -278,7 +278,12 @@ export const DesktopNav = ({ navItems }: { navItems: Array<NavItem> }) => {
                                 placement={"bottom-start"}>
                                 <PopoverTrigger>
                                     <DomLink to={navItem.to} color={linkColor}>
-                                        {navItem.label}
+                                        <Text
+                                            _hover={{
+                                                textDecoration: "underline",
+                                            }}>
+                                            {navItem.label}
+                                        </Text>
                                     </DomLink>
                                 </PopoverTrigger>
                             </Popover>

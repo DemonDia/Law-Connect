@@ -25,7 +25,7 @@ export const Landing = () => {
     const navigate = useNavigate()
 
     return (
-        <Box maxW="1400px" margin="auto" h="100%">
+        <Box maxW="1400px" margin="auto" h="100%" pb="8">
             <Grid
                 pb="4"
                 templateColumns="repeat(5, 1fr)"
