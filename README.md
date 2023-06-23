@@ -1,7 +1,8 @@
 # Law Connect
-A portal that links lawyers (mentors and mentees) and law firms together.
+A premiere portal that links lawyers (mentors and mentees) and law firms together.
 
-<img width="1792" alt="LandingPage" src="https://github.com/DemonDia/Law-Connect/assets/47315402/f8d81f48-c2de-4c5f-b579-523e812f5cd7">
+![Screenshot 2023-06-23 at 14-02-55 LawConnect](https://github.com/DemonDia/Law-Connect/assets/57494734/f3348ac2-a560-4733-aaec-29015e73cf6d)
+
 
 ## Table of Contents
 - [Project Description](#project-description)
@@ -14,17 +15,23 @@ A portal that links lawyers (mentors and mentees) and law firms together.
 
 
 ## Project Description
-Our solution is a website that allows junior lawyers to request mentorships directly from senior lawyers with ease. Mentors can be chosen based on their specific skills, ensuring clarity for mentees. By eliminating bureaucratic intermediaries like HR departments, our technology-driven approach increases access to mentorship opportunities and promotes sustained mentorship for junior lawyers.
+Our solution is a website that allows junior lawyers to request mentorships directly from senior lawyers with ease. Mentors can be chosen based on their specific skills, ensuring clarity for mentees. With a technology-driven approach that increases access to mentorship opportunities and promotes sustained mentorship for junior lawyers.
 
 ## Demo
  - Live site: https://law-connect-gilt.vercel.app/
+ - YouTube demo reel: https://youtu.be/dWq3j2XfLlY
 
 ## Features
 Here are the key features of the project:
-1. Authentication: Supports both email and Gmail authentication for a fast and secure login experience.
-2. Onboarding: Seamless onboarding where law firms can see their applicants' profile instantly, thus speeding up the screening process
-3. Mentorship networks: Mentees (junior lawyers) can look for mentors (senior lawyers) within the same law firm to guide them in improving their skillsets based on their specific needs.
-4. Mentorship monitoring: Mentees and mentors can work closely with each other by monitoring progress and awarding badges of acknowledgement when mentee achieves their skillsets.
+1. Authentication: We support both traditional email & password login, alongside Google Authentication!
+2. Goal-focused learning: Junior lawyers indicate the skills they want to learn during signup.
+3. User oriented focus: The platform filters potential mentors based on the desired skills of the mentees.
+4. Industrial alignment: The platform focuses on competencies listed in the IP Law SkillsFuture Framework.
+5. Guide repository: Mentees have access to law guides provided by their mentors in the same firm
+
+## Future Improvements
+- Singpass Integration for more seamless experience during authentication
+- Expansion into other specialised law fields
 
 ## Installation
 
