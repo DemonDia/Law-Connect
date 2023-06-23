@@ -97,7 +97,11 @@ export const getUserMentorShipApplications = async (userId: string) => {
         }
         applications.push(applicationToPush)
     })
-    return applications
+    return applications.sort(function (a, b) {
+        var textA = a.mentorName.toUpperCase()
+        var textB = b.mentorName.toUpperCase()
+        return textA < textB ? -1 : textA > textB ? 1 : 0
+    })
 }
 
 // =========get mentor's applications=========
@@ -128,7 +132,11 @@ export const getMentorApplications = async (mentorId: string) => {
         }
         applications.push(applicationToPush)
     })
-    return applications
+    return applications.sort(function (a, b) {
+        var textA = a.menteeName.toUpperCase()
+        var textB = b.menteeName.toUpperCase()
+        return textA < textB ? -1 : textA > textB ? 1 : 0
+    })
 }
 
 // =========get mentorship applicant info=========

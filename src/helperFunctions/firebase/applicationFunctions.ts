@@ -96,7 +96,11 @@ export const getUserApplications = async (userId: string) => {
         }
         applications.push(applicationToPush)
     })
-    return applications
+    return applications.sort(function (a, b) {
+        var textA = a.companyName.toUpperCase()
+        var textB = b.companyName.toUpperCase()
+        return textA < textB ? -1 : textA > textB ? 1 : 0
+    })
 }
 
 // =========get company applications=========
@@ -128,7 +132,11 @@ export const getCompanyApplications = async (companyId: string) => {
         }
         applications.push(applicationToPush)
     })
-    return applications
+    return applications.sort(function (a, b) {
+        var textA = a.applicantName.toUpperCase()
+        var textB = b.applicantName.toUpperCase()
+        return textA < textB ? -1 : textA > textB ? 1 : 0
+    })
 }
 
 // =========get applicant info=========

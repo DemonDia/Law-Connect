@@ -31,7 +31,11 @@ export const getFoldersByCompanyId = async (companyId: string) => {
         const { folderName } = doc.data()
         folders.push({ folderId: doc.id, folderName })
     })
-    return folders
+    return folders.sort(function (a, b) {
+        var textA = a.folderName.toUpperCase()
+        var textB = b.folderName.toUpperCase()
+        return textA < textB ? -1 : textA > textB ? 1 : 0
+    })
 }
 
 // take folder by Id
@@ -57,5 +61,9 @@ export const getAllFilesFromFolder = async (folderId: string) => {
     querySnapshot.forEach((doc: any) => {
         files.push(doc.data())
     })
-    return files
+    return files.sort(function (a, b) {
+        var textA = a.fileName.toUpperCase()
+        var textB = b.fileName.toUpperCase()
+        return textA < textB ? -1 : textA > textB ? 1 : 0
+    })
 }
