@@ -1,5 +1,7 @@
 // ============== imports: the dependencies ==============
+
 // ======= react ==========
+import { useState } from "react"
 
 // ======= chakra UI ==========
 import { Button } from "@chakra-ui/react"
@@ -30,6 +32,8 @@ export default function CustomButton({
     buttonWidth,
     disabled,
 }: ButtonSettings) {
+    const [color, setTextColor] = useState(textColor)
+
     return (
         <>
             <Button
@@ -37,12 +41,15 @@ export default function CustomButton({
                 color={textColor}
                 bg={buttonColor}
                 w={buttonWidth}
+                _hover={{
+                    filter: "brightness(0.85)",
+                    color: "brightness(1.15)",
+                }}
                 onClick={() => {
                     buttonOnClick()
                 }}
                 boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.35)"}
-                isDisabled={disabled ? true : false}
-                >
+                isDisabled={disabled ? true : false}>
                 {buttonText}
             </Button>
         </>
