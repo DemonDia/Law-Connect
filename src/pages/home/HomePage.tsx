@@ -3,14 +3,22 @@
 import { useState, useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom"
 // ======= chakra UI ==========
-import { SimpleGrid, Box, Text, Icon, Heading } from "@chakra-ui/react"
+import {
+    SimpleGrid,
+    Box,
+    Text,
+    Icon,
+    Heading,
+    Image,
+    keyframes,
+} from "@chakra-ui/react"
 
 import { BsPersonRolodex } from "react-icons/bs"
 import { IoIosDocument } from "react-icons/io"
 import { GiSkills } from "react-icons/gi"
 import { BiLogOut } from "react-icons/bi"
 import { AiFillFolderOpen } from "react-icons/ai"
-
+import Assistant from "../../assets/lawyer.png"
 // ======= firebase ==========
 
 // ======= zustand/state ==========
@@ -57,6 +65,7 @@ export default function HomePage() {
     // ============== states (if any) ==============
     const [menuOptions, setMenuOptions] = useState<MenuItem[]>([])
     const [loading, setLoading] = useState<boolean>(false)
+    const [showQuickGuide, setShowQuickGuide] = useState(false)
     // ============== useEffect statement(s) ==============
     useEffect(() => {
         setLoading(true)
@@ -85,6 +94,11 @@ export default function HomePage() {
     // ============== helper functions if any ==============
     // ============== key functions if any ==============
 
+    const bounce = keyframes`
+    0% {transform: translateY(0);}
+    50% {transform: translateY(-10px);}
+    100% {transform: translateY(0);}`
+    const bounceAnimation = `${bounce} infinite 1s linear`
     return (
         <>
             {loading ? (
@@ -121,6 +135,21 @@ export default function HomePage() {
                             )
                         })}
                     </SimpleGrid>
+                    <Box position="absolute" bottom="0">
+                        <SpeechBubble
+                            userType={user.userType}
+                            showMessage={showQuickGuide}
+                        />
+                        <Image
+                            animation={bounceAnimation}
+                            _hover={{ cursor: "pointer" }}
+                            src={Assistant}
+                            onClick={() => {
+                                setShowQuickGuide(!showQuickGuide)
+                            }}
+                        />
+                    </Box>
+                    {/* <Assistant /> */}
                 </>
             )}
         </>
@@ -154,5 +183,35 @@ const HomePageOption = ({ label, to, icon }: MenuItem) => {
                 </SimpleGrid>
             </Box>
         </Link>
+    )
+}
+
+const SpeechBubble = ({ userType, showMessage }: any) => {
+    return (
+        <>
+            <Box
+                onClick={() => {
+                    setShowMessage(!showMessage)
+                }}
+                background="blue"
+                color="white"
+                padding="15px"
+                borderRadius="10px">
+                <Text>
+                    {userType != 2 && showMessage ? (
+                        <>
+                            To get started: <br />
+                            1. Go to "Manage Applications" to apply to a law
+                            firm!
+                            <br />
+                            2. Go to "Manage Mentors" and find compatible
+                            mentors!
+                        </>
+                    ) : (
+                        <>Hello, how may I help you?</>
+                    )}
+                </Text>
+            </Box>
+        </>
     )
 }
