@@ -22,7 +22,10 @@ import {
 } from "@chakra-ui/react"
 
 // ======= firebase ==========
-import { findCompanyMentors } from "../../helperFunctions/firebase/userFirestore"
+import {
+    findCompanyMentors,
+    findUserById,
+} from "../../helperFunctions/firebase/userFirestore"
 import {
     createMentorshipApplication,
     getUserMentorShipApplications,
@@ -87,6 +90,7 @@ export default function MentorPage() {
     const [mentorshipApplications, setMentorshipApplications] = useState<any>(
         [],
     )
+    const [userSkills, getUserSkills] = useState<any>([])
     const [selectedMentor, setSelectedMentor] = useState<Mentor | null>(null)
     const [skillDict, setSkillDict] = useState<unknown>({})
     const [loading, setLoading] = useState(false)
@@ -129,6 +133,10 @@ export default function MentorPage() {
             currSkillDict[id] = skillName
         }
         setSkillDict(currSkillDict)
+        const currUser = await findUserById(user.userId)
+        if (currUser) {
+            getUserSkills(currUser.skills)
+        }
     }
 
     const getCurrentMentors = async () => {
@@ -250,56 +258,69 @@ export default function MentorPage() {
                                                 {selectedTab == 1 ? (
                                                     <>
                                                         {/* all mentors in compnay */}
-                                                        {companyMentors.map(
-                                                            (
-                                                                mentor: Mentor,
-                                                                index: number,
-                                                            ) => {
-                                                                const found: any =
-                                                                    mentorshipApplications.find(
-                                                                        (
-                                                                            mentorshipApplication: any,
-                                                                        ) => {
-                                                                            return (
-                                                                                mentorshipApplication.mentorId ===
-                                                                                mentor.userId
-                                                                            )
-                                                                        },
+                                                        {companyMentors
+                                                            .filter(
+                                                                (
+                                                                    mentor: any,
+                                                                ) => {
+                                                                    return mentor.skills.some(
+                                                                        skill =>
+                                                                            userSkills.includes(
+                                                                                skill,
+                                                                            ),
                                                                     )
-                                                                const isFound =
-                                                                    found !=
-                                                                    null
+                                                                },
+                                                            )
+                                                            .map(
+                                                                (
+                                                                    mentor: Mentor,
+                                                                    index: number,
+                                                                ) => {
+                                                                    const found: any =
+                                                                        mentorshipApplications.find(
+                                                                            (
+                                                                                mentorshipApplication: any,
+                                                                            ) => {
+                                                                                return (
+                                                                                    mentorshipApplication.mentorId ===
+                                                                                    mentor.userId
+                                                                                )
+                                                                            },
+                                                                        )
+                                                                    const isFound =
+                                                                        found !=
+                                                                        null
 
-                                                                return (
-                                                                    <CompanyMentorContainer
-                                                                        handleApplyMentorship={
-                                                                            applyMentorship
-                                                                        }
-                                                                        handleToggleOpen={
-                                                                            displayMentor
-                                                                        }
-                                                                        handleToggleClose={
-                                                                            closeMentor
-                                                                        }
-                                                                        key={
-                                                                            index
-                                                                        }
-                                                                        selectedMentor={
-                                                                            selectedMentor
-                                                                        }
-                                                                        skillDict={
-                                                                            skillDict
-                                                                        }
-                                                                        currentMentor={
-                                                                            mentor
-                                                                        }
-                                                                        isApplied={
-                                                                            isFound
-                                                                        }
-                                                                    />
-                                                                )
-                                                            },
-                                                        )}
+                                                                    return (
+                                                                        <CompanyMentorContainer
+                                                                            handleApplyMentorship={
+                                                                                applyMentorship
+                                                                            }
+                                                                            handleToggleOpen={
+                                                                                displayMentor
+                                                                            }
+                                                                            handleToggleClose={
+                                                                                closeMentor
+                                                                            }
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            selectedMentor={
+                                                                                selectedMentor
+                                                                            }
+                                                                            skillDict={
+                                                                                skillDict
+                                                                            }
+                                                                            currentMentor={
+                                                                                mentor
+                                                                            }
+                                                                            isApplied={
+                                                                                isFound
+                                                                            }
+                                                                        />
+                                                                    )
+                                                                },
+                                                            )}
                                                     </>
                                                 ) : (
                                                     <>
