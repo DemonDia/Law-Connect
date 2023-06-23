@@ -12,7 +12,7 @@ import {
     Input,
     FormLabel,
     Heading,
-    // Link,
+    Link as ChakraLink,
     Button,
 } from "@chakra-ui/react"
 // ======= firebase ==========
@@ -57,6 +57,7 @@ export default function CurrentFolderPage() {
     // ============== useEffect statement(s) ==============
     useEffect(() => {
         // check if user logged in
+        console.log("user")
         // not login, kick to /login
         if (!user) {
             navigate("/login")
@@ -292,11 +293,11 @@ export const FileContainer = ({ fileName, fileUrl }: any) => {
                 {fileName}
             </Heading>
 
-            <Link href={fileUrl} target="_blank" margin="15px">
+            <ChakraLink href={fileUrl} target="_blank" margin="15px">
                 <Button padding="25px" color="white" background="#2A07B7">
                     View
                 </Button>
-            </Link>
+            </ChakraLink>
             <br />
         </Box>
     )
