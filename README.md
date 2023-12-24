@@ -57,8 +57,8 @@ npm run dev
 ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white&style=flat)
 
 ## Contributors
-<a href="https://github.com/DemonDia">
-  <img src="https://avatars.githubusercontent.com/DemonDia" alt="GitHub Profile Picture" width="100" height="100">
+<a href="https://github.com/xKarinSan">
+  <img src="https://avatars.githubusercontent.com/xKarinSan" alt="GitHub Profile Picture" width="100" height="100">
 </a>
 
 <a href="https://github.com/PuttTim">
